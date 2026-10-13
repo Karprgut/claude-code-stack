@@ -1,0 +1,115 @@
+{
+  "mcpServers": {
+    "Zapier-MCP": {
+      "type": "http",
+      "url": "https://mcp.zapier.com/api/v1/connect"
+    },
+    "tiktok-ads": {
+      "type": "http",
+      "url": "https://business-api.tiktok.com/open_mcp/tt-ads-mcp-flat"
+    },
+    "google-ads-kcl": {
+      "type": "stdio",
+      "command": "~/.config/google-ads-mcp/run.sh",
+      "args": [
+        "kcl"
+      ]
+    },
+    "google-analytics-kcl": {
+      "type": "stdio",
+      "command": "~/.config/google-analytics-mcp/run.sh",
+      "args": [
+        "kcl"
+      ]
+    },
+    "google-analytics-wom": {
+      "type": "stdio",
+      "command": "~/.config/google-analytics-mcp/run.sh",
+      "args": [
+        "wom"
+      ]
+    },
+    "google-analytics-kabrita": {
+      "type": "stdio",
+      "command": "~/.config/google-analytics-mcp/run.sh",
+      "args": [
+        "kabrita"
+      ]
+    },
+    "google-analytics-tbp": {
+      "type": "stdio",
+      "command": "~/.config/google-analytics-mcp/run.sh",
+      "args": [
+        "tbp"
+      ]
+    },
+    "google-analytics-amperson": {
+      "type": "stdio",
+      "command": "~/.config/google-analytics-mcp/run.sh",
+      "args": [
+        "amperson"
+      ]
+    },
+    "google-ads-adglow": {
+      "type": "stdio",
+      "command": "~/.config/google-ads-mcp/run.sh",
+      "args": [
+        "adglow"
+      ],
+      "env": {
+        "GOOGLE_ADS_MCP_LOGIN": "${GOOGLE_ADS_MCP_LOGIN}"
+      }
+    },
+    "tiktok-kcl": {
+      "type": "http",
+      "url": "https://business-api.tiktok.com/open_mcp/tt-ads-mcp-flat"
+    },
+    "tiktok-kabrita": {
+      "type": "http",
+      "url": "https://business-api.tiktok.com/open_mcp/tt-ads-mcp-flat"
+    },
+    "tiktok-amperson": {
+      "type": "http",
+      "url": "https://business-api.tiktok.com/open_mcp/tt-ads-mcp-flat"
+    },
+    "google-workspace": {
+      "type": "stdio",
+      "command": "~/.config/google-workspace-mcp/run.sh",
+      "args": []
+    },
+    "adyntel": {
+      "type": "sse",
+      "url": "https://mcp.adyntel.com/sse",
+      "headers": {
+        "X-Adyntel-Email": "${X_ADYNTEL_EMAIL}",
+        "X-Adyntel-Api-Key": "${X_ADYNTEL_API_KEY}"
+      }
+    },
+    "scrapecreators": {
+      "type": "http",
+      "url": "https://api.scrapecreators.com/mcp",
+      "headers": {
+        "x-api-key": "${X_API_KEY}"
+      }
+    },
+    "envoapi": {
+      "type": "http",
+      "url": "https://api.envoapi.com/mcp"
+    },
+    "higgsfield": {
+      "type": "http",
+      "url": "https://mcp.higgsfield.ai/mcp"
+    },
+    "zenrows": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@zenrows/mcp"
+      ],
+      "env": {
+        "ZENROWS_API_KEY": "${ZENROWS_API_KEY}"
+      }
+    }
+  }
+}

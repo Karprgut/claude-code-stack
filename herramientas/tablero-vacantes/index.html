@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tablero de Vacantes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --paper:#E9E9E3; --card:#FDFDFB; --sunk:#DEDED6;
+  --ink:#0C0C0E; --ink-2:#55555F; --ink-3:#8A8A93; --rule:#0C0C0E;
+  --accent:#2323E0; --accent-ink:#FFFFFF;
+  --ok:#0A7A3A; --warn:#B45309; --hot:#C81E28;
+  --shadow:5px 5px 0 var(--rule); --shadow-sm:3px 3px 0 var(--rule); --bw:2.5px;
+  --f-display:"Archivo Black",Impact,sans-serif;
+  --f-body:"Archivo","Helvetica Neue",Helvetica,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme: dark;
+    --paper:#0F0F12; --card:#1A1A1F; --sunk:#232329;
+    --ink:#F2F2EC; --ink-2:#A6A6B0; --ink-3:#74747E; --rule:#F2F2EC;
+    --accent:#7A7AFF; --accent-ink:#0F0F12;
+    --ok:#3DD17F; --warn:#F0A83C; --hot:#FF6B72;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --paper:#0F0F12; --card:#1A1A1F; --sunk:#232329;
+  --ink:#F2F2EC; --ink-2:#A6A6B0; --ink-3:#74747E; --rule:#F2F2EC;
+  --accent:#7A7AFF; --accent-ink:#0F0F12;
+  --ok:#3DD17F; --warn:#F0A83C; --hot:#FF6B72;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+img{max-width:100%}
+[hidden]{display:none!important}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:0 64px}
+
+.masthead{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:var(--bw) solid var(--rule);margin-inline:-16px;padding:14px 16px 12px}
+.masthead-in{max-width:1148px;margin:0 auto;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end;justify-content:space-between}
+h1{font-family:var(--f-display);font-size:clamp(22px,4.4vw,34px);line-height:.98;letter-spacing:-.02em;margin:0;text-transform:uppercase;text-wrap:balance}
+.sub{font-family:var(--f-mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-2);margin-top:6px}
+.tally{display:flex;flex-wrap:wrap;border:var(--bw) solid var(--rule);background:var(--card);box-shadow:var(--shadow-sm)}
+.tally div{padding:5px 11px;border-right:var(--bw) solid var(--rule);font-family:var(--f-mono);font-size:11px;letter-spacing:.05em;text-transform:uppercase;display:flex;gap:7px;align-items:baseline;white-space:nowrap}
+.tally div:last-child{border-right:0}
+.tally b{font-size:16px;font-family:var(--f-display);font-variant-numeric:tabular-nums}
+
+button,select,input,textarea{font:inherit;color:inherit}
+.btn{background:var(--card);border:var(--bw) solid var(--rule);box-shadow:var(--shadow-sm);padding:7px 14px;cursor:pointer;font-family:var(--f-mono);font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;transition:transform .08s,box-shadow .08s}
+.btn:hover{transform:translate(1.5px,1.5px);box-shadow:1.5px 1.5px 0 var(--rule)}
+.btn:active{transform:translate(3px,3px);box-shadow:none}
+.btn-go{background:var(--accent);color:var(--accent-ink)}
+.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:var(--shadow-sm)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.filters{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;border:var(--bw) solid var(--rule);background:var(--card);box-shadow:var(--shadow);padding:12px 14px;margin-top:22px}
+.fgroup{display:flex;align-items:center;gap:7px}
+.fgroup>span{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+select{background:var(--sunk);border:var(--bw) solid var(--rule);padding:5px 8px;font-family:var(--f-mono);font-size:12px;cursor:pointer;max-width:190px}
+.spacer{flex:1 1 auto;min-width:0}
+
+.mailbar{margin-top:14px;border:var(--bw) solid var(--rule);background:var(--card);box-shadow:var(--shadow);padding:11px 14px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center}
+.dot{width:10px;height:10px;border:2px solid var(--rule);flex:none}
+.dot.on{background:var(--ok)}.dot.off{background:var(--hot)}.dot.wait{background:var(--warn)}
+.mailmsg{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-2);min-width:0;overflow-wrap:anywhere}
+.mailmsg b{color:var(--ink);font-weight:600}
+.warnbox{margin-top:14px;border:var(--bw) solid var(--rule);border-left:9px solid var(--hot);background:var(--card);box-shadow:var(--shadow);padding:12px 14px}
+.warnbox h3{margin:0 0 5px;font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--hot)}
+.warnbox p{margin:0 0 4px;font-size:13.5px;color:var(--ink-2);max-width:78ch}
+.warnbox code{font-family:var(--f-mono);font-size:12.5px;background:var(--sunk);padding:1px 5px;border:1px solid var(--rule);color:var(--ink)}
+
+.list{display:flex;flex-direction:column;gap:16px;margin-top:22px}
+.card{border:var(--bw) solid var(--rule);background:var(--card);box-shadow:var(--shadow);display:grid;grid-template-columns:auto 1fr}
+.tierbar{width:38px;border-right:var(--bw) solid var(--rule);display:flex;align-items:center;justify-content:center;font-family:var(--f-display);font-size:16px;writing-mode:vertical-rl;transform:rotate(180deg);letter-spacing:.14em}
+.tier-P{background:var(--ok);color:#fff}
+.tier-A{background:var(--accent);color:var(--accent-ink)}
+.tier-B{background:var(--sunk);color:var(--ink)}
+.tier-C,.tier-D{background:transparent;color:var(--ink-2)}
+.tier-F{background:var(--ink);color:var(--paper)}
+.tier-X{background:var(--sunk);color:var(--ink-3)}
+.body{padding:14px 16px;min-width:0}
+.card.done .body{opacity:.55}
+.rolerow{display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline}
+.role{font-family:var(--f-display);font-size:clamp(16px,2.3vw,20px);line-height:1.15;margin:0;text-wrap:balance}
+.co{font-family:var(--f-mono);font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--accent);font-weight:600}
+a.co{text-decoration:none;border-bottom:2px solid var(--accent)}
+a.co:hover{background:var(--accent);color:var(--accent-ink)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.chip{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;border:2px solid var(--rule);padding:2px 7px;white-space:nowrap}
+.chip.solid{background:var(--ink);color:var(--paper)}
+.chip.hotc{border-color:var(--hot);color:var(--hot);font-weight:600}
+.note{margin:10px 0 0;font-size:13.5px;color:var(--ink-2);max-width:78ch}
+.controls{display:flex;flex-wrap:wrap;gap:10px 14px;margin-top:13px;padding-top:12px;border-top:2px dashed var(--ink-3)}
+.ctl{display:flex;align-items:center;gap:7px}
+.ctl>label{font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+input[type="date"]{background:var(--sunk);border:var(--bw) solid var(--rule);padding:4px 7px;font-family:var(--f-mono);font-size:12px}
+textarea{width:100%;background:var(--sunk);border:var(--bw) solid var(--rule);padding:8px 10px;font-family:var(--f-body);font-size:13.5px;resize:vertical;min-height:54px;margin-top:11px}
+.savedtag{font-family:var(--f-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--ok)}
+select.st-por_aplicar{background:var(--sunk)}
+select.st-aplicada{background:var(--accent);color:var(--accent-ink)}
+select.st-respuesta{background:var(--warn);color:#fff}
+select.st-entrevista,select.st-oferta{background:var(--ok);color:#fff}
+select.st-oferta{font-weight:700}
+select.st-descartada,select.st-cerrada{background:transparent;color:var(--ink-3)}
+.mails{margin-top:12px;border-top:2px solid var(--rule);padding-top:10px}
+.mails h4{margin:0 0 7px;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.mail{display:block;text-decoration:none;color:inherit;border-left:4px solid var(--accent);background:var(--sunk);padding:7px 10px;margin-bottom:6px}
+.mail:hover{background:var(--accent);color:var(--accent-ink)}
+.mail:hover .m-meta{color:var(--accent-ink)}
+.m-subj{font-size:13px;font-weight:600;overflow-wrap:anywhere}
+.m-meta{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-2);margin-top:2px;overflow-wrap:anywhere}
+.section-h{font-family:var(--f-display);font-size:18px;text-transform:uppercase;margin:36px 0 0;padding-bottom:7px;border-bottom:var(--bw) solid var(--rule)}
+.empty{border:var(--bw) dashed var(--ink-3);padding:20px 16px;margin-top:16px;font-family:var(--f-mono);font-size:12px;color:var(--ink-2);text-align:center}
+.legend{margin-top:30px;font-family:var(--f-mono);font-size:11px;color:var(--ink-3);line-height:1.7;max-width:80ch}
+.legend b{color:var(--ink-2)}
+@media (max-width:640px){.tierbar{width:30px;font-size:13px}.body{padding:12px 13px}select{max-width:150px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="masthead">
+    <div class="masthead-in">
+      <div>
+        <h1>Tablero de vacantes</h1>
+        <div class="sub">Tablero de vacantes · local</div>
+      </div>
+      <div class="tally" id="tally"></div>
+    </div>
+  </header>
+
+  <div class="filters">
+    <div class="fgroup"><span>Tier</span><select id="f-tier"></select></div>
+    <div class="fgroup"><span>Estado</span><select id="f-estado"></select></div>
+    <div class="fgroup"><span>Modalidad</span><select id="f-modo"></select></div>
+    <div class="fgroup"><span>CV</span><select id="f-cv"></select></div>
+    <div class="spacer"></div>
+    <button class="btn btn-go" id="sync">Sincronizar correo</button>
+  </div>
+
+  <div class="mailbar">
+    <div class="dot wait" id="maildot"></div>
+    <div class="mailmsg" id="mailmsg">Leyendo el correo…</div>
+  </div>
+
+  <div id="warnzone"></div>
+  <div class="list" id="list"></div>
+
+  <h2 class="section-h">Correo de reclutamiento sin clasificar</h2>
+  <div id="inbox"></div>
+
+  <p class="legend">
+    <b>En curso</b> ya las aplicaste tú · <b>Tier A</b> compites contra poca gente · <b>Tier B</b> dirección de medios clásica ·
+    <b>Tier C</b> lado anunciante · <b>Tier D</b> remoto internacional · <b>Freelance</b> por proyecto o contrato, no planta · <b>Fuera</b> descartada con razón.
+    El correo se empata por dominio del remitente y por palabras del asunto, así que una vacante
+    confidencial nunca engancha sola: anótale el contacto en las notas.
+    Todo se guarda en <b>vacantes.json</b>, aquí en tu disco.
+  </p>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+var STATES=[["por_aplicar","Por aplicar"],["aplicada","Aplicada"],["respuesta","Con respuesta"],
+            ["entrevista","En entrevista"],["oferta","Oferta"],["descartada","Descartada por mí"],["cerrada","Cerrada / no"]];
+var CVS=[["integrado","Integrated Media Director"],["paid","Paid Media Director"],["producto","Director of Product"]];
+var TIER_LABEL={P:"EN CURSO",A:"TIER A",B:"TIER B",C:"TIER C",D:"TIER D",F:"FREELANCE",X:"FUERA"};
+
+var rows=null, correo={mensajes:[],cuentas:[],problemas:[],cuando:0}, cargando=true;
+var filters={tier:"",estado:"",modo:"",cv:""}, timers={};
+
+var $=function(s){return document.querySelector(s)};
+function el(t,c,x){var n=document.createElement(t);if(c)n.className=c;if(x!=null)n.textContent=x;return n}
+
+function api(ruta,opts){
+  return fetch(ruta,opts).then(function(r){
+    if(!r.ok) throw new Error("HTTP "+r.status);
+    return r.json();
+  });
+}
+
+/* ---------- filtros ---------- */
+function fill(node,key,opts,todos){
+  node.dataset.key=key;
+  node.appendChild(new Option(todos,""));
+  opts.forEach(function(o){node.appendChild(new Option(o[1],o[0]))});
+  node.addEventListener("change",function(){filters[key]=node.value;paint()});
+}
+fill($("#f-tier"),"tier",[["P","En curso"],["A","Tier A"],["B","Tier B"],["C","Tier C"],["D","Tier D"],["F","Freelance"],["X","Fuera"]],"Todos");
+fill($("#f-estado"),"estado",STATES,"Todos");
+fill($("#f-modo"),"modo",[["Presencial","Presencial"],["Híbrido","Híbrido"],["Remoto","Remoto"],["Por confirmar","Por confirmar"]],"Todas");
+fill($("#f-cv"),"cv",CVS,"Todos");
+
+function visible(r){
+  if(filters.tier&&r.tier!==filters.tier)return false;
+  if(filters.estado&&(r.estado||"por_aplicar")!==filters.estado)return false;
+  if(filters.modo&&r.modo!==filters.modo)return false;
+  if(filters.cv&&r.cv!==filters.cv)return false;
+  return true;
+}
+
+/* ---------- correo ---------- */
+function hay(m){return ((m.de||"")+" "+(m.asunto||"")+" "+(m.extracto||"")).toLowerCase()}
+function empata(m,r){
+  var t=r.match||[]; if(!t.length)return false;
+  var h=hay(m), no=r.nomatch||[], i;
+  for(i=0;i<no.length;i++){if(h.indexOf(String(no[i]).toLowerCase())>-1)return false}
+  for(i=0;i<t.length;i++){if(h.indexOf(String(t[i]).toLowerCase())>-1)return true}
+  return false;
+}
+function correoDe(r){return correo.mensajes.filter(function(m){return empata(m,r)})}
+function sueltos(){
+  var l=rows||[];
+  return correo.mensajes.filter(function(m){
+    for(var i=0;i<l.length;i++){if(empata(m,l[i]))return false}
+    return true;
+  });
+}
+function fdate(ms){try{return new Date(ms).toLocaleDateString("es-MX",{day:"2-digit",month:"short",year:"numeric"})}catch(e){return ""}}
+function ftime(ms){try{return new Date(ms).toLocaleTimeString("es-MX",{hour:"2-digit",minute:"2-digit"})}catch(e){return ""}}
+
+/* ---------- guardar ---------- */
+function guarda(id,parche,cb){
+  api("/api/vacante/"+encodeURIComponent(id),{
+    method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(parche)
+  }).then(function(){
+    var r=(rows||[]).filter(function(x){return x.id===id})[0];
+    if(r) for(var k in parche) r[k]=parche[k];
+    if(cb)cb(null);
+  },function(e){if(cb)cb(e)});
+}
+
+/* ---------- render ---------- */
+function paint(){renderTally();renderList();renderMail();renderInbox();renderWarn()}
+
+function renderTally(){
+  var n=$("#tally");n.innerHTML="";
+  var l=rows||[],c={};
+  l.forEach(function(r){var s=r.estado||"por_aplicar";c[s]=(c[s]||0)+1});
+  var vivas=l.filter(function(r){var s=r.estado||"por_aplicar";return s!=="descartada"&&s!=="cerrada"}).length;
+  [["Vivas",vivas],["Por aplicar",c.por_aplicar||0],["Aplicadas",c.aplicada||0],
+   ["Respuesta",(c.respuesta||0)+(c.entrevista||0)+(c.oferta||0)]].forEach(function(p){
+    var d=el("div");d.appendChild(el("b",null,String(p[1])));d.appendChild(el("span",null,p[0]));n.appendChild(d);
+  });
+}
+
+function renderList(){
+  var box=$("#list");box.innerHTML="";
+  if(rows===null){box.appendChild(el("div","empty","Cargando el tablero…"));return}
+  if(!rows.length){box.appendChild(el("div","empty","vacantes.json está vacío."));return}
+  var ord={P:0,A:1,B:2,C:3,D:4,F:5,X:6};
+  var vis=rows.filter(visible).sort(function(a,b){
+    var d=(ord[a.tier]==null?9:ord[a.tier])-(ord[b.tier]==null?9:ord[b.tier]);
+    return d||String(a.empresa||"").localeCompare(String(b.empresa||""),"es");
+  });
+  if(!vis.length){box.appendChild(el("div","empty","Ninguna vacante cumple con esos filtros."));return}
+  vis.forEach(function(r){box.appendChild(card(r))});
+}
+
+function card(r){
+  var est=r.estado||"por_aplicar";
+  var c=el("div","card"+((est==="descartada"||est==="cerrada")?" done":""));
+  c.appendChild(el("div","tierbar tier-"+(r.tier||"C"),TIER_LABEL[r.tier]||"TIER"));
+  var b=el("div","body");
+
+  var rr=el("div","rolerow");
+  rr.appendChild(el("h3","role",r.puesto||""));
+  if(r.url){var a=el("a","co",r.empresa||"");a.href=r.url;a.target="_blank";a.rel="noopener noreferrer";rr.appendChild(a)}
+  else rr.appendChild(el("span","co",r.empresa||""));
+  b.appendChild(rr);
+
+  var ch=el("div","chips");
+  [r.ubicacion,r.modo,r.idioma].forEach(function(x){if(x)ch.appendChild(el("span","chip",x))});
+  if(r.sueldo)ch.appendChild(el("span","chip solid",r.sueldo));
+  if(r.cierra){
+    var d=Math.ceil((Date.parse(r.cierra+"T23:59:59")-Date.now())/86400000);
+    ch.appendChild(el("span","chip hotc","Cierra "+r.cierra+(isNaN(d)?"":(d>=0?" · faltan "+d+" d":" · vencida"))));
+  }
+  b.appendChild(ch);
+  if(r.nota)b.appendChild(el("p","note",r.nota));
+
+  var ct=el("div","controls");
+  var c1=el("div","ctl"),l1=el("label",null,"Estado");l1.htmlFor="st-"+r.id;c1.appendChild(l1);
+  var sel=document.createElement("select");sel.id="st-"+r.id;sel.className="st-"+est;
+  STATES.forEach(function(s){sel.appendChild(new Option(s[1],s[0]))});sel.value=est;
+  sel.addEventListener("change",function(){sel.className="st-"+sel.value;guarda(r.id,{estado:sel.value},function(){renderTally()})});
+  c1.appendChild(sel);ct.appendChild(c1);
+
+  var c2=el("div","ctl"),l2=el("label",null,"CV enviado");l2.htmlFor="cv-"+r.id;c2.appendChild(l2);
+  var cv=document.createElement("select");cv.id="cv-"+r.id;cv.appendChild(new Option("—",""));
+  CVS.forEach(function(v){cv.appendChild(new Option(v[1],v[0]))});cv.value=r.cv||"";
+  cv.addEventListener("change",function(){guarda(r.id,{cv:cv.value})});
+  c2.appendChild(cv);ct.appendChild(c2);
+
+  var c3=el("div","ctl"),l3=el("label",null,"Apliqué el");l3.htmlFor="ap-"+r.id;c3.appendChild(l3);
+  var dt=document.createElement("input");dt.type="date";dt.id="ap-"+r.id;dt.value=r.aplicada||"";
+  dt.addEventListener("change",function(){
+    var p={aplicada:dt.value};
+    if(dt.value&&(r.estado||"por_aplicar")==="por_aplicar")p.estado="aplicada";
+    guarda(r.id,p,function(){paint()});
+  });
+  c3.appendChild(dt);ct.appendChild(c3);
+  b.appendChild(ct);
+
+  var ta=document.createElement("textarea");ta.id="nt-"+r.id;
+  ta.placeholder="Notas: contacto, con quién hablaste, qué sigue…";ta.value=r.notas||"";
+  var tag=el("span","savedtag","");
+  ta.addEventListener("input",function(){
+    clearTimeout(timers[r.id]);
+    timers[r.id]=setTimeout(function(){
+      guarda(r.id,{notas:ta.value},function(err){
+        tag.textContent=err?"No se guardó":"Guardado";
+        setTimeout(function(){tag.textContent=""},1800);
+      });
+    },700);
+  });
+  b.appendChild(ta);b.appendChild(tag);
+
+  var ms=correoDe(r);
+  if(ms.length){
+    var mm=el("div","mails");
+    mm.appendChild(el("h4","Correo relacionado ("+ms.length+")"));
+    ms.slice(0,4).forEach(function(m){mm.appendChild(mailRow(m))});
+    b.appendChild(mm);
+  }
+  c.appendChild(b);return c;
+}
+
+function mailRow(m){
+  var a=el("a","mail");a.href=m.url||"#";a.target="_blank";a.rel="noopener noreferrer";
+  a.appendChild(el("div","m-subj",m.asunto||"(sin asunto)"));
+  a.appendChild(el("div","m-meta",(m.de||"")+" · "+fdate(m.fecha)+" · "+(m.cuenta||"")));
+  return a;
+}
+
+function renderMail(){
+  var dot=$("#maildot"),msg=$("#mailmsg");
+  if(cargando){dot.className="dot wait";msg.textContent="Leyendo el correo…";return}
+  var duros=(correo.problemas||[]).length&&!correo.mensajes.length;
+  dot.className=duros?"dot off":((correo.problemas||[]).length?"dot wait":"dot on");
+  var p=[];
+  p.push("<b>"+correo.mensajes.length+"</b> mensaje"+(correo.mensajes.length===1?"":"s")+" en los últimos 120 días");
+  p.push("cuentas <b>"+((correo.cuentas||[]).join(" + ")||"ninguna")+"</b>");
+  if(correo.cuando)p.push("al corte de las <b>"+ftime(correo.cuando)+"</b>");
+  msg.innerHTML=p.join(" · ");
+}
+
+function renderWarn(){
+  var z=$("#warnzone");z.innerHTML="";
+  var probs=correo.problemas||[];
+  if(!probs.length)return;
+  var w=el("div","warnbox");
+  w.appendChild(el("h3","Problemas de acceso al correo"));
+  probs.forEach(function(x){
+    var p=el("p");p.innerHTML="<code>"+String(x.cuenta).replace(/</g,"&lt;")+"</code> — "+String(x.error).replace(/</g,"&lt;");
+    w.appendChild(p);
+  });
+  z.appendChild(w);
+}
+
+function renderInbox(){
+  var box=$("#inbox");box.innerHTML="";
+  if(cargando){box.appendChild(el("div","empty","Leyendo…"));return}
+  var u=sueltos();
+  if(!u.length){box.appendChild(el("div","empty","Nada suelto: todo el correo de reclutamiento cayó en alguna vacante."));return}
+  var w=el("div");w.style.marginTop="16px";
+  u.slice(0,15).forEach(function(m){w.appendChild(mailRow(m))});
+  box.appendChild(w);
+}
+
+/* ---------- arranque ---------- */
+function traeCorreo(forzar){
+  cargando=true;renderMail();
+  return api("/api/correo"+(forzar?"?forzar=1":"")).then(function(d){
+    correo=d;cargando=false;paint();
+  },function(e){
+    cargando=false;
+    correo={mensajes:[],cuentas:[],problemas:[{cuenta:"servidor",error:String(e.message||e)}],cuando:0};
+    paint();
+  });
+}
+
+$("#sync").addEventListener("click",function(){
+  var b=$("#sync");b.disabled=true;b.textContent="Sincronizando…";
+  traeCorreo(true).then(function(){b.disabled=false;b.textContent="Sincronizar correo"});
+});
+
+api("/api/estado").then(function(d){
+  var v=d.vacantes||{};
+  rows=Object.keys(v).map(function(k){var o=v[k];o.id=k;return o});
+  paint();
+  traeCorreo(false);
+},function(e){
+  rows=[];paint();
+  $("#mailmsg").textContent="No se pudo leer el estado: "+(e.message||e);
+});
+
+setInterval(function(){if(!document.hidden)traeCorreo(false)},300000);
+})();
+</script>
+</body>
+</html>

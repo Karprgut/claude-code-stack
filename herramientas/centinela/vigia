@@ -1,0 +1,151 @@
+#!/bin/bash
+# vigia — detecta cuándo alguien empieza a usar la Mac y verifica si eres tú.
+# Corre como LaunchAgent (io.ejemplo.centinela). No requiere red salvo para avisar.
+
+BASE="$HOME/.config/centinela"
+source "$BASE/config.sh"
+
+# Se usa el app bundle y no el binario suelto: TCC conserva el permiso de
+# cámara por identidad de bundle, y un binario pelón lo pierde al correr
+# bajo launchd.
+BIN="$BASE/Centinela.app/Contents/MacOS/centinela"
+FOTOS="$BASE/registro/fotos"
+BITACORA="$BASE/registro/bitacora.csv"
+DIARIO="$BASE/registro/vigia.log"
+
+mkdir -p "$FOTOS"
+[ -f "$BITACORA" ] || echo "fecha,veredicto,distancia_rostro,rostros,watch_rssi,app_al_frente,foto" > "$BITACORA"
+
+anotar() { echo "$(date '+%Y-%m-%d %H:%M:%S') $*" >> "$DIARIO"; }
+
+# Segundos que la máquina lleva sin teclado ni ratón.
+inactividad() {
+  ioreg -c IOHIDSystem 2>/dev/null \
+    | awk '/HIDIdleTime/ {gsub(/[^0-9]/,"",$NF); print int($NF/1000000000); exit}'
+}
+
+# RSSI del Apple Watch, o "ausente" si Bluetooth no lo ve.
+watch_rssi() {
+  python3 "$BASE/bin/watch_rssi.py" "$WATCH_ADDR" 2>/dev/null || echo ausente
+}
+
+app_al_frente() {
+  osascript -e 'tell application "System Events" to get name of first process whose frontmost is true' 2>/dev/null \
+    || echo "desconocida"
+}
+
+avisar() {
+  local titulo="$1" cuerpo="$2" foto="$3"
+  [ -z "$NTFY_TOPIC" ] && { anotar "AVISO sin enviar: falta NTFY_TOPIC"; return; }
+
+  if [ "$ENVIAR_FOTO" = "1" ] && [ -s "$foto" ]; then
+    curl -fsS --max-time 20 \
+      -H "Title: $titulo" -H "Priority: high" -H "Tags: rotating_light" \
+      -H "Filename: centinela.jpg" \
+      -H "Message: $cuerpo" \
+      -T "$foto" "$NTFY_SERVIDOR/$NTFY_TOPIC" >/dev/null \
+      && anotar "aviso enviado (con foto)" || anotar "FALLÓ el aviso por ntfy"
+  else
+    curl -fsS --max-time 20 \
+      -H "Title: $titulo" -H "Priority: high" -H "Tags: rotating_light" \
+      -d "$cuerpo" "$NTFY_SERVIDOR/$NTFY_TOPIC" >/dev/null \
+      && anotar "aviso enviado" || anotar "FALLÓ el aviso por ntfy"
+  fi
+}
+
+verificar() {
+  local sello foto rssi veredicto_cara distancia rostros app
+  sello="$(date '+%Y%m%d-%H%M%S')"
+  foto="$FOTOS/$sello.jpg"
+
+  # 1. Señal del Watch (lo traes puesto: es la señal más difícil de falsear)
+  rssi="$(watch_rssi)"
+  local watch_cerca=0
+  if [ "$rssi" != "ausente" ] && [ "${rssi%.*}" -ge "$WATCH_RSSI_MINIMO" ] 2>/dev/null; then
+    watch_cerca=1
+  fi
+
+  # 2. Foto + rostro
+  "$BIN" capturar "$foto" "$CAMARA_PREFERIDA" >/dev/null 2>&1
+  local json="{}"
+  [ -s "$foto" ] && json="$("$BIN" comparar "$foto" 2>/dev/null)"
+  veredicto_cara="$(echo "$json" | python3 -c 'import json,sys;print(json.load(sys.stdin).get("veredicto","error"))' 2>/dev/null || echo error)"
+  distancia="$(echo "$json" | python3 -c 'import json,sys;print(round(json.load(sys.stdin).get("distancia",-1),2))' 2>/dev/null || echo -1)"
+  rostros="$(echo "$json" | python3 -c 'import json,sys;print(json.load(sys.stdin).get("rostros",0))' 2>/dev/null || echo 0)"
+
+  app="$(app_al_frente)"
+
+  # 3. Veredicto: el Watch manda; el rostro confirma o levanta la duda.
+  local final
+  if [ "$watch_cerca" = "1" ] && [ "$veredicto_cara" = "duena" ]; then
+    final="eres_tu"
+  elif [ "$watch_cerca" = "1" ]; then
+    final="probablemente_tu"      # Watch presente pero la cara no cuadró
+  elif [ "$veredicto_cara" = "duena" ]; then
+    final="probablemente_tu"      # tu cara pero sin Watch (¿te lo quitaste?)
+  else
+    final="DESCONOCIDO"
+  fi
+
+  echo "$(date '+%Y-%m-%d %H:%M:%S'),$final,$distancia,$rostros,$rssi,\"$app\",$(basename "$foto")" >> "$BITACORA"
+  anotar "verificación: $final (cara=$veredicto_cara d=$distancia rostros=$rostros watch=$rssi app=$app)"
+
+  if [ "$final" = "DESCONOCIDO" ]; then
+    local detalle="$(date '+%H:%M') · "
+    if [ "$rostros" = "0" ]; then detalle+="no se vio ningún rostro"; else detalle+="rostro no reconocido"; fi
+    detalle+=" · Apple Watch: "
+    if [ "$rssi" = "ausente" ]; then detalle+="fuera de rango"; else detalle+="$rssi dBm (lejos)"; fi
+    detalle+=" · al frente: $app"
+    avisar "⚠️ Alguien está usando tu Mac" "$detalle" "$foto"
+  elif [ "$final" = "eres_tu" ]; then
+    # No se acumula un álbum de vigilancia de ti misma.
+    rm -f "$foto"
+  fi
+}
+
+limpiar_viejo() {
+  find "$FOTOS" -name '*.jpg' -type f -mtime +"$DIAS_GUARDAR_FOTOS" -delete 2>/dev/null
+  # El diario no debe crecer sin fin.
+  if [ -f "$DIARIO" ] && [ "$(wc -c < "$DIARIO")" -gt 2000000 ]; then
+    tail -n 2000 "$DIARIO" > "$DIARIO.tmp" && mv "$DIARIO.tmp" "$DIARIO"
+  fi
+}
+
+# Modo de prueba: una verificación y salir.
+if [ "$1" = "--una-vez" ]; then
+  verificar
+  exit 0
+fi
+
+# ───────────────────────── bucle principal ─────────────────────────
+
+anotar "centinela arrancó (pid $$)"
+inactividad_previa=999999
+ultima_verificacion=0
+ultima_limpieza=0
+
+while true; do
+  ahora=$(date +%s)
+  idle=$(inactividad)
+  [ -z "$idle" ] && idle=0
+
+  # Alguien empezó a usar la máquina después de un rato de abandono.
+  if [ "$idle" -lt "$SEGUNDOS_ACTIVO" ] && [ "$inactividad_previa" -ge "$SEGUNDOS_AUSENCIA" ]; then
+    if [ $((ahora - ultima_verificacion)) -ge "$SEGUNDOS_ENFRIAMIENTO" ]; then
+      anotar "disparo: inactividad pasó de ${inactividad_previa}s a ${idle}s"
+      verificar
+      ultima_verificacion=$ahora
+    else
+      anotar "disparo ignorado (enfriamiento)"
+    fi
+  fi
+
+  inactividad_previa=$idle
+
+  if [ $((ahora - ultima_limpieza)) -ge 86400 ]; then
+    limpiar_viejo
+    ultima_limpieza=$ahora
+  fi
+
+  sleep "$INTERVALO_SONDEO"
+done

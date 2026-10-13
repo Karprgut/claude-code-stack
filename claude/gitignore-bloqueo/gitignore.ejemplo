@@ -1,0 +1,29 @@
+# ── BLOQUEO POR DEFECTO ──────────────────────────────────────────────
+# Este directorio contiene transcripciones, sesiones, cachés de auth y
+# snapshots de shell. NADA se versiona salvo lo que se abra explícitamente
+# abajo. Si agregas algo nuevo aquí, por defecto queda fuera: eso es lo
+# que queremos.
+/*
+
+# ── LO QUE SÍ SE RESPALDA ────────────────────────────────────────────
+!/.gitignore
+!/README.md
+!/CLAUDE.md
+!/skills/
+
+# de projects/ solo interesan las memorias, no las transcripciones
+!/projects/
+/projects/*
+!/projects/*/
+/projects/*/*
+!/projects/*/memory/
+
+# nunca, bajo ninguna circunstancia
+*.jsonl
+*credential*
+*token*.json
+.env
+.env.*
+
+# papelera de skills borradas: no es respaldo, es basura
+.trash/

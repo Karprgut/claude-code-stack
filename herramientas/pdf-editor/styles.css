@@ -1,0 +1,174 @@
+/* Editor PDF — sistema visual Karma Creative Lab.
+   Tokens en brand/kcl-tokens.css. Brutalista: 4px negro, sombras duras, sin blur. */
+
+*{box-sizing:border-box}
+[hidden]{display:none !important}
+html,body{margin:0;padding:0}
+body{background:var(--bg); color:var(--fg); font-family:var(--font-body)}
+button{font-family:var(--font-display)}
+
+/* ---------------------------------------------------------------- header */
+.bar{
+  position:sticky; top:0; z-index:40;
+  display:flex; align-items:center; justify-content:space-between; gap:var(--space-md); flex-wrap:wrap;
+  padding:var(--space-sm) var(--space-md);
+  background:var(--karma-black); color:var(--fg-invert);
+  border-bottom:var(--border-std);
+}
+.brand{display:flex; align-items:center; gap:var(--space-sm)}
+.logo{height:34px; width:auto; display:block}
+.brand-txt{display:flex; flex-direction:column; gap:2px}
+.brand-txt .eyebrow{color:var(--karma-green)}
+.bar h1{
+  font-family:var(--font-display); font-weight:700; text-transform:uppercase;
+  font-size:20px; line-height:1; letter-spacing:-0.02em; margin:0;
+}
+.actions{display:flex; gap:var(--space-xs); flex-wrap:wrap}
+
+/* --------------------------------------------------------------- botones */
+.btn{
+  font-weight:700; text-transform:uppercase; letter-spacing:.04em; font-size:13px; line-height:1;
+  padding:12px 18px; cursor:pointer;
+  background:var(--karma-white); color:var(--karma-black);
+  border:var(--border-std); border-radius:var(--radius-0);
+  box-shadow:var(--shadow-brutal-sm);
+  transition:transform var(--dur-fast) var(--ease-out-brutal), box-shadow var(--dur-fast) var(--ease-out-brutal);
+}
+.btn:hover:not(:disabled){transform:translate(2px,2px); box-shadow:2px 2px 0 0 var(--karma-black)}
+.btn:active:not(:disabled){transform:translate(4px,4px); box-shadow:none}
+.btn:disabled{opacity:.3; cursor:not-allowed; box-shadow:none}
+.btn-primary{background:var(--karma-green)}
+.btn-sm{padding:8px 12px; font-size:11px; box-shadow:3px 3px 0 0 var(--karma-black)}
+.btn.on{background:var(--karma-red); color:var(--fg-invert)}
+
+/* ---------------------------------------------------------------- estado */
+.status{
+  position:sticky; top:74px; z-index:39;
+  padding:10px var(--space-md);
+  background:var(--karma-green); color:var(--karma-black);
+  border-bottom:var(--border-std);
+  font-family:var(--font-mono); font-size:var(--fs-caption);
+  letter-spacing:.08em; text-transform:uppercase;
+}
+.status.err{background:var(--karma-red); color:var(--fg-invert)}
+
+/* -------------------------------------------------------------- dropzone */
+main{padding:var(--space-lg) var(--space-md) var(--space-3xl)}
+.drop{max-width:840px; margin:var(--space-2xl) auto}
+.drop-inner{
+  background:var(--bg-alt); border:var(--border-std); box-shadow:var(--shadow-brutal);
+  padding:var(--space-2xl) var(--space-xl); text-align:center;
+}
+.drop.over .drop-inner{background:var(--karma-green); box-shadow:var(--shadow-brutal-lg)}
+.drop-eyebrow{color:var(--fg-muted); margin:0 0 var(--space-md)}
+.drop-title{
+  font-family:var(--font-display); font-weight:700; text-transform:uppercase;
+  font-size:var(--fs-display-md); line-height:0.95; letter-spacing:-0.03em; margin:0 0 var(--space-sm);
+}
+.drop-sub{max-width:52ch; margin:0 auto var(--space-lg); color:var(--fg-muted)}
+.notes{
+  list-style:none; padding:var(--space-md) 0 0; margin:var(--space-xl) auto 0; max-width:60ch; text-align:left;
+  font-size:var(--fs-body-sm); line-height:1.6; border-top:var(--border-thin);
+}
+.notes li{margin-bottom:var(--space-xs)}
+.notes li::before{content:"→ "; font-family:var(--font-mono); color:var(--karma-red)}
+
+/* ------------------------------------------------------------ workspace */
+.workspace{display:grid; grid-template-columns:268px minmax(0,1fr); gap:var(--space-lg); align-items:start; max-width:1320px; margin:0 auto}
+.files{
+  position:sticky; top:110px;
+  background:var(--karma-white); border:var(--border-std); box-shadow:var(--shadow-brutal-sm);
+  padding:var(--space-sm); max-height:calc(100vh - 150px); display:flex; flex-direction:column;
+}
+.files-head{display:flex; align-items:center; justify-content:space-between; gap:var(--space-xs); margin-bottom:var(--space-sm)}
+.files-head .eyebrow b{color:var(--karma-black); font-size:14px}
+.files-list{list-style:none; margin:0; padding:0; overflow:auto; flex:1; display:flex; flex-direction:column; gap:var(--space-xs)}
+.file-item{
+  display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:8px; align-items:center;
+  border:var(--border-thin); padding:8px; background:var(--karma-white);
+}
+.file-item.dragging{opacity:.4}
+.file-num{
+  background:var(--karma-red); color:var(--fg-invert); border:2px solid var(--karma-black);
+  font-family:var(--font-display); font-weight:700; font-size:11px; padding:3px 7px; line-height:1;
+}
+.file-meta{min-width:0}
+.file-name{
+  display:block; font-size:var(--fs-body-sm); font-weight:500;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.file-pages{font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--fg-muted)}
+.file-ops{display:flex; gap:2px}
+.iconbtn{
+  cursor:pointer; background:var(--karma-white); border:2px solid var(--karma-black);
+  width:22px; height:22px; padding:0; line-height:1; font-size:11px; font-weight:700;
+}
+.iconbtn:hover:not(:disabled){background:var(--karma-green)}
+.iconbtn.del:hover{background:var(--karma-red); color:var(--fg-invert)}
+.iconbtn:disabled{opacity:.25; cursor:not-allowed}
+.files-note{margin:var(--space-sm) 0 0; padding-top:var(--space-xs); border-top:var(--border-thin); color:var(--fg-muted); font-size:10px; letter-spacing:.08em; text-transform:uppercase; line-height:1.5}
+
+/* ---------------------------------------------------------------- páginas */
+.pages{display:flex; flex-direction:column; align-items:center; gap:var(--space-lg)}
+.page{
+  position:relative; background:var(--karma-white);
+  border:var(--border-std); box-shadow:var(--shadow-brutal);
+  width:100%; max-width:960px;
+}
+.page canvas{display:block; width:100%; height:auto}
+.page .num{
+  position:absolute; top:-4px; left:-4px; z-index:5;
+  background:var(--karma-black); color:var(--fg-invert);
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; padding:4px 8px;
+}
+.layer{position:absolute; inset:0; overflow:hidden}
+.layer.adding{cursor:crosshair}
+
+/* ---------------------------------------------------- líneas editables */
+.tl{
+  position:absolute; margin:0; padding:0 1px; white-space:pre; line-height:1;
+  color:transparent; background:transparent; border:2px solid transparent;
+  cursor:text; outline:none; transform-origin:0 0;
+}
+.layer:not(.adding) .tl:hover{border-color:var(--karma-green); background:rgba(0,255,65,.14)}
+.tl:focus{border-color:var(--karma-red)}
+
+/* --------------------------------------------------------------- toolbar */
+.toolbar{
+  position:absolute; z-index:60; display:flex; gap:var(--space-xs); align-items:center;
+  background:var(--karma-white); border:var(--border-std); box-shadow:var(--shadow-brutal-sm);
+  padding:8px;
+}
+.tb-field{display:flex; gap:6px; align-items:center}
+.tb-field .mono{font-size:10px; letter-spacing:.1em; color:var(--fg-muted)}
+.toolbar input[type=number]{width:56px; font-family:var(--font-body); font-size:13px; border:2px solid var(--karma-black); padding:5px 6px; background:var(--karma-white); outline:none}
+.toolbar input[type=number]:focus{box-shadow:3px 3px 0 0 var(--karma-green)}
+.toolbar input[type=color]{width:32px; height:26px; padding:0; border:2px solid var(--karma-black); background:none; cursor:pointer}
+.tb-group{display:flex}
+.tb-btn{
+  cursor:pointer; background:var(--karma-white); color:var(--karma-black);
+  border:2px solid var(--karma-black); padding:5px 9px; margin-left:-2px;
+  font-family:var(--font-display); font-weight:700; font-size:12px; text-transform:uppercase; line-height:1.3;
+}
+.tb-btn:hover{background:var(--karma-green)}
+.tb-btn.on{background:var(--karma-black); color:var(--fg-invert)}
+.tb-al{font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; padding:6px 8px}
+.tb-revert{margin-left:var(--space-xs); letter-spacing:.06em}
+.tb-revert:hover{background:var(--karma-red); color:var(--fg-invert)}
+
+/* ----------------------------------------------------------------- footer */
+.foot{
+  display:flex; justify-content:space-between; gap:var(--space-sm); flex-wrap:wrap;
+  padding:var(--space-sm) var(--space-md);
+  background:var(--karma-black); color:var(--fg-invert);
+  border-top:var(--border-std);
+}
+.foot .mono{font-size:10px; letter-spacing:.12em; color:var(--fg-subtle)}
+
+@media (max-width:900px){
+  .workspace{grid-template-columns:1fr}
+  .files{position:static; max-height:none}
+  .bar h1{font-size:16px}
+  .btn{padding:10px 12px; font-size:11px}
+  .status{top:66px}
+}

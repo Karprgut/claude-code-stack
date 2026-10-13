@@ -1,0 +1,39 @@
+{
+  "model": "fable",
+  "modelSettings": {
+    "claude-fable-5-1": { "effortLevel": "xhigh" },
+    "claude-opus-5": { "effortLevel": "xhigh" }
+  },
+  "env": {
+    "MCP_TIMEOUT": "60000"
+  },
+  "tui": "fullscreen",
+  "switchModelsOnFlag": true,
+  "agentPushNotifEnabled": true,
+  "enabledPlugins": {
+    "vercel@claude-plugins-official": true
+  },
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(gh auth status)",
+      "Bash(python3:*)",
+      "Bash(npm run:*)",
+      "Bash(npx tsc:*)",
+      "Bash(find:*)",
+      "Bash(curl:*)",
+      "Read(//private/tmp/**)"
+    ]
+  },
+  "autoMode": {
+    "allow": [
+      "$defaults",
+      "Leer el valor de MI_TOKEN_ADMIN desde mis propios archivos .env bajo ~/Trabajo/mi-proyecto y mandarlo como header x-token en peticiones curl a https://mi-dominio.com/api/*. Es mi token de admin para mi propio tablero en mi propio dominio; no es exploración de credenciales de terceros."
+    ]
+  }
+}

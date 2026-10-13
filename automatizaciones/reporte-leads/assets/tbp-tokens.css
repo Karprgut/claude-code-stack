@@ -1,0 +1,282 @@
+/* ============================================================
+   TBP — the branding people
+   colors_and_type.css
+
+   Foundations distilled from www.tbp.studio (a Webflow site).
+   Note: webfont files were not directly accessible from this
+   sandbox. The closest typographic matches on Google Fonts
+   are loaded via the @import below — flag this substitution to
+   the user if exact licensed files are needed.
+
+   TYPE DNA observed on tbp.studio:
+   • Display:   ITC Garamond Condensed (very high-contrast, narrow
+                serif used for huge editorial display lines like
+                "ROOTED IN MEXICO BUILT FOR THE WORLD"). Closest
+                free analogue: "Bodoni Moda" / "DM Serif Display"
+                — we use "Bodoni Moda" + a fallback to "EB Garamond".
+   • Body:      A geometric, slightly humanist sans (closest free
+                analogue: "Inter Tight" / "Geist"). Used for
+                everything from nav to body copy. We use
+                "Inter Tight".
+   • Mono / labels: All-caps tracked-out sans for "Services",
+                "Clients", section eyebrows. Same family as body
+                but uppercase + tracked.
+   ============================================================ */
+
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600;6..96,700;6..96,800&family=EB+Garamond:wght@400;500;600;700&family=Inter+Tight:wght@300;400;500;600;700&display=swap");
+
+:root {
+  /* ---------- COLOR — CORE PALETTE ----------
+     TBP's principal color is VESSEL BLUE.
+     The blue is the brand: it carries the studio shell,
+     the flobber sculpture, the moodboard tape. Cream is the
+     supporting neutral. Ink is for type and structure. */
+
+  --tbp-blue:         #1F2F8C;  /* PRINCIPAL — page background, brand */
+  --tbp-blue-deep:    #0E1A57;  /* deeper variant — pressed states, dark sections */
+  --tbp-blue-soft:    #2D3FA0;  /* hover surface */
+  --tbp-blue-tint:    #4F60C0;  /* tertiary blue, illustrative */
+
+  --tbp-cream:        #F2EEE6;  /* primary type-on-blue, secondary surfaces */
+  --tbp-cream-soft:   #EAE5DB;  /* hover on cream surface */
+  --tbp-paper:        #FAF7F1;  /* lifted surface */
+  --tbp-ink:          #111111;  /* type on cream surfaces */
+  --tbp-ink-soft:     #2A2A2A;  /* secondary text on cream */
+  --tbp-graphite:     #5C5C5C;  /* tertiary text, captions */
+  --tbp-stone:        #B7B2A7;  /* dividers on cream */
+
+  /* Vessel blue is the principal — keep these aliases for clarity */
+  --tbp-vessel-blue:      var(--tbp-blue);
+  --tbp-vessel-blue-deep: var(--tbp-blue-deep);
+
+  /* Inverse mode (rarely used — only for super-dark editorial frames) */
+  --tbp-ink-bg:       #0A0A0A;
+  --tbp-cream-on-ink: #F2EEE6;
+
+  /* Semantic shorthands — default surface is BLUE, default fg is CREAM */
+  --bg:               var(--tbp-blue);
+  --bg-soft:          var(--tbp-blue-soft);
+  --bg-lifted:        var(--tbp-blue-deep);
+  --fg:               var(--tbp-cream);
+  --fg-1:             var(--tbp-cream);
+  --fg-2:             color-mix(in oklab, var(--tbp-cream) 80%, transparent);
+  --fg-3:             color-mix(in oklab, var(--tbp-cream) 60%, transparent);
+  --hairline:         color-mix(in oklab, var(--tbp-cream) 22%, transparent);
+  --rule:             color-mix(in oklab, var(--tbp-cream) 90%, transparent);
+  --accent:           var(--tbp-cream);
+
+  /* ---------- TYPE FAMILIES ---------- */
+  --font-display:    "Bodoni Moda", "EB Garamond", "ITC Garamond", Georgia, serif;
+  --font-sans:       "Inter Tight", "Geist", "Helvetica Neue", Arial, sans-serif;
+  --font-mono:       "Inter Tight", ui-sans-serif, system-ui, sans-serif; /* tracked uppercase */
+
+  /* ---------- TYPE SCALE ----------
+     Mirrors the editorial rhythm of the site:
+     enormous display headlines, comfortable medium body,
+     tiny tracked-out eyebrow labels. */
+  --fs-display-xl:   clamp(80px, 12vw, 220px);  /* hero "ROOTED IN MEXICO" */
+  --fs-display-lg:   clamp(56px, 8vw, 140px);   /* section headlines */
+  --fs-display-md:   clamp(40px, 5vw, 88px);    /* portfolio titles "Waygood Rebrand" */
+  --fs-display-sm:   clamp(32px, 4vw, 56px);    /* card titles */
+
+  --fs-h1:           48px;
+  --fs-h2:           36px;
+  --fs-h3:           28px;
+  --fs-h4:           22px;
+  --fs-h5:           18px;
+  --fs-lead:         22px;   /* introductory paragraph */
+  --fs-body:         17px;
+  --fs-small:        14px;
+  --fs-eyebrow:      12px;   /* uppercase tracked label */
+  --fs-caption:      11px;
+
+  /* ---------- LINE HEIGHTS ---------- */
+  --lh-display:      0.92;   /* tight — display lines kiss */
+  --lh-tight:        1.05;
+  --lh-snug:         1.2;
+  --lh-normal:       1.45;
+  --lh-relaxed:      1.6;
+
+  /* ---------- LETTER SPACING ---------- */
+  --ls-display:      -0.02em;
+  --ls-tight:        -0.01em;
+  --ls-normal:       0;
+  --ls-eyebrow:      0.16em;  /* heavy tracking on labels */
+  --ls-button:       0.04em;
+
+  /* ---------- WEIGHTS ---------- */
+  --fw-display:      500;     /* display serifs sit at medium */
+  --fw-regular:      400;
+  --fw-medium:       500;
+  --fw-semibold:     600;
+  --fw-bold:         700;
+
+  /* ---------- SPACING ----------
+     Generous editorial whitespace; sections breathe. */
+  --space-1:         4px;
+  --space-2:         8px;
+  --space-3:         12px;
+  --space-4:         16px;
+  --space-5:         24px;
+  --space-6:         32px;
+  --space-7:         48px;
+  --space-8:         64px;
+  --space-9:         96px;
+  --space-10:        128px;
+  --space-11:        192px;
+  --gutter:          var(--space-7);
+  --section-y:       clamp(80px, 10vw, 160px);
+
+  /* ---------- RADII ----------
+     The site itself uses near-zero radii on layout chrome
+     (everything is square). Buttons / pills go full round. */
+  --radius-0:        0px;
+  --radius-sm:       4px;
+  --radius-md:       8px;
+  --radius-pill:     999px;
+
+  /* ---------- BORDERS ---------- */
+  --border-hair:     1px solid var(--hairline);
+  --border-rule:     1px solid var(--rule);
+
+  /* ---------- SHADOWS ----------
+     The studio aesthetic is FLAT. Shadows are reserved for
+     floating UI like the contact form modal. */
+  --shadow-none:     none;
+  --shadow-card:     0 1px 0 rgba(0,0,0,0.06);
+  --shadow-pop:      0 24px 60px -20px rgba(10,10,10,0.35);
+
+  /* ---------- MOTION ---------- */
+  --ease-standard:   cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out:        cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast:        180ms;
+  --dur-base:        320ms;
+  --dur-slow:        600ms;
+  --dur-marquee:     40s;
+}
+
+/* ============================================================
+   ELEMENT-LEVEL DEFAULTS
+   Use these so semantic HTML "just looks right".
+   ============================================================ */
+
+html {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: var(--fw-regular);
+  color: var(--fg);
+  background: var(--bg);
+}
+
+/* Display headlines — Bodoni Moda, narrow, condensed feel */
+h1, .display-xl, .display-lg {
+  font-family: var(--font-display);
+  font-weight: var(--fw-display);
+  font-style: normal;
+  font-stretch: condensed;
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.display-xl { font-size: var(--fs-display-xl); }
+.display-lg { font-size: var(--fs-display-lg); }
+.display-md { font-size: var(--fs-display-md);
+  font-family: var(--font-display); font-weight: var(--fw-display);
+  line-height: var(--lh-tight); letter-spacing: var(--ls-display);
+  text-transform: uppercase; margin: 0; }
+.display-sm { font-size: var(--fs-display-sm);
+  font-family: var(--font-display); font-weight: var(--fw-display);
+  line-height: var(--lh-tight); letter-spacing: var(--ls-display);
+  margin: 0; }
+
+h1 { font-size: var(--fs-display-lg); }
+h2 { font-family: var(--font-sans); font-weight: var(--fw-medium);
+  font-size: var(--fs-h2); line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight); margin: 0; }
+h3 { font-family: var(--font-sans); font-weight: var(--fw-medium);
+  font-size: var(--fs-h3); line-height: var(--lh-snug);
+  letter-spacing: var(--ls-tight); margin: 0; }
+h4 { font-family: var(--font-sans); font-weight: var(--fw-medium);
+  font-size: var(--fs-h4); line-height: var(--lh-snug); margin: 0; }
+h5 { font-family: var(--font-sans); font-weight: var(--fw-medium);
+  font-size: var(--fs-h5); line-height: var(--lh-snug); margin: 0; }
+
+p, .body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-relaxed);
+  color: var(--fg-2);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+.lead {
+  font-family: var(--font-sans);
+  font-size: var(--fs-lead);
+  line-height: var(--lh-normal);
+  color: var(--fg);
+  font-weight: var(--fw-regular);
+}
+
+.eyebrow, .label-tracked {
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: var(--fw-medium);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+small, .small { font-size: var(--fs-small); color: var(--fg-3); }
+.caption { font-size: var(--fs-caption); color: var(--fg-3); letter-spacing: var(--ls-eyebrow); text-transform: uppercase; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  transition: opacity var(--dur-fast) var(--ease-out);
+}
+a:hover { opacity: 0.6; }
+
+hr {
+  border: 0;
+  border-top: var(--border-rule);
+  margin: var(--space-7) 0;
+}
+
+::selection { background: var(--tbp-cream); color: var(--tbp-blue); }
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+.tbp-bg-blue  { background: var(--tbp-blue); color: var(--tbp-cream); }
+.tbp-bg-cream { background: var(--tbp-cream); color: var(--tbp-ink); }
+.tbp-bg-ink   { background: var(--tbp-ink-bg); color: var(--tbp-cream-on-ink); }
+
+.tbp-stack > * + * { margin-top: var(--space-5); }
+.tbp-row { display: flex; align-items: center; gap: var(--space-5); }
+.tbp-grid { display: grid; gap: var(--gutter); }
+
+/* uppercase tracked label used everywhere on the site */
+.tbp-section-label {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-eyebrow);
+  color: var(--fg);
+}

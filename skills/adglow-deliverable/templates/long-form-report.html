@@ -1,0 +1,397 @@
+<!doctype html>
+<!--
+  ═══════════════════════════════════════════════════════════════════
+  ADGLOW LONG-FORM REPORT TEMPLATE — scrollable · status/diagnóstico
+  ───────────────────────────────────────────────────────────────────
+  USO:
+  1. Reemplaza placeholders {{...}} con el contenido real.
+  2. Agrega/quita <section> según necesites. Cada section necesita un
+     id="..." para que el TOC funcione.
+  3. Componentes: KPI grid, finding cards (crit/opp/quality), pipeline,
+     decision list. Ver references/components-catalogue.md.
+  4. Para PDF export opcional, copia el bloque PDF del slide-deck.html
+     y ajusta para capturar el body completo (no slides).
+  ═══════════════════════════════════════════════════════════════════
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{Cliente}} — {{Tema}} · {{YYYY-MM-DD}}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=IBM+Plex+Mono:wght@400;500;700&display=swap');
+
+  :root {
+    --ink: #0b0b10;
+    --ink-elev: #14141a;
+    --fg-1: rgba(255,255,255,1);
+    --fg-2: rgba(255,255,255,0.60);
+    --fg-3: rgba(255,255,255,0.40);
+    --fg-4: rgba(255,255,255,0.25);
+    --fg-hair: rgba(255,255,255,0.05);
+
+    --magenta: #F00A5E;
+    --green:   #B0DA09;
+    --cyan:    #00D9FF;
+    --orange:  #F99400;
+    --purple:  #B80090;
+
+    --border-hair: rgba(255,255,255,0.06);
+    --border-cyan: rgba(0,217,255,0.15);
+
+    --marker-cyan:    rgba(0,217,255,0.18);
+    --marker-magenta: rgba(240,10,94,0.18);
+    --marker-green:   rgba(176,218,9,0.22);
+    --marker-orange:  rgba(249,148,0,0.18);
+
+    --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+
+    --glow-cyan-md:    0 0 25px rgba(0,217,255,0.30), 0 0 50px rgba(0,217,255,0.15);
+    --glow-magenta-md: 0 0 25px rgba(240,10,94,0.30), 0 0 50px rgba(240,10,94,0.15);
+    --glow-green-md:   0 0 25px rgba(176,218,9,0.30), 0 0 50px rgba(176,218,9,0.15);
+    --glow-orange-md:  0 0 25px rgba(249,148,0,0.30), 0 0 50px rgba(249,148,0,0.15);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--ink); color: var(--fg-1);
+    font-family: var(--font-sans); font-weight: 700; font-size: 16px; line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      linear-gradient(rgba(0,217,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,217,255,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px);
+    z-index: 1;
+  }
+
+  .wrap { position: relative; z-index: 2; max-width: 1180px; margin: 0 auto; padding: 64px 32px 96px; }
+
+  /* ═══════ HERO ═══════ */
+  .hero { margin-bottom: 72px; padding-bottom: 32px; border-bottom: 1px solid var(--border-hair); }
+  .eyebrow { font-family: var(--font-mono); font-weight: 400; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 16px; }
+  .eyebrow .glow-cyan { color: var(--cyan); text-shadow: 0 0 12px rgba(0,217,255,0.5); }
+  h1 { font-size: clamp(40px, 5.5vw, 80px); line-height: 0.95; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 24px; font-weight: 700; }
+  h1 .accent { color: var(--cyan); text-shadow: 0 0 25px rgba(0,217,255,0.4); }
+  .tagstrip { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-3); margin-top: 24px; }
+  .tagstrip span { color: var(--fg-2); }
+  .tagstrip em { color: var(--cyan); font-style: normal; }
+  p.lead { font-size: 20px; color: var(--fg-1); font-weight: 400; line-height: 1.55; max-width: 880px; }
+
+  /* ═══════ SECTION ═══════ */
+  section { margin: 80px 0; scroll-margin-top: 24px; }
+  .section-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.25em; color: var(--cyan); text-transform: uppercase; padding-bottom: 10px; border-bottom: 1px solid rgba(0,217,255,0.20); margin-bottom: 28px; }
+  h2 { font-size: clamp(28px, 3.2vw, 44px); line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 24px; font-weight: 700; }
+  h3 { font-size: 20px; line-height: 1.2; text-transform: uppercase; margin: 0 0 12px; font-weight: 700; color: var(--fg-1); }
+  h4 { font-size: 14px; letter-spacing: 0.1em; text-transform: uppercase; margin: 0 0 8px; font-weight: 700; }
+  p { font-weight: 400; color: var(--fg-2); line-height: 1.65; margin: 0 0 16px; }
+  p strong { color: var(--fg-1); font-weight: 700; }
+  p code, code { font-family: var(--font-mono); font-size: 0.88em; color: var(--cyan); background: rgba(0,217,255,0.07); padding: 1px 6px; border-radius: 3px; border: 1px solid rgba(0,217,255,0.15); font-weight: 400; }
+
+  /* ═══════ KPI GRID ═══════ */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 32px 0; }
+  .kpi { background: rgba(255,255,255,0.02); border: 1px solid var(--border-cyan); border-radius: 12px; padding: 24px; position: relative; overflow: hidden; }
+  .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.7; }
+  .kpi.magenta { border-color: rgba(240,10,94,0.20); } .kpi.magenta::before { background: linear-gradient(90deg, transparent, var(--magenta), transparent); }
+  .kpi.green { border-color: rgba(176,218,9,0.20); } .kpi.green::before { background: linear-gradient(90deg, transparent, var(--green), transparent); }
+  .kpi.orange { border-color: rgba(249,148,0,0.20); } .kpi.orange::before { background: linear-gradient(90deg, transparent, var(--orange), transparent); }
+  .kpi .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 12px; }
+  .kpi .value { font-size: 42px; line-height: 1; font-weight: 700; letter-spacing: -0.03em; color: var(--fg-1); margin-bottom: 8px; }
+  .kpi.magenta .value { color: var(--magenta); } .kpi.green .value { color: var(--green); } .kpi.cyan .value { color: var(--cyan); } .kpi.orange .value { color: var(--orange); }
+  .kpi .sub { font-size: 12px; color: var(--fg-2); font-weight: 400; }
+
+  /* ═══════ BADGES ═══════ */
+  .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid transparent; font-weight: 400; }
+  .badge .dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; box-shadow: 0 0 8px currentColor; animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: 0.4 } }
+  .badge-live { color: var(--cyan); border-color: rgba(0,217,255,0.3); background: rgba(0,217,255,0.06); }
+  .badge-ok   { color: var(--green); border-color: rgba(176,218,9,0.3); background: rgba(176,218,9,0.06); }
+  .badge-warn { color: var(--orange); border-color: rgba(249,148,0,0.3); background: rgba(249,148,0,0.06); }
+  .badge-crit { color: var(--magenta); border-color: rgba(240,10,94,0.3); background: rgba(240,10,94,0.06); }
+
+  /* ═══════ FINDING CARDS ═══════ */
+  .finding { border-left: 3px solid; background: rgba(255,255,255,0.02); padding: 24px 28px; margin: 16px 0; border-radius: 0 8px 8px 0; }
+  .finding.crit    { border-color: var(--magenta); }
+  .finding.opp     { border-color: var(--green); }
+  .finding.quality { border-color: var(--orange); }
+  .finding .head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .finding .tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; font-weight: 400; }
+  .finding.crit .tag    { color: var(--magenta); background: rgba(240,10,94,0.08); border: 1px solid rgba(240,10,94,0.25); }
+  .finding.opp .tag     { color: var(--green);   background: rgba(176,218,9,0.08); border: 1px solid rgba(176,218,9,0.25); }
+  .finding.quality .tag { color: var(--orange);  background: rgba(249,148,0,0.08); border: 1px solid rgba(249,148,0,0.25); }
+  .finding .title { font-family: var(--font-sans); font-weight: 700; font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--fg-1); }
+  .finding p { margin: 0 0 8px; font-size: 14.5px; }
+  .finding p:last-child { margin-bottom: 0; }
+
+  /* ═══════ TABLES ═══════ */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  thead th { text-align: left; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cyan); padding: 12px 14px; border-bottom: 1px solid var(--border-cyan); font-weight: 400; }
+  tbody td { padding: 12px 14px; border-bottom: 1px solid var(--fg-hair); color: var(--fg-2); font-weight: 400; }
+  tbody tr:hover { background: rgba(0,217,255,0.025); }
+  td.num, th.num { text-align: right; font-family: var(--font-mono); font-weight: 400; color: var(--fg-1); }
+  td .ok { color: var(--green); } td .warn { color: var(--orange); } td .crit { color: var(--magenta); } td .neutral { color: var(--fg-3); }
+
+  /* ═══════ PIPELINE DIAGRAM ═══════ */
+  .pipeline { display: grid; gap: 20px; margin: 24px 0; }
+  .pipeline-layer { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .pipeline-layer.single { grid-template-columns: 1fr; }
+  .layer-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-3); text-align: center; padding: 8px 0; }
+  .layer-label .glow { color: var(--cyan); }
+  .pipe-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-hair); border-radius: 8px; padding: 18px 20px; }
+  .pipe-card.bronze { border-color: rgba(205,127,50,0.25); }
+  .pipe-card.silver { border-color: rgba(192,192,192,0.18); }
+  .pipe-card.gold   { border-color: rgba(176,218,9,0.20); background: rgba(176,218,9,0.025); }
+  .pipe-card.source { border-color: rgba(249,148,0,0.20); background: rgba(249,148,0,0.025); }
+  .pipe-card.star   { border-color: rgba(240,10,94,0.30); background: rgba(240,10,94,0.04); }
+  .pipe-card .pcap { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 8px; }
+  .pipe-card .ptitle { font-family: var(--font-mono); font-size: 13px; color: var(--fg-1); font-weight: 400; margin-bottom: 6px; }
+  .pipe-card .pmeta { font-size: 12.5px; color: var(--fg-2); font-weight: 400; line-height: 1.55; }
+  .arrow { text-align: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--cyan); padding: 4px 0; }
+
+  /* ═══════ DECISIONS ═══════ */
+  .decisions { counter-reset: dec; display: grid; gap: 12px; margin-top: 24px; }
+  .decision { counter-increment: dec; background: rgba(255,255,255,0.02); border: 1px solid var(--border-hair); border-radius: 8px; padding: 20px 24px 20px 64px; position: relative; }
+  .decision::before { content: counter(dec, decimal-leading-zero); position: absolute; left: 20px; top: 18px; font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.2em; color: var(--magenta); }
+  .decision h4 { color: var(--fg-1); margin-bottom: 6px; }
+  .decision p { font-size: 14px; margin: 0; }
+
+  /* ═══════ FOOTER ═══════ */
+  footer { margin-top: 96px; padding-top: 32px; border-top: 1px solid var(--border-hair); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-3); }
+  footer .triadic { color: var(--fg-2); margin-top: 8px; }
+  footer .triadic em { color: var(--cyan); font-style: normal; }
+
+  /* ═══════ TOC ═══════ */
+  .toc { background: rgba(255,255,255,0.02); border: 1px solid var(--border-hair); border-radius: 8px; padding: 24px; margin: 32px 0 56px; }
+  .toc ol { margin: 0; padding-left: 20px; font-weight: 400; }
+  .toc li { color: var(--fg-2); font-size: 14px; padding: 4px 0; }
+  .toc a { color: var(--fg-2); border-bottom: 1px solid transparent; text-decoration: none; }
+  .toc a:hover { color: var(--cyan); border-bottom-color: rgba(0,217,255,0.4); }
+
+  /* ═══════ MARKERS & GLOW ═══════ */
+  .marker-cyan    { background: linear-gradient(transparent 55%, var(--marker-cyan) 55%); padding: 0 2px; }
+  .marker-magenta { background: linear-gradient(transparent 55%, var(--marker-magenta) 55%); padding: 0 2px; }
+  .marker-green   { background: linear-gradient(transparent 55%, var(--marker-green) 55%); padding: 0 2px; }
+  .marker-orange  { background: linear-gradient(transparent 55%, var(--marker-orange) 55%); padding: 0 2px; }
+  .glow-cyan    { color: var(--cyan);    text-shadow: 0 0 18px rgba(0,217,255,0.5); }
+  .glow-magenta { color: var(--magenta); text-shadow: 0 0 18px rgba(240,10,94,0.5); }
+  .glow-green   { color: var(--green);   text-shadow: 0 0 18px rgba(176,218,9,0.5); }
+  .glow-orange  { color: var(--orange);  text-shadow: 0 0 18px rgba(249,148,0,0.5); }
+
+  /* ═══════ CLEAN LIST ═══════ */
+  ul.clean { list-style: none; padding: 0; margin: 0; }
+  ul.clean li { font-weight: 400; color: var(--fg-2); font-size: 14.5px; padding: 6px 0 6px 22px; position: relative; line-height: 1.55; }
+  ul.clean li::before { content: '◆'; position: absolute; left: 0; color: var(--cyan); font-size: 10px; top: 9px; }
+
+  /* ═══════ GRIDS ═══════ */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .three-col { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+
+  /* ═══════ CODE BLOCK ═══════ */
+  pre { background: rgba(0,0,0,0.4); border: 1px solid var(--border-hair); border-left: 2px solid var(--cyan); border-radius: 6px; padding: 16px 18px; overflow-x: auto; font-family: var(--font-mono); font-size: 12.5px; color: var(--fg-2); line-height: 1.6; font-weight: 400; }
+  pre code { background: none; border: none; padding: 0; color: inherit; }
+
+  /* ═══════ CALLOUT ═══════ */
+  .callout { padding: 16px 22px; border-left: 3px solid var(--cyan); border-radius: 0 6px 6px 0; background: rgba(0,217,255,0.04); margin: 14px 0; font-size: 14.5px; color: var(--fg-2); }
+  .callout.green  { border-left-color: var(--green);  background: rgba(176,218,9,0.04); }
+  .callout.orange { border-left-color: var(--orange); background: rgba(249,148,0,0.04); }
+  .callout strong { color: var(--fg-1); }
+  .callout .lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cyan); }
+  .callout.green .lbl  { color: var(--green); }
+  .callout.orange .lbl { color: var(--orange); }
+
+  @media (max-width: 900px) {
+    .kpi-grid, .two-col, .three-col, .pipeline-layer { grid-template-columns: 1fr; }
+    h1 { font-size: 36px; }
+    .wrap { padding: 40px 20px 64px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <header class="hero">
+    <div class="eyebrow">Adglow × {{Cliente}} · <span class="glow-cyan">{{YYYY-MM-DD}}</span> · v1</div>
+    <h1>{{Tema principal}} <span class="accent">{{accent}}</span></h1>
+    <p class="lead">{{Resumen del estado en 1-2 frases. Si tienes una métrica titular, ponla aquí con <span class="marker-cyan">marker</span>.}}</p>
+    <div class="tagstrip">
+      <em>{{tag1}}</em> · <span>{{tag2}}</span> · <em>{{tag3}}</em> · <span>{{tag4}}</span> · <em>{{tag5}}</em>
+    </div>
+  </header>
+
+  <!-- ═══════════ TL;DR (callout cyan) ═══════════ -->
+  <section id="tldr">
+    <div class="section-label">⬡ resumen ejecutivo</div>
+    <div class="callout">
+      <div class="lbl">TL;DR</div>
+      <p style="margin: 8px 0 0; color: var(--fg-1); font-size: 16px;">
+        {{Lo que un decisor necesita saber en 3 frases. Termina con "buena noticia: …" o "lo que falta: …".}}
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════ TOC ═══════════ -->
+  <nav class="toc">
+    <h4 style="color: var(--cyan); margin-bottom: 12px;">Contenido</h4>
+    <ol>
+      <li><a href="#estado">Estado actual</a></li>
+      <li><a href="#pipeline">Arquitectura / pipeline</a></li>
+      <li><a href="#hallazgos">Hallazgos</a></li>
+      <li><a href="#decisiones">Decisiones que necesitamos</a></li>
+      <li><a href="#anexo">Anexo — métricas de éxito</a></li>
+    </ol>
+  </nav>
+
+  <!-- ═══════════ ESTADO ACTUAL ═══════════ -->
+  <section id="estado">
+    <div class="section-label">▣ 01 — estado actual</div>
+    <h2>Dónde estamos hoy</h2>
+    <p>{{Descripción breve del estado actual. 1-2 párrafos.}}</p>
+
+    <div class="kpi-grid">
+      <div class="kpi cyan">
+        <div class="label">{{Métrica 1}}</div>
+        <div class="value">{{valor}}</div>
+        <div class="sub">{{unidad / contexto}}</div>
+      </div>
+      <div class="kpi magenta">
+        <div class="label">{{Métrica 2 — crítica}}</div>
+        <div class="value">{{valor}}</div>
+        <div class="sub">{{contexto}}</div>
+      </div>
+      <div class="kpi green">
+        <div class="label">{{Métrica 3 — ok}}</div>
+        <div class="value">{{valor}}</div>
+        <div class="sub">{{contexto}}</div>
+      </div>
+      <div class="kpi orange">
+        <div class="label">{{Métrica 4 — warning}}</div>
+        <div class="value">{{valor}}</div>
+        <div class="sub">{{contexto}}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PIPELINE / ARQUITECTURA ═══════════ -->
+  <section id="pipeline">
+    <div class="section-label">◊ 02 — arquitectura</div>
+    <h2>Pipeline de datos</h2>
+    <p>{{Descripción del flujo bronze → silver → gold (o tu equivalente). Una frase por capa.}}</p>
+
+    <div class="pipeline">
+      <div class="layer-label">SOURCES</div>
+      <div class="pipeline-layer">
+        <div class="pipe-card source"><div class="pcap">{{Source 1}}</div><div class="ptitle">{{nombre técnico}}</div><div class="pmeta">{{contexto}}</div></div>
+        <div class="pipe-card source"><div class="pcap">{{Source 2}}</div><div class="ptitle">{{nombre técnico}}</div><div class="pmeta">{{contexto}}</div></div>
+      </div>
+      <div class="arrow">▼ ingest</div>
+      <div class="layer-label">BRONZE</div>
+      <div class="pipeline-layer single">
+        <div class="pipe-card bronze"><div class="pcap">{{esquema}}</div><div class="ptitle">{{tabla raw}}</div><div class="pmeta">{{conteo de eventos}}</div></div>
+      </div>
+      <div class="arrow">▼ clean + hash PII</div>
+      <div class="layer-label">SILVER</div>
+      <div class="pipeline-layer">
+        <div class="pipe-card silver"><div class="pcap">{{esquema}}</div><div class="ptitle">{{tabla silver 1}}</div></div>
+        <div class="pipe-card silver"><div class="pcap">{{esquema}}</div><div class="ptitle">{{tabla silver 2}}</div></div>
+      </div>
+      <div class="arrow">▼ activate</div>
+      <div class="layer-label">GOLD <span class="glow">·activables·</span></div>
+      <div class="pipeline-layer single">
+        <div class="pipe-card gold"><div class="pcap">{{esquema}}</div><div class="ptitle">{{tabla gold}}</div><div class="pmeta">{{N audiencias hasheadas, listas para activación}}</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ HALLAZGOS ═══════════ -->
+  <section id="hallazgos">
+    <div class="section-label">◈ 03 — hallazgos</div>
+    <h2>Lo que encontramos</h2>
+
+    <div class="finding crit">
+      <div class="head">
+        <span class="tag">crítico · 01</span>
+        <span class="title">{{Hallazgo 1 — título corto}}</span>
+      </div>
+      <p><strong>Qué pasa:</strong> {{descripción}}.</p>
+      <p><strong>Impacto:</strong> {{cuantificado en $/usuarios/%}}.</p>
+      <p><strong>Solución:</strong> {{corto plazo + tiempo}}. Estructural: {{tiempo}}.</p>
+      <p><strong>Bloqueador:</strong> {{qué/quién}}.</p>
+    </div>
+
+    <div class="finding opp">
+      <div class="head">
+        <span class="tag">oportunidad · 02</span>
+        <span class="title">{{Hallazgo 2 — título corto}}</span>
+      </div>
+      <p><strong>Qué pasa:</strong> {{descripción}}.</p>
+      <p><strong>Impacto:</strong> {{cuantificado}}.</p>
+      <p><strong>Solución:</strong> {{corto plazo}}.</p>
+    </div>
+
+    <div class="finding quality">
+      <div class="head">
+        <span class="tag">calidad · 03</span>
+        <span class="title">{{Hallazgo 3 — título corto}}</span>
+      </div>
+      <p><strong>Qué pasa:</strong> {{descripción}}.</p>
+      <p><strong>Impacto:</strong> {{cuantificado}}.</p>
+      <p><strong>Solución:</strong> {{plan}}.</p>
+    </div>
+  </section>
+
+  <!-- ═══════════ DECISIONES ═══════════ -->
+  <section id="decisiones">
+    <div class="section-label">◐ 04 — decisiones</div>
+    <h2>Lo que necesitamos de la junta</h2>
+    <p>Para destrabar las acciones de arriba, necesitamos resolución sobre:</p>
+
+    <div class="decisions">
+      <div class="decision">
+        <h4>{{Pregunta de decisión 1}}</h4>
+        <p>{{Contexto + propuesta}}.</p>
+      </div>
+      <div class="decision">
+        <h4>{{Pregunta de decisión 2}}</h4>
+        <p>{{Contexto + propuesta}}.</p>
+      </div>
+      <div class="decision">
+        <h4>{{Pregunta de decisión 3}}</h4>
+        <p>{{Contexto + propuesta}}.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ ANEXO ═══════════ -->
+  <section id="anexo">
+    <div class="section-label">◇ 05 — anexo</div>
+    <h2>Métricas de éxito</h2>
+    <p>Cómo medimos si la Fase 1 fue exitosa:</p>
+
+    <table>
+      <thead>
+        <tr><th>Métrica</th><th class="num">Hoy</th><th class="num">Meta tras Fase 1 ({{4 semanas}})</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>{{Métrica 1}}</td><td class="num">{{valor}}</td><td class="num"><strong>{{valor objetivo}}</strong></td></tr>
+        <tr><td>{{Métrica 2}}</td><td class="num">{{valor}}</td><td class="num"><strong>{{valor objetivo}}</strong></td></tr>
+        <tr><td>{{Métrica 3}}</td><td class="num">{{valor}}</td><td class="num"><strong>{{valor objetivo}}</strong></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <div>Adglow · operado para {{Cliente}} · v1 · {{YYYY-MM-DD}}</div>
+    <div class="triadic">People <em>powered</em> · Data <em>smart</em> · Growth <em>focused</em></div>
+  </footer>
+
+</div>
+
+</body>
+</html>

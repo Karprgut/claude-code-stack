@@ -1,0 +1,1337 @@
+<!doctype html>
+<!--
+  ═══════════════════════════════════════════════════════════════════
+  ADGLOW PLAN DE MEDIOS TEMPLATE — 1600×900 · 16 slides · 6 secciones
+  ───────────────────────────────────────────────────────────────────
+  ESTRUCTURA CANÓNICA (no se salta una sección):
+    01      portada
+    02      resumen ejecutivo
+    03-04   1. investigación de mercado
+    05-06   2. investigación de competidores
+    07-08   3. audiencia
+    09-10   4. requerimientos técnicos
+    11-12   5. planteamiento estratégico (sin creatividad ni copy)
+    13-15   6. plan de medios por línea de campaña (1 slide por línea)
+    16      resumen total + pendientes
+
+  REGLAS NO NEGOCIABLES (ver references/methodology.md "Plan de medios"):
+    - La suma de % inversión = 100,0% exacto
+    - KPI estimado = inversión / costo KPI (consistencia matemática)
+    - Cada cifra de mercado lleva su fuente al pie
+    - Mínimos de aprendizaje por canal respetados
+  ═══════════════════════════════════════════════════════════════════
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Plan de Medios · {{Cliente}} · {{Vertical}} · {{YYYY-MM-DD}}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=IBM+Plex+Mono:wght@400;500;700&display=swap');
+
+  :root {
+    --ink: #0b0b10; --ink-elev: #14141a;
+    --fg-1: rgba(255,255,255,1); --fg-2: rgba(255,255,255,0.60);
+    --fg-3: rgba(255,255,255,0.40); --fg-4: rgba(255,255,255,0.25);
+    --fg-hair: rgba(255,255,255,0.05);
+    --magenta: #F00A5E; --green: #B0DA09; --cyan: #00D9FF; --orange: #F99400; --purple: #B80090;
+    --border-hair: rgba(255,255,255,0.06); --border-cyan: rgba(0,217,255,0.15);
+    --marker-cyan: rgba(0,217,255,0.18); --marker-magenta: rgba(240,10,94,0.18);
+    --marker-green: rgba(176,218,9,0.22); --marker-orange: rgba(249,148,0,0.18);
+    --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+    --glow-cyan-md: 0 0 25px rgba(0,217,255,0.30), 0 0 50px rgba(0,217,255,0.15);
+    --glow-magenta-md: 0 0 25px rgba(240,10,94,0.30), 0 0 50px rgba(240,10,94,0.15);
+    --glow-green-md: 0 0 25px rgba(176,218,9,0.30), 0 0 50px rgba(176,218,9,0.15);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  body {
+    background: var(--ink); color: var(--fg-1);
+    font-family: var(--font-sans); font-weight: 700; font-size: 16px; line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    background-image: linear-gradient(rgba(0,217,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,217,255,0.025) 1px, transparent 1px);
+    background-size: 48px 48px; overflow: hidden;
+  }
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px);
+    z-index: 1;
+  }
+
+  /* ═══════ DECK & SLIDES ═══════ */
+  .deck { position: relative; width: 100vw; height: 100vh; overflow: hidden; z-index: 2; }
+  .slide { position: absolute; inset: 0; width: 100%; height: 100%; padding: 64px 56px 92px; display: none; flex-direction: column; overflow-y: auto; }
+  .slide.active { display: flex; }
+  .slide-inner { max-width: 1520px; margin: 0 auto; width: 100%; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .slide-num { position: absolute; top: 28px; right: 32px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--fg-3); text-transform: uppercase; }
+  .slide-num .current { color: var(--cyan); }
+  .brand-mark { position: absolute; top: 28px; left: 32px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em; color: var(--fg-3); text-transform: uppercase; }
+  .brand-mark strong { color: var(--cyan); font-weight: 400; }
+  .slide-source { position: absolute; bottom: 32px; left: 56px; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.15em; color: var(--fg-3); text-transform: uppercase; }
+
+  /* ═══════ TYPOGRAPHY ═══════ */
+  .eyebrow { font-family: var(--font-mono); font-weight: 400; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-3); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .glow-cyan { color: var(--cyan); text-shadow: 0 0 12px rgba(0,217,255,0.5); }
+  h1 { font-size: clamp(48px, 6vw, 96px); line-height: 0.95; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 24px; font-weight: 700; }
+  h1 .accent { color: var(--cyan); text-shadow: 0 0 25px rgba(0,217,255,0.4); }
+  h2 { font-size: clamp(36px, 4vw, 60px); line-height: 1.02; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 16px; font-weight: 700; }
+  h3 { font-size: 22px; line-height: 1.2; text-transform: uppercase; margin: 24px 0 12px; font-weight: 700; color: var(--fg-1); }
+  h4 { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 8px; font-weight: 700; color: var(--fg-1); }
+  p { font-weight: 400; color: var(--fg-2); line-height: 1.6; margin: 0 0 14px; font-size: 16px; }
+  p.lead { font-size: 19px; max-width: 900px; }
+  p strong { color: var(--fg-1); font-weight: 700; }
+  code { font-family: var(--font-mono); font-size: 0.85em; color: var(--cyan); background: rgba(0,217,255,0.07); padding: 1px 6px; border-radius: 3px; border: 1px solid rgba(0,217,255,0.15); font-weight: 400; }
+  .section-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em; color: var(--cyan); text-transform: uppercase; padding-bottom: 10px; border-bottom: 1px solid rgba(0,217,255,0.20); margin-bottom: 24px; display: inline-block; padding-right: 40px; }
+
+  /* ═══════ KPI / BADGES / CARDS ═══════ */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin: 28px 0; }
+  .kpi { background: rgba(255,255,255,0.02); border: 1px solid var(--border-cyan); border-radius: 12px; padding: 24px; position: relative; overflow: hidden; }
+  .kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.7; }
+  .kpi.magenta { border-color: rgba(240,10,94,0.20); } .kpi.magenta::before { background: linear-gradient(90deg, transparent, var(--magenta), transparent); }
+  .kpi.green { border-color: rgba(176,218,9,0.20); } .kpi.green::before { background: linear-gradient(90deg, transparent, var(--green), transparent); }
+  .kpi.orange { border-color: rgba(249,148,0,0.20); } .kpi.orange::before { background: linear-gradient(90deg, transparent, var(--orange), transparent); }
+  .kpi .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 12px; }
+  .kpi .value { font-size: 44px; line-height: 1; font-weight: 700; letter-spacing: -0.03em; color: var(--fg-1); margin-bottom: 8px; }
+  .kpi.magenta .value { color: var(--magenta); } .kpi.green .value { color: var(--green); } .kpi.cyan .value { color: var(--cyan); } .kpi.orange .value { color: var(--orange); }
+  .kpi .sub { font-size: 12.5px; color: var(--fg-2); font-weight: 400; }
+
+  .badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px; border-radius: 999px; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid transparent; font-weight: 400; }
+  .badge .dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; box-shadow: 0 0 8px currentColor; animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: 0.4 } }
+  .badge-warn { color: var(--orange); border-color: rgba(249,148,0,0.3); background: rgba(249,148,0,0.06); }
+
+  /* ═══════ TABLES (BASE) ═══════ */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  thead th { text-align: left; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cyan); padding: 11px 14px; border-bottom: 1px solid var(--border-cyan); font-weight: 400; }
+  tbody td { padding: 11px 14px; border-bottom: 1px solid var(--fg-hair); color: var(--fg-2); font-weight: 400; vertical-align: top; }
+  td.num, th.num { text-align: right; font-family: var(--font-mono); font-weight: 400; color: var(--fg-1); }
+  td.tag-c { font-family: var(--font-mono); font-size: 12px; color: var(--cyan); }
+  td.tag-m { font-family: var(--font-mono); font-size: 12px; color: var(--magenta); }
+  td.tag-g { font-family: var(--font-mono); font-size: 12px; color: var(--green); }
+
+  /* ═══════ MARKERS & GLOW ═══════ */
+  .marker-cyan { background: linear-gradient(transparent 55%, var(--marker-cyan) 55%); padding: 0 2px; }
+  .marker-magenta { background: linear-gradient(transparent 55%, var(--marker-magenta) 55%); padding: 0 2px; }
+  .marker-green { background: linear-gradient(transparent 55%, var(--marker-green) 55%); padding: 0 2px; }
+  .marker-orange { background: linear-gradient(transparent 55%, var(--marker-orange) 55%); padding: 0 2px; }
+  .glow-magenta { color: var(--magenta); text-shadow: 0 0 18px rgba(240,10,94,0.5); }
+  .glow-green { color: var(--green); text-shadow: 0 0 18px rgba(176,218,9,0.5); }
+  .glow-orange { color: var(--orange); text-shadow: 0 0 18px rgba(249,148,0,0.5); }
+
+  /* ═══════ CALLOUTS / CHECKLIST / CLEAN ═══════ */
+  .callout { padding: 16px 22px; border-left: 3px solid var(--cyan); border-radius: 0 6px 6px 0; background: rgba(0,217,255,0.04); margin: 14px 0; font-size: 14.5px; color: var(--fg-2); }
+  .callout.green { border-left-color: var(--green); background: rgba(176,218,9,0.04); }
+  .callout.orange { border-left-color: var(--orange); background: rgba(249,148,0,0.04); }
+  .callout strong { color: var(--fg-1); }
+  .callout .lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cyan); }
+  .callout.green .lbl { color: var(--green); }
+  .callout.orange .lbl { color: var(--orange); }
+
+  .checklist { list-style: none; padding: 0; margin: 12px 0; }
+  .checklist li { font-weight: 400; color: var(--fg-2); font-size: 14.5px; padding: 9px 0 9px 32px; position: relative; line-height: 1.55; border-bottom: 1px solid var(--fg-hair); }
+  .checklist li::before { content: '☐'; position: absolute; left: 0; color: var(--orange); font-size: 18px; top: 7px; font-family: var(--font-mono); }
+  .checklist li strong { color: var(--fg-1); }
+
+  ul.clean { list-style: none; padding: 0; margin: 0; }
+  ul.clean li { font-weight: 400; color: var(--fg-2); font-size: 14.5px; padding: 6px 0 6px 22px; position: relative; line-height: 1.55; }
+  ul.clean li::before { content: '◆'; position: absolute; left: 0; color: var(--cyan); font-size: 10px; top: 11px; }
+  ul.clean li strong { color: var(--fg-1); }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     COMPONENTES ESPECÍFICOS DE PLAN DE MEDIOS
+     ═══════════════════════════════════════════════════════════════ */
+
+  /* market-stat */
+  .market-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 24px 0; }
+  .market-stat { background: rgba(255,255,255,0.02); border: 1px solid var(--border-cyan); border-radius: 12px; padding: 22px; }
+  .market-stat.green { border-color: rgba(176,218,9,0.20); }
+  .market-stat.magenta { border-color: rgba(240,10,94,0.20); }
+  .market-stat.orange { border-color: rgba(249,148,0,0.20); }
+  .market-stat .ms-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 10px; }
+  .market-stat .ms-value { font-size: 36px; line-height: 1; font-weight: 700; letter-spacing: -0.02em; color: var(--fg-1); margin-bottom: 6px; }
+  .market-stat.green .ms-value { color: var(--green); }
+  .market-stat.magenta .ms-value { color: var(--magenta); }
+  .market-stat.orange .ms-value { color: var(--orange); }
+  .market-stat .ms-sub { font-size: 13px; color: var(--fg-2); margin-bottom: 12px; }
+  .market-stat .ms-sub strong { color: var(--fg-1); }
+  .market-stat .ms-source { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.1em; color: var(--fg-3); text-transform: uppercase; padding-top: 10px; border-top: 1px dashed var(--border-hair); }
+
+  /* competitor-card */
+  .competitor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 20px 0; }
+  .competitor-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-hair); border-radius: 10px; padding: 18px 20px; }
+  .competitor-card .cc-head { display: flex; gap: 12px; align-items: center; margin-bottom: 14px; }
+  .competitor-card .cc-logo { width: 44px; height: 44px; border-radius: 8px; background: rgba(0,217,255,0.10); border: 1px solid rgba(0,217,255,0.25); display: flex; align-items: center; justify-content: center; font-family: var(--font-mono); font-size: 14px; color: var(--cyan); flex-shrink: 0; }
+  .competitor-card .cc-name { font-size: 16px; font-weight: 700; color: var(--fg-1); text-transform: uppercase; letter-spacing: 0.02em; }
+  .competitor-card .cc-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.12em; color: var(--fg-3); text-transform: uppercase; margin-top: 2px; }
+  .competitor-card .cc-stats { display: flex; flex-direction: column; gap: 6px; padding: 10px 0; border-top: 1px solid var(--fg-hair); border-bottom: 1px solid var(--fg-hair); margin-bottom: 10px; }
+  .competitor-card .cc-stats > div { display: flex; justify-content: space-between; font-size: 12.5px; }
+  .competitor-card .cc-stats .lbl { color: var(--fg-3); font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .competitor-card .cc-stats .val { color: var(--fg-1); font-family: var(--font-mono); font-weight: 400; }
+  .competitor-card .cc-msg { font-size: 12.5px; color: var(--fg-2); margin: 0; font-style: italic; }
+  .competitor-card .cc-msg::before { content: '"'; color: var(--cyan); font-weight: 700; margin-right: 2px; }
+  .competitor-card .cc-msg::after { content: '"'; color: var(--cyan); font-weight: 700; margin-left: 2px; }
+
+  /* audience-card */
+  .audience-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 24px 0; }
+  .audience-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-hair); border-radius: 12px; padding: 22px; position: relative; }
+  .audience-card.cluster-a { border-top: 2px solid var(--cyan); }
+  .audience-card.cluster-b { border-top: 2px solid var(--green); }
+  .audience-card.cluster-c { border-top: 2px solid var(--magenta); }
+  .audience-card .ac-avatar { font-size: 36px; line-height: 1; margin-bottom: 10px; }
+  .audience-card .ac-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 8px; }
+  .audience-card.cluster-b .ac-tag { color: var(--green); }
+  .audience-card.cluster-c .ac-tag { color: var(--magenta); }
+  .audience-card h4 { font-size: 14px; letter-spacing: 0.04em; margin-bottom: 12px; }
+
+  /* line-header (separador de línea de campaña) */
+  .line-header { display: flex; align-items: center; gap: 18px; padding: 14px 18px; background: rgba(255,255,255,0.025); border-radius: 8px; border-left: 3px solid var(--cyan); margin: 14px 0 8px; }
+  .line-header.magenta { border-left-color: var(--magenta); }
+  .line-header.green { border-left-color: var(--green); }
+  .line-header.orange { border-left-color: var(--orange); }
+  .line-header .lh-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); padding: 4px 10px; border: 1px solid rgba(0,217,255,0.25); border-radius: 999px; background: rgba(0,217,255,0.06); }
+  .line-header.magenta .lh-tag { color: var(--magenta); border-color: rgba(240,10,94,0.25); background: rgba(240,10,94,0.06); }
+  .line-header.green .lh-tag { color: var(--green); border-color: rgba(176,218,9,0.25); background: rgba(176,218,9,0.06); }
+  .line-header.orange .lh-tag { color: var(--orange); border-color: rgba(249,148,0,0.25); background: rgba(249,148,0,0.06); }
+  .line-header h3 { margin: 0; font-size: 18px; letter-spacing: 0.02em; }
+  .line-header .lh-budget { margin-left: auto; font-family: var(--font-mono); font-size: 13px; color: var(--fg-1); font-weight: 400; }
+  .line-header .lh-budget strong { color: var(--cyan); }
+  .line-header.magenta .lh-budget strong { color: var(--magenta); }
+  .line-header.green .lh-budget strong { color: var(--green); }
+  .line-header.orange .lh-budget strong { color: var(--orange); }
+
+  /* media-plan-table (9 columnas) */
+  .media-plan-table { font-size: 12.5px; margin: 0 0 18px; }
+  .media-plan-table thead th { padding: 9px 10px; font-size: 9.5px; letter-spacing: 0.12em; }
+  .media-plan-table tbody td { padding: 9px 10px; font-size: 12.5px; vertical-align: middle; }
+  .media-plan-table tfoot td { padding: 11px 10px; border-top: 1px solid var(--border-cyan); border-bottom: none; color: var(--fg-1); font-size: 12.5px; }
+  .media-plan-table tfoot strong { color: var(--cyan); }
+
+  /* bar inline en celdas % */
+  .bar { display: inline-block; width: 56px; height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; vertical-align: middle; margin-right: 8px; overflow: hidden; }
+  .bar-fill { display: block; height: 100%; background: var(--cyan); border-radius: 2px; }
+  .bar-fill.magenta { background: var(--magenta); }
+  .bar-fill.green { background: var(--green); }
+  .bar-fill.orange { background: var(--orange); }
+
+  /* funnel-mini pills */
+  .funnel-mini { display: inline-block; font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; font-weight: 400; }
+  .funnel-mini.tofu { color: var(--cyan); background: rgba(0,217,255,0.08); border: 1px solid rgba(0,217,255,0.25); }
+  .funnel-mini.mofu { color: var(--green); background: rgba(176,218,9,0.08); border: 1px solid rgba(176,218,9,0.25); }
+  .funnel-mini.bofu { color: var(--magenta); background: rgba(240,10,94,0.08); border: 1px solid rgba(240,10,94,0.25); }
+
+  /* seasonality chart */
+  .seasonality { display: grid; grid-template-columns: repeat(12, 1fr); gap: 8px; padding: 24px 0 8px; align-items: end; min-height: 180px; }
+  .seasonality .month { display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; }
+  .seasonality .bar-v { width: 100%; min-height: 6px; background: rgba(0,217,255,0.25); border-radius: 3px 3px 0 0; transition: height 200ms ease; }
+  .seasonality .month.hi .bar-v { background: var(--cyan); box-shadow: 0 0 12px rgba(0,217,255,0.4); }
+  .seasonality .month span { font-family: var(--font-mono); font-size: 9.5px; letter-spacing: 0.1em; color: var(--fg-3); text-transform: uppercase; }
+  .seasonality .month.hi span { color: var(--cyan); }
+
+  /* ═══════ NAVIGATION ═══════ */
+  .nav { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 14px; z-index: 50; padding: 8px 14px; background: rgba(20,20,26,0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); border: 1px solid var(--border-hair); border-radius: 999px; }
+  .nav button { background: transparent; border: 1px solid var(--border-hair); color: var(--fg-1); width: 36px; height: 36px; border-radius: 50%; font-family: var(--font-mono); font-size: 14px; cursor: pointer; transition: all 200ms ease; display: flex; align-items: center; justify-content: center; }
+  .nav button:hover:not(:disabled) { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 12px rgba(0,217,255,0.3); }
+  .nav button:disabled { opacity: 0.3; cursor: not-allowed; }
+  .nav .dots { display: flex; gap: 6px; }
+  .nav .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--fg-4); cursor: pointer; transition: all 200ms ease; }
+  .nav .dot:hover { background: var(--cyan); }
+  .nav .dot.active { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); transform: scale(1.4); }
+  .nav .counter { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; color: var(--fg-3); padding: 0 6px; }
+  .nav .counter .current { color: var(--cyan); }
+
+  /* ═══════ PDF BUTTON ═══════ */
+  .pdf-btn { position: fixed; top: 24px; right: 32px; z-index: 100; display: inline-flex; align-items: center; gap: 10px; padding: 12px 22px; border-radius: 999px; background: var(--magenta); color: #fff; font-family: var(--font-sans); font-weight: 700; font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; border: none; cursor: pointer; box-shadow: var(--glow-magenta-md); transition: transform 200ms ease, box-shadow 200ms ease; }
+  .pdf-btn:hover:not(:disabled) { transform: scale(1.04); box-shadow: 0 0 30px rgba(240,10,94,0.45), 0 0 60px rgba(240,10,94,0.2); }
+  .pdf-btn:disabled { opacity: 0.7; cursor: wait; }
+  .pdf-btn .icon { font-family: var(--font-mono); font-size: 13px; line-height: 1; }
+  .pdf-btn .spinner { width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ═══════ EXPORT MODE ═══════ */
+  body.exporting { overflow: visible; }
+  body.exporting .deck { position: static; width: 1600px; height: auto; overflow: visible; }
+  body.exporting .slide { position: relative; display: flex !important; width: 1600px; height: 900px; page-break-after: always; inset: auto; }
+  body.exporting .nav, body.exporting .pdf-btn { display: none !important; }
+
+  /* ═══════ RESPONSIVE ═══════ */
+  @media (max-width: 1100px) {
+    .slide { padding: 48px 32px 92px; }
+    .slide-inner { max-width: 100%; }
+    .kpi-grid, .market-grid, .competitor-grid, .audience-grid { grid-template-columns: 1fr; }
+    .two-col, .three-col { grid-template-columns: 1fr; }
+    .seasonality { grid-template-columns: repeat(6, 1fr); }
+    h1 { font-size: 44px; } h2 { font-size: 32px; }
+    .media-plan-table { font-size: 10.5px; }
+  }
+
+  /* ═══════ TRANSITIONS ═══════ */
+  .slide.active { opacity: 1; }
+  .slide.active.transitioning { animation: slideFade 280ms ease both; }
+  @keyframes slideFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<button id="pdf-btn" class="pdf-btn" type="button" aria-label="Descargar PDF">
+  <span class="icon">↓</span>
+  <span class="label">Descargar PDF</span>
+</button>
+
+<div class="deck" id="deck">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 01 — PORTADA
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="1">
+    <div class="brand-mark"><strong>ADGLOW</strong> · operado para {{Cliente}}</div>
+    <div class="slide-num"><span class="current">01</span> / 16</div>
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="badge badge-warn"><span class="dot"></span>Propuesta v1</span>
+        <span>plan de medios · <span class="glow-cyan">{{YYYY-MM-DD}}</span></span>
+      </div>
+      <h1>Plan de Medios<br><span class="accent">{{Vertical · País}}</span></h1>
+      <p class="lead" style="margin-top: 8px;">
+        Plan integral de paid media para <strong>{{Cliente}}</strong> en la vertical de <span class="marker-cyan">{{vertical, ej. apuestas deportivas online}}</span> en {{país}}, con <strong>{{N}} líneas de campaña</strong> y mix de <strong>{{N}} canales</strong> orientados a {{objetivo principal del cliente}}.
+      </p>
+      <div style="margin-top: 36px; display: flex; gap: 48px; flex-wrap: wrap;">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.25em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 8px;">Inversión total</div>
+          <div style="font-size: 36px; font-weight: 700; color: var(--green); text-shadow: 0 0 25px rgba(176,218,9,0.4);">USD ${{100.000}}</div>
+          <div style="font-size: 13px; color: var(--fg-3);">~${{MXN equivalent}}</div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.25em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 8px;">Duración</div>
+          <div style="font-size: 36px; font-weight: 700; color: var(--cyan); text-shadow: 0 0 25px rgba(0,217,255,0.4);">{{3 meses}}</div>
+          <div style="font-size: 13px; color: var(--fg-3);">{{Q1 2026 · ene-mar}}</div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.25em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 8px;">Canales</div>
+          <div style="font-size: 36px; font-weight: 700; color: var(--magenta); text-shadow: 0 0 25px rgba(240,10,94,0.4);">{{5}}</div>
+          <div style="font-size: 13px; color: var(--fg-3);">{{Meta · Google · TikTok · DV360 · Native}}</div>
+        </div>
+      </div>
+      <div style="margin-top: 60px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; color: var(--fg-3); text-transform: uppercase;">
+        <span>{{tag1}}</span> · <span>{{tag2}}</span> · <span style="color: var(--cyan);">{{tag destacado}}</span> · <span>{{tag4}}</span> · <span>{{tag5}}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 02 — RESUMEN EJECUTIVO
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="2">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">02</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">⬡ resumen ejecutivo</div>
+      <h2>Lo que vas a leer en este deck</h2>
+      <p class="lead">
+        Distribución de <strong>USD ${{100.000}}</strong> en {{N}} líneas de campaña a lo largo de {{N}} meses, con KPIs estimados de <span class="marker-green">{{X leads}}</span>, <span class="marker-cyan">{{Y impresiones}}</span> y <span class="marker-magenta">{{Z conversiones}}</span>.
+      </p>
+
+      <div class="kpi-grid" style="margin-top: 32px;">
+        <div class="kpi cyan">
+          <div class="label">Inversión total</div>
+          <div class="value">${{100K}}</div>
+          <div class="sub">USD · {{Q1 2026}}</div>
+        </div>
+        <div class="kpi green">
+          <div class="label">Líneas de campaña</div>
+          <div class="value">{{3}}</div>
+          <div class="sub">{{adquisición · reactivación · eventos}}</div>
+        </div>
+        <div class="kpi magenta">
+          <div class="label">KPI principal estimado</div>
+          <div class="value">{{20K}}</div>
+          <div class="sub">{{cuentas activas nuevas}}</div>
+        </div>
+        <div class="kpi orange">
+          <div class="label">Canales en mix</div>
+          <div class="value">{{5}}</div>
+          <div class="sub">{{Meta · Google · TikTok · DV360 · Native}}</div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <div class="lbl">TL;DR</div>
+        <p style="margin: 8px 0 0; color: var(--fg-1); font-size: 15.5px;">
+          {{Resumen en 2-3 frases del enfoque estratégico. Termina con la promesa medible: "Esperamos entregar X al final del periodo".}}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 03 — INVESTIGACIÓN DE MERCADO · tamaño + crecimiento
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="3">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">03</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">▣ 01 — investigación de mercado</div>
+      <h2>El mercado de <span class="glow-cyan">{{vertical}}</span> en {{país}}</h2>
+      <p class="lead">{{1-2 frases: contexto del mercado, por qué importa, hacia dónde va.}}</p>
+
+      <div class="market-grid">
+        <div class="market-stat">
+          <div class="ms-label">Tamaño mercado {{año}}</div>
+          <div class="ms-value">USD ${{X}}B</div>
+          <div class="ms-sub">{{contexto: GGR / GMV / spend / users}}</div>
+          <div class="ms-source">Fuente: {{Statista · ABTM · IAB}}</div>
+        </div>
+        <div class="market-stat green">
+          <div class="ms-label">CAGR proyectado</div>
+          <div class="ms-value">+{{14}}%</div>
+          <div class="ms-sub">{{año-año, periodo proyectado}}</div>
+          <div class="ms-source">Fuente: {{eMarketer · Insider Intelligence}}</div>
+        </div>
+        <div class="market-stat magenta">
+          <div class="ms-label">Penetración digital</div>
+          <div class="ms-value">{{38}}%</div>
+          <div class="ms-sub">{{del mercado total ya juega/compra online}}</div>
+          <div class="ms-source">Fuente: {{Statista}}</div>
+        </div>
+      </div>
+
+      <h3>Drivers de demanda</h3>
+      <ul class="clean">
+        <li><strong>{{Driver 1}}</strong> — {{evidencia + dato}}</li>
+        <li><strong>{{Driver 2}}</strong> — {{evidencia + dato}}</li>
+        <li><strong>{{Driver 3}}</strong> — {{evidencia + dato}}</li>
+        <li><strong>{{Driver 4}}</strong> — {{evidencia + dato}}</li>
+      </ul>
+    </div>
+    <div class="slide-source">Fuentes consolidadas: {{Statista · eMarketer · {{cámara local}} · {{regulador}}}}</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 04 — INVESTIGACIÓN DE MERCADO · regulación + estacionalidad
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="4">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">04</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">▣ 01 — mercado · contexto regulatorio</div>
+      <h2>Lo que la ley nos deja hacer</h2>
+
+      <div class="two-col" style="margin-top: 20px;">
+        <div>
+          <h3>Marco regulatorio</h3>
+          <p>{{1-2 frases sobre el regulador, ley aplicable y restricciones de publicidad.}}</p>
+          <ul class="clean">
+            <li><strong>Regulador:</strong> {{SEGOB, CNBV, COFEPRIS, etc.}}</li>
+            <li><strong>Ley aplicable:</strong> {{nombre + año}}</li>
+            <li><strong>Restricciones de pauta:</strong> {{nombrar 2-3}}</li>
+            <li><strong>Disclaimers obligatorios:</strong> {{ejemplos}}</li>
+          </ul>
+
+          <div class="callout orange" style="margin-top: 20px;">
+            <div class="lbl">requisito clave</div>
+            <p style="margin: 8px 0 0;">{{Restricción específica que afecta este plan, ej. Meta exige autorización para anunciar apuestas, Google solo permite operadores con licencia listada en SEGOB, etc.}}</p>
+          </div>
+        </div>
+
+        <div>
+          <h3>Estacionalidad del año</h3>
+          <p>{{Frase resumen: dónde están los picos.}}</p>
+
+          <div class="seasonality">
+            <div class="month"><div class="bar-v" style="height: 35%"></div><span>Ene</span></div>
+            <div class="month hi"><div class="bar-v" style="height: 70%"></div><span>Feb</span></div>
+            <div class="month"><div class="bar-v" style="height: 50%"></div><span>Mar</span></div>
+            <div class="month"><div class="bar-v" style="height: 45%"></div><span>Abr</span></div>
+            <div class="month hi"><div class="bar-v" style="height: 85%"></div><span>May</span></div>
+            <div class="month hi"><div class="bar-v" style="height: 95%"></div><span>Jun</span></div>
+            <div class="month"><div class="bar-v" style="height: 55%"></div><span>Jul</span></div>
+            <div class="month"><div class="bar-v" style="height: 60%"></div><span>Ago</span></div>
+            <div class="month"><div class="bar-v" style="height: 50%"></div><span>Sep</span></div>
+            <div class="month"><div class="bar-v" style="height: 55%"></div><span>Oct</span></div>
+            <div class="month hi"><div class="bar-v" style="height: 75%"></div><span>Nov</span></div>
+            <div class="month"><div class="bar-v" style="height: 65%"></div><span>Dic</span></div>
+          </div>
+
+          <ul class="clean" style="margin-top: 16px;">
+            <li><strong>{{Pico 1}}:</strong> {{fechas + razón}}</li>
+            <li><strong>{{Pico 2}}:</strong> {{fechas + razón}}</li>
+            <li><strong>{{Valle}}:</strong> {{fechas + razón}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="slide-source">Fuente regulatoria: {{documento oficial}} · Estacionalidad: Google Trends + datos de cliente</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 05 — COMPETIDORES · landscape
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="5">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">05</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">◊ 02 — investigación de competidores</div>
+      <h2>Contra quién competimos</h2>
+      <p class="lead">{{Frase resumen del landscape: cuántos jugadores, quién domina, qué hueco hay.}}</p>
+
+      <div class="competitor-grid">
+        <div class="competitor-card">
+          <div class="cc-head">
+            <div class="cc-logo">{{XX}}</div>
+            <div>
+              <div class="cc-name">{{Competidor 1}}</div>
+              <div class="cc-tag">{{Líder de mercado}}</div>
+            </div>
+          </div>
+          <div class="cc-stats">
+            <div><span class="lbl">Visitas/mes</span><span class="val">{{18.2M}}</span></div>
+            <div><span class="lbl">Share digital</span><span class="val">~{{38}}%</span></div>
+            <div><span class="lbl">Canales activos</span><span class="val">{{FB·IG·YT·TV}}</span></div>
+          </div>
+          <p class="cc-msg">{{Mensaje recurrente / claim principal}}</p>
+        </div>
+        <div class="competitor-card">
+          <div class="cc-head">
+            <div class="cc-logo">{{XX}}</div>
+            <div>
+              <div class="cc-name">{{Competidor 2}}</div>
+              <div class="cc-tag">{{Challenger}}</div>
+            </div>
+          </div>
+          <div class="cc-stats">
+            <div><span class="lbl">Visitas/mes</span><span class="val">{{X.XM}}</span></div>
+            <div><span class="lbl">Share digital</span><span class="val">~{{XX}}%</span></div>
+            <div><span class="lbl">Canales activos</span><span class="val">{{canales}}</span></div>
+          </div>
+          <p class="cc-msg">{{Mensaje recurrente}}</p>
+        </div>
+        <div class="competitor-card">
+          <div class="cc-head">
+            <div class="cc-logo">{{XX}}</div>
+            <div>
+              <div class="cc-name">{{Competidor 3}}</div>
+              <div class="cc-tag">{{Nicho / global}}</div>
+            </div>
+          </div>
+          <div class="cc-stats">
+            <div><span class="lbl">Visitas/mes</span><span class="val">{{X.XM}}</span></div>
+            <div><span class="lbl">Share digital</span><span class="val">~{{XX}}%</span></div>
+            <div><span class="lbl">Canales activos</span><span class="val">{{canales}}</span></div>
+          </div>
+          <p class="cc-msg">{{Mensaje recurrente}}</p>
+        </div>
+        <div class="competitor-card">
+          <div class="cc-head">
+            <div class="cc-logo">{{XX}}</div>
+            <div>
+              <div class="cc-name">{{Competidor 4}}</div>
+              <div class="cc-tag">{{Categoría}}</div>
+            </div>
+          </div>
+          <div class="cc-stats">
+            <div><span class="lbl">Visitas/mes</span><span class="val">{{X.XM}}</span></div>
+            <div><span class="lbl">Share digital</span><span class="val">~{{XX}}%</span></div>
+            <div><span class="lbl">Canales activos</span><span class="val">{{canales}}</span></div>
+          </div>
+          <p class="cc-msg">{{Mensaje recurrente}}</p>
+        </div>
+        <div class="competitor-card">
+          <div class="cc-head">
+            <div class="cc-logo">{{XX}}</div>
+            <div>
+              <div class="cc-name">{{Competidor 5}}</div>
+              <div class="cc-tag">{{Categoría}}</div>
+            </div>
+          </div>
+          <div class="cc-stats">
+            <div><span class="lbl">Visitas/mes</span><span class="val">{{X.XM}}</span></div>
+            <div><span class="lbl">Share digital</span><span class="val">~{{XX}}%</span></div>
+            <div><span class="lbl">Canales activos</span><span class="val">{{canales}}</span></div>
+          </div>
+          <p class="cc-msg">{{Mensaje recurrente}}</p>
+        </div>
+        <div class="competitor-card">
+          <div class="cc-head">
+            <div class="cc-logo">{{XX}}</div>
+            <div>
+              <div class="cc-name">{{Competidor 6}}</div>
+              <div class="cc-tag">{{Categoría}}</div>
+            </div>
+          </div>
+          <div class="cc-stats">
+            <div><span class="lbl">Visitas/mes</span><span class="val">{{X.XM}}</span></div>
+            <div><span class="lbl">Share digital</span><span class="val">~{{XX}}%</span></div>
+            <div><span class="lbl">Canales activos</span><span class="val">{{canales}}</span></div>
+          </div>
+          <p class="cc-msg">{{Mensaje recurrente}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-source">Fuente: Similarweb (visitas) · Pathmatics (spend estimado) · Meta Ad Library + Google Ads Transparency (creativos activos)</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 06 — COMPETIDORES · share of voice + insight
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="6">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">06</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">◊ 02 — competidores · share of voice</div>
+      <h2>Dónde están invirtiendo los competidores</h2>
+
+      <table style="margin-top: 24px;">
+        <thead>
+          <tr>
+            <th>Competidor</th>
+            <th>Inversión estimada/mes</th>
+            <th>Mix dominante</th>
+            <th class="num">% Meta</th>
+            <th class="num">% Google</th>
+            <th class="num">% Programmatic</th>
+            <th class="num">% Otros</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>{{Competidor 1}}</strong></td><td>USD ${{X}}M</td><td>{{Meta-heavy}}</td><td class="num">{{55}}%</td><td class="num">{{20}}%</td><td class="num">{{15}}%</td><td class="num">{{10}}%</td></tr>
+          <tr><td><strong>{{Competidor 2}}</strong></td><td>USD ${{X}}M</td><td>{{Search-heavy}}</td><td class="num">{{30}}%</td><td class="num">{{45}}%</td><td class="num">{{15}}%</td><td class="num">{{10}}%</td></tr>
+          <tr><td><strong>{{Competidor 3}}</strong></td><td>USD ${{X}}M</td><td>{{Mix}}</td><td class="num">{{35}}%</td><td class="num">{{30}}%</td><td class="num">{{20}}%</td><td class="num">{{15}}%</td></tr>
+          <tr><td><strong>{{Competidor 4}}</strong></td><td>USD ${{X}}M</td><td>{{TikTok-heavy}}</td><td class="num">{{25}}%</td><td class="num">{{15}}%</td><td class="num">{{10}}%</td><td class="num">{{50}}%</td></tr>
+        </tbody>
+      </table>
+
+      <div class="two-col" style="margin-top: 28px;">
+        <div class="callout green">
+          <div class="lbl">oportunidad</div>
+          <p style="margin: 8px 0 0;"><strong>{{Hueco identificado}}.</strong> {{Por qué este hueco existe y cómo lo aprovechamos.}}</p>
+        </div>
+        <div class="callout orange">
+          <div class="lbl">amenaza</div>
+          <p style="margin: 8px 0 0;"><strong>{{Riesgo principal}}.</strong> {{Por qué nos preocupa y cómo lo mitigamos.}}</p>
+        </div>
+      </div>
+    </div>
+    <div class="slide-source">Spend estimado: Pathmatics / SensorTower · Mix declarado por SEMrush + Similarweb Display Insights</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 07 — AUDIENCIA · perfil principal
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="7">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">07</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">◈ 03 — audiencia</div>
+      <h2>A quién le hablamos</h2>
+      <p class="lead">{{Perfil principal en 1-2 frases. Quién, cuántos, qué los mueve.}}</p>
+
+      <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
+        <div class="kpi cyan">
+          <div class="label">Universo total</div>
+          <div class="value">{{12.5M}}</div>
+          <div class="sub">{{en {{país}}, perfil objetivo}}</div>
+        </div>
+        <div class="kpi green">
+          <div class="label">Edad core</div>
+          <div class="value">{{25-44}}</div>
+          <div class="sub">{{representa 68% del universo}}</div>
+        </div>
+        <div class="kpi magenta">
+          <div class="label">Género dominante</div>
+          <div class="value">{{85% M}}</div>
+          <div class="sub">{{vs 15% F}}</div>
+        </div>
+        <div class="kpi orange">
+          <div class="label">NSE</div>
+          <div class="value">{{C+/C/D+}}</div>
+          <div class="sub">{{ingreso mensual MX ${{X-Y}}K}}</div>
+        </div>
+      </div>
+
+      <h3>Comportamiento y triggers</h3>
+      <ul class="clean">
+        <li><strong>Plataformas dominantes:</strong> {{FB · IG · TikTok · YT — % de uso semanal}}</li>
+        <li><strong>Devices:</strong> {{85% mobile-first · iOS XX% / Android XX%}}</li>
+        <li><strong>Triggers de decisión:</strong> {{eventos deportivos, ofertas, recomendación de pares}}</li>
+        <li><strong>Barreras:</strong> {{desconfianza en pago, fricción de KYC, percepción de legalidad}}</li>
+      </ul>
+    </div>
+    <div class="slide-source">Fuente: Statista Consumer Insights · {{Comscore / Kantar / encuesta cliente}}</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 08 — AUDIENCIA · clusters a activar
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="8">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">08</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">◈ 03 — audiencia · clusters</div>
+      <h2>3 clusters que activamos</h2>
+      <p class="lead">Segmentamos en tres clusters con tamaño, comportamiento y mensaje diferenciado. Cada cluster mapea a una línea de campaña.</p>
+
+      <div class="audience-grid">
+        <div class="audience-card cluster-a">
+          <div class="ac-avatar">👤</div>
+          <div class="ac-tag">Cluster A · Core</div>
+          <h4>{{Apostador frecuente Liga MX}}</h4>
+          <ul class="clean">
+            <li><strong>Edad:</strong> {{25-44}}</li>
+            <li><strong>Género:</strong> {{85% M / 15% F}}</li>
+            <li><strong>NSE:</strong> {{C+, C, D+}}</li>
+            <li><strong>Tamaño:</strong> {{4.2M}}</li>
+            <li><strong>Triggers:</strong> {{jornada Liga MX, UFC PPV, NFL}}</li>
+            <li><strong>Activación 1P:</strong> {{base CRM existente · LAL 1%}}</li>
+          </ul>
+        </div>
+        <div class="audience-card cluster-b">
+          <div class="ac-avatar">👥</div>
+          <div class="ac-tag">Cluster B · Crecimiento</div>
+          <h4>{{Curioso aspiracional}}</h4>
+          <ul class="clean">
+            <li><strong>Edad:</strong> {{21-34}}</li>
+            <li><strong>Género:</strong> {{70% M / 30% F}}</li>
+            <li><strong>NSE:</strong> {{C, D+, D}}</li>
+            <li><strong>Tamaño:</strong> {{6.8M}}</li>
+            <li><strong>Triggers:</strong> {{eventos masivos, primera apuesta con bono}}</li>
+            <li><strong>Activación:</strong> {{intereses Meta + búsqueda Google}}</li>
+          </ul>
+        </div>
+        <div class="audience-card cluster-c">
+          <div class="ac-avatar">⭐</div>
+          <div class="ac-tag">Cluster C · Premium</div>
+          <h4>{{High-roller eventos premium}}</h4>
+          <ul class="clean">
+            <li><strong>Edad:</strong> {{35-54}}</li>
+            <li><strong>Género:</strong> {{92% M / 8% F}}</li>
+            <li><strong>NSE:</strong> {{A/B, C+}}</li>
+            <li><strong>Tamaño:</strong> {{1.5M}}</li>
+            <li><strong>Triggers:</strong> {{eventos premium, NBA finals, UFC}}</li>
+            <li><strong>Activación:</strong> {{retargeting + LAL high-value}}</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="slide-source">Tamaño estimado: Meta Audience Insights + Google Audience Builder · Verificado contra base CRM cliente</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 09 — REQUERIMIENTOS TÉCNICOS · tracking
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="9">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">09</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">◇ 04 — requerimientos técnicos · tracking</div>
+      <h2>Lo que necesitamos medir</h2>
+      <p class="lead">Para que cada peso invertido se atribuya a su origen real, necesitamos esta capa de tracking <span class="marker-orange">funcionando antes del go-live</span>.</p>
+
+      <div class="two-col" style="margin-top: 24px;">
+        <div>
+          <h3>Pixels y SDKs</h3>
+          <ul class="clean">
+            <li><strong>Meta Pixel + CAPI</strong> en {{web/app}}, eventos de {{registro · depósito · primer juego}}</li>
+            <li><strong>Google Ads Conversion Tracking + Enhanced Conversions</strong></li>
+            <li><strong>TikTok Pixel + Events API</strong></li>
+            <li><strong>GA4 + Server-side GTM</strong> para attribution model unificado</li>
+            <li><strong>{{App SDK}}:</strong> AppsFlyer / Adjust si hay app</li>
+          </ul>
+
+          <h3 style="margin-top: 24px;">Eventos críticos</h3>
+          <ul class="clean">
+            <li><strong>{{Evento 1}}</strong> — {{descripción}}</li>
+            <li><strong>{{Evento 2}}</strong> — {{descripción}}</li>
+            <li><strong>{{Evento 3}}</strong> — {{descripción}}</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Tagging y UTMs</h3>
+          <ul class="clean">
+            <li><strong>Convención UTM unificada</strong> — <code>utm_source · utm_medium · utm_campaign · utm_content · utm_term</code></li>
+            <li><strong>Click IDs</strong> persistidos en cookie/localStorage 90 días: <code>fbclid · gclid · ttclid · gbraid · wbraid</code></li>
+            <li><strong>Naming convention</strong> de campañas: <code>{{cliente}}_{{linea}}_{{canal}}_{{audiencia}}_{{creatividad}}</code></li>
+          </ul>
+
+          <div class="callout orange" style="margin-top: 20px;">
+            <div class="lbl">deuda técnica conocida</div>
+            <p style="margin: 8px 0 0;">{{Hueco detectado en la auditoría, p.ej. "0% de events con gclid hoy — antes del go-live necesitamos el snippet de captura de click IDs en las landings".}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 10 — REQUERIMIENTOS TÉCNICOS · infra + accesos
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="10">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">10</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">◇ 04 — requerimientos técnicos · infra</div>
+      <h2>Infra y accesos</h2>
+
+      <div class="two-col" style="margin-top: 24px;">
+        <div>
+          <h3>Landing y formularios</h3>
+          <ul class="clean">
+            <li><strong>{{N}} landings dedicadas</strong> — una por línea de campaña + variantes A/B</li>
+            <li><strong>Velocidad:</strong> LCP &lt; 2.5s · CLS &lt; 0.1 · INP &lt; 200ms</li>
+            <li><strong>Mobile-first:</strong> 85% del tráfico será móvil</li>
+            <li><strong>Formularios cortos:</strong> 3-5 campos máx en lead capture</li>
+            <li><strong>Integración:</strong> {{CRM destino + webhook + email transaccional}}</li>
+          </ul>
+
+          <h3 style="margin-top: 24px;">Audiencias 1P</h3>
+          <ul class="clean">
+            <li><strong>Custom audiences</strong> de base CRM, hasheadas SHA-256</li>
+            <li><strong>Lookalikes</strong> al 1% sobre conversores high-value</li>
+            <li><strong>Exclusiones</strong> de baneados / cerrados / KYC-fail</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Accesos necesarios</h3>
+          <ul class="clean">
+            <li><strong>Meta Business Manager</strong> — admin / creador de campaña</li>
+            <li><strong>Google Ads</strong> — Standard access + link a GA4</li>
+            <li><strong>TikTok Ads Manager</strong> — Operator</li>
+            <li><strong>DV360 / TTD</strong> — Partner seat o managed service</li>
+            <li><strong>GTM container</strong> — editor</li>
+            <li><strong>CRM / data warehouse</strong> — solo lectura para sincronización</li>
+          </ul>
+
+          <div class="callout">
+            <div class="lbl">handoff</div>
+            <p style="margin: 8px 0 0;">El runbook técnico detallado se entrega como anexo (`docs/runbook-setup-paid-media.md`) con comandos exactos por plataforma.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 11 — ESTRATEGIA · roles por canal en el funnel
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="11">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">11</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">⌬ 05 — planteamiento estratégico</div>
+      <h2>Rol de cada canal en el funnel</h2>
+      <p class="lead">No todos los canales hacen lo mismo. Asignamos cada uno al lugar del funnel donde rinde mejor económicamente y donde el comportamiento del cluster lo justifica.</p>
+
+      <table style="margin-top: 24px;">
+        <thead>
+          <tr>
+            <th>Canal</th>
+            <th>Rol primario</th>
+            <th>Funnel</th>
+            <th>KPI principal</th>
+            <th>Cluster objetivo</th>
+            <th>Por qué este canal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tag-c"><strong>Meta</strong></td>
+            <td>Adquisición + retention</td>
+            <td><span class="funnel-mini mofu">MOFU</span> <span class="funnel-mini bofu">BOFU</span></td>
+            <td>CPL / CAC</td>
+            <td>A + B</td>
+            <td>{{Mayor escala de audiencias 1P + LAL · lift histórico en CAC}}</td>
+          </tr>
+          <tr>
+            <td class="tag-c"><strong>Google Search</strong></td>
+            <td>Demanda capturada</td>
+            <td><span class="funnel-mini bofu">BOFU</span></td>
+            <td>CPL / CAC</td>
+            <td>A + C</td>
+            <td>{{Intención explícita · CTR alto en keywords transaccionales}}</td>
+          </tr>
+          <tr>
+            <td class="tag-c"><strong>YouTube</strong></td>
+            <td>Awareness + consideración</td>
+            <td><span class="funnel-mini tofu">TOFU</span> <span class="funnel-mini mofu">MOFU</span></td>
+            <td>CPM / Reach</td>
+            <td>B</td>
+            <td>{{Audiencia core consume YT extensivamente · video largo}}</td>
+          </tr>
+          <tr>
+            <td class="tag-c"><strong>TikTok</strong></td>
+            <td>Adquisición jóvenes</td>
+            <td><span class="funnel-mini mofu">MOFU</span></td>
+            <td>CPC / CTR</td>
+            <td>B</td>
+            <td>{{Cluster B mayoritariamente en TikTok · creativo nativo}}</td>
+          </tr>
+          <tr>
+            <td class="tag-c"><strong>Programmatic (DV360)</strong></td>
+            <td>Branding + retargeting</td>
+            <td><span class="funnel-mini tofu">TOFU</span> <span class="funnel-mini bofu">BOFU</span></td>
+            <td>CPM / Reach</td>
+            <td>A + B + C</td>
+            <td>{{Inventario premium + control de PMP · retargeting cross-device}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 12 — ESTRATEGIA · flighting + bidding
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="12">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">12</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">⌬ 05 — estrategia · flighting + bidding</div>
+      <h2>Cómo modulamos el gasto</h2>
+
+      <div class="two-col" style="margin-top: 24px;">
+        <div>
+          <h3>Flighting por mes</h3>
+          <p>{{Frase: por qué subimos/bajamos por mes según estacionalidad declarada.}}</p>
+
+          <div class="seasonality" style="grid-template-columns: repeat(6, 1fr); min-height: 140px;">
+            <div class="month"><div class="bar-v" style="height: 60%"></div><span>{{M1}}</span></div>
+            <div class="month hi"><div class="bar-v" style="height: 95%"></div><span>{{M2}}</span></div>
+            <div class="month"><div class="bar-v" style="height: 75%"></div><span>{{M3}}</span></div>
+            <div class="month"><div class="bar-v" style="height: 80%"></div><span>{{M4}}</span></div>
+            <div class="month hi"><div class="bar-v" style="height: 100%"></div><span>{{M5}}</span></div>
+            <div class="month"><div class="bar-v" style="height: 70%"></div><span>{{M6}}</span></div>
+          </div>
+
+          <ul class="clean" style="margin-top: 14px;">
+            <li><strong>Pico {{M2}}:</strong> +{{30}}% por {{evento estacional}}</li>
+            <li><strong>Pico {{M5}}:</strong> +{{40}}% por {{evento estacional}}</li>
+            <li><strong>Base mensual:</strong> USD ${{X}}</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Bidding strategy por canal</h3>
+          <table>
+            <thead>
+              <tr><th>Canal</th><th>Estrategia</th><th>Target</th></tr>
+            </thead>
+            <tbody>
+              <tr><td class="tag-c">Meta</td><td>Lowest cost · CAPI events</td><td>CPL ≤ ${{4,5}}</td></tr>
+              <tr><td class="tag-c">Google Search</td><td>Maximize conv · tCPA</td><td>tCPA ${{3,8}}</td></tr>
+              <tr><td class="tag-c">YouTube</td><td>Maximum reach · frecuencia 3-5</td><td>CPM ≤ ${{3,5}}</td></tr>
+              <tr><td class="tag-c">TikTok</td><td>Lowest cost · clicks</td><td>CPC ≤ ${{0,30}}</td></tr>
+              <tr><td class="tag-c">DV360</td><td>PMP + RTB · viewability ≥ 70%</td><td>vCPM ≤ ${{4,0}}</td></tr>
+            </tbody>
+          </table>
+
+          <div class="callout green" style="margin-top: 14px;">
+            <div class="lbl">aprendizaje</div>
+            <p style="margin: 8px 0 0;">Los primeros {{14 días}} dejamos las campañas en learning phase sin intervención. Después, optimización semanal con regla 2x target = pausa.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 13 — PLAN DE MEDIOS · LÍNEA 01 · ADQUISICIÓN
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="13">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">13</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">▰ 06 — plan de medios · línea 01</div>
+      <h2>Adquisición de cuentas nuevas</h2>
+
+      <div class="line-header">
+        <span class="lh-tag">Línea 01</span>
+        <h3>Adquisición · Cluster A + B</h3>
+        <div class="lh-budget">USD <strong>${{60.000}}</strong> · {{60,0}}%</div>
+      </div>
+
+      <table class="media-plan-table">
+        <thead>
+          <tr>
+            <th>Canal</th>
+            <th>Objetivo</th>
+            <th>Funnel</th>
+            <th>KPI</th>
+            <th>Audiencia</th>
+            <th class="num">Costo KPI</th>
+            <th class="num">Inversión</th>
+            <th class="num">% inv</th>
+            <th class="num">KPI estimado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tag-c"><strong>Meta</strong></td>
+            <td>Leads</td>
+            <td><span class="funnel-mini bofu">BOFU</span></td>
+            <td>CPL</td>
+            <td>LAL 1% conversores · Cluster A</td>
+            <td class="num">${{4,50}}</td>
+            <td class="num">${{25.000}}</td>
+            <td class="num"><span class="bar"><span class="bar-fill" style="width:25%"></span></span> {{25,0}}%</td>
+            <td class="num">{{5.555}}</td>
+          </tr>
+          <tr>
+            <td class="tag-c"><strong>Google Search</strong></td>
+            <td>Conversiones</td>
+            <td><span class="funnel-mini bofu">BOFU</span></td>
+            <td>CPL</td>
+            <td>Keywords transaccionales · Cluster A</td>
+            <td class="num">${{3,80}}</td>
+            <td class="num">${{15.000}}</td>
+            <td class="num"><span class="bar"><span class="bar-fill" style="width:15%"></span></span> {{15,0}}%</td>
+            <td class="num">{{3.947}}</td>
+          </tr>
+          <tr>
+            <td class="tag-c"><strong>TikTok</strong></td>
+            <td>Tráfico</td>
+            <td><span class="funnel-mini mofu">MOFU</span></td>
+            <td>CPC</td>
+            <td>Intereses deportes · Cluster B</td>
+            <td class="num">${{0,28}}</td>
+            <td class="num">${{12.000}}</td>
+            <td class="num"><span class="bar"><span class="bar-fill" style="width:12%"></span></span> {{12,0}}%</td>
+            <td class="num">{{42.857}} clics</td>
+          </tr>
+          <tr>
+            <td class="tag-c"><strong>YouTube</strong></td>
+            <td>Awareness</td>
+            <td><span class="funnel-mini tofu">TOFU</span></td>
+            <td>CPM</td>
+            <td>Affinity deportes + LAL · Cluster B</td>
+            <td class="num">${{3,20}}</td>
+            <td class="num">${{8.000}}</td>
+            <td class="num"><span class="bar"><span class="bar-fill" style="width:8%"></span></span> {{8,0}}%</td>
+            <td class="num">{{2.5M impr}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6"><strong>Subtotal línea 01 — Adquisición</strong></td>
+            <td class="num"><strong>${{60.000}}</strong></td>
+            <td class="num"><strong>{{60,0}}%</strong></td>
+            <td class="num"><strong>{{~9.500 leads + 42.9k clics + 2.5M impr}}</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <p style="font-size: 13px; color: var(--fg-3); margin-top: 8px;">Mínimo de aprendizaje verificado por canal · costos KPI desde benchmark Colombia/México Q4 2025</p>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 14 — PLAN DE MEDIOS · LÍNEA 02 · REACTIVACIÓN
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="14">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">14</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">▰ 06 — plan de medios · línea 02</div>
+      <h2>Reactivación de usuarios inactivos</h2>
+
+      <div class="line-header green">
+        <span class="lh-tag">Línea 02</span>
+        <h3>Reactivación · Custom audiences {{30-90d}}</h3>
+        <div class="lh-budget">USD <strong>${{25.000}}</strong> · {{25,0}}%</div>
+      </div>
+
+      <table class="media-plan-table">
+        <thead>
+          <tr>
+            <th>Canal</th>
+            <th>Objetivo</th>
+            <th>Funnel</th>
+            <th>KPI</th>
+            <th>Audiencia</th>
+            <th class="num">Costo KPI</th>
+            <th class="num">Inversión</th>
+            <th class="num">% inv</th>
+            <th class="num">KPI estimado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tag-g"><strong>Meta</strong></td>
+            <td>Reactivaciones</td>
+            <td><span class="funnel-mini bofu">BOFU</span></td>
+            <td>CPA</td>
+            <td>Custom audience · usuarios 30-90d inactivos</td>
+            <td class="num">${{6,50}}</td>
+            <td class="num">${{12.000}}</td>
+            <td class="num"><span class="bar"><span class="bar-fill green" style="width:12%"></span></span> {{12,0}}%</td>
+            <td class="num">{{1.846}}</td>
+          </tr>
+          <tr>
+            <td class="tag-g"><strong>DV360 retargeting</strong></td>
+            <td>Reactivaciones</td>
+            <td><span class="funnel-mini bofu">BOFU</span></td>
+            <td>CPA</td>
+            <td>Pixel audience · cross-device</td>
+            <td class="num">${{7,80}}</td>
+            <td class="num">${{8.000}}</td>
+            <td class="num"><span class="bar"><span class="bar-fill green" style="width:8%"></span></span> {{8,0}}%</td>
+            <td class="num">{{1.025}}</td>
+          </tr>
+          <tr>
+            <td class="tag-g"><strong>Native (Outbrain)</strong></td>
+            <td>Tráfico calificado</td>
+            <td><span class="funnel-mini mofu">MOFU</span></td>
+            <td>CPC</td>
+            <td>Contextual deportes · custom segments</td>
+            <td class="num">${{0,40}}</td>
+            <td class="num">${{5.000}}</td>
+            <td class="num"><span class="bar"><span class="bar-fill green" style="width:5%"></span></span> {{5,0}}%</td>
+            <td class="num">{{12.500}} clics</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6"><strong>Subtotal línea 02 — Reactivación</strong></td>
+            <td class="num"><strong>${{25.000}}</strong></td>
+            <td class="num"><strong>{{25,0}}%</strong></td>
+            <td class="num"><strong>{{~2.870 reactivaciones + 12.5k clics}}</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 15 — PLAN DE MEDIOS · LÍNEA 03 · EVENTOS / ESTACIONAL
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="15">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">15</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">▰ 06 — plan de medios · línea 03</div>
+      <h2>Eventos estacionales</h2>
+
+      <div class="line-header magenta">
+        <span class="lh-tag">Línea 03</span>
+        <h3>Eventos · {{Liguilla Liga MX + Mundial + UFC PPV}}</h3>
+        <div class="lh-budget">USD <strong>${{15.000}}</strong> · {{15,0}}%</div>
+      </div>
+
+      <table class="media-plan-table">
+        <thead>
+          <tr>
+            <th>Canal</th>
+            <th>Objetivo</th>
+            <th>Funnel</th>
+            <th>KPI</th>
+            <th>Audiencia</th>
+            <th class="num">Costo KPI</th>
+            <th class="num">Inversión</th>
+            <th class="num">% inv</th>
+            <th class="num">KPI estimado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tag-m"><strong>Meta</strong></td>
+            <td>Conversiones evento</td>
+            <td><span class="funnel-mini bofu">BOFU</span></td>
+            <td>CPL</td>
+            <td>Custom audience · LAL conversores Cluster C</td>
+            <td class="num">${{5,00}}</td>
+            <td class="num">${{7.000}}</td>
+            <td class="num"><span class="bar"><span class="bar-fill magenta" style="width:7%"></span></span> {{7,0}}%</td>
+            <td class="num">{{1.400}}</td>
+          </tr>
+          <tr>
+            <td class="tag-m"><strong>YouTube</strong></td>
+            <td>Awareness evento</td>
+            <td><span class="funnel-mini tofu">TOFU</span></td>
+            <td>CPM</td>
+            <td>Affinity Liga MX + UFC</td>
+            <td class="num">${{3,50}}</td>
+            <td class="num">${{5.000}}</td>
+            <td class="num"><span class="bar"><span class="bar-fill magenta" style="width:5%"></span></span> {{5,0}}%</td>
+            <td class="num">{{1.4M impr}}</td>
+          </tr>
+          <tr>
+            <td class="tag-m"><strong>DV360 PMP deportes</strong></td>
+            <td>Reach premium</td>
+            <td><span class="funnel-mini tofu">TOFU</span></td>
+            <td>vCPM</td>
+            <td>Inventario deportes · PMP curado</td>
+            <td class="num">${{4,00}}</td>
+            <td class="num">${{3.000}}</td>
+            <td class="num"><span class="bar"><span class="bar-fill magenta" style="width:3%"></span></span> {{3,0}}%</td>
+            <td class="num">{{750k impr}}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="6"><strong>Subtotal línea 03 — Eventos</strong></td>
+            <td class="num"><strong>${{15.000}}</strong></td>
+            <td class="num"><strong>{{15,0}}%</strong></td>
+            <td class="num"><strong>{{~1.400 leads + 2.15M impr}}</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="callout orange" style="margin-top: 18px;">
+        <div class="lbl">activación condicionada</div>
+        <p style="margin: 8px 0 0;">Esta línea se enciende {{72 hrs antes del evento}} y se apaga {{24 hrs después}}. El budget está pre-aprobado pero solo se ejecuta si el evento sucede en el periodo del plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 16 — RESUMEN TOTAL + PENDIENTES
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="16">
+    <div class="brand-mark"><strong>ADGLOW</strong> · plan de medios · {{Cliente}}</div>
+    <div class="slide-num"><span class="current">16</span> / 16</div>
+    <div class="slide-inner">
+      <div class="section-label">◇ resumen total + pendientes</div>
+      <h2>Resumen del plan</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Línea de campaña</th>
+            <th class="num">Inversión USD</th>
+            <th class="num">% del total</th>
+            <th>KPI principal estimado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td class="tag-c"><strong>01 · Adquisición</strong></td><td class="num">${{60.000}}</td><td class="num">{{60,0}}%</td><td>{{~9.500 leads}}</td></tr>
+          <tr><td class="tag-g"><strong>02 · Reactivación</strong></td><td class="num">${{25.000}}</td><td class="num">{{25,0}}%</td><td>{{~2.870 reactivaciones}}</td></tr>
+          <tr><td class="tag-m"><strong>03 · Eventos</strong></td><td class="num">${{15.000}}</td><td class="num">{{15,0}}%</td><td>{{~1.400 leads + 2.15M impr}}</td></tr>
+        </tbody>
+        <tfoot>
+          <tr style="border-top: 2px solid var(--cyan);">
+            <td><strong>Total</strong></td>
+            <td class="num"><strong style="color: var(--cyan);">${{100.000}}</strong></td>
+            <td class="num"><strong style="color: var(--cyan);">100,0%</strong></td>
+            <td><strong>{{~13.770 leads + reactivaciones + reach}}</strong></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <h3 style="margin-top: 32px;">Antes del go-live · checklist {{Cliente}}</h3>
+      <ul class="checklist">
+        <li><strong>Aprobación del presupuesto</strong> · USD ${{100.000}} y método de facturación</li>
+        <li><strong>Accesos a plataformas</strong> entregados (Meta BM, Google Ads, TikTok, DV360, GTM, CRM)</li>
+        <li><strong>Tracking verificado</strong> end-to-end · pixels + CAPI + UTMs en landings</li>
+        <li><strong>Bases CRM hasheadas y cargadas</strong> con consent log firmado (legal)</li>
+        <li><strong>Landings con políticas legales públicas</strong> y disclaimers regulatorios</li>
+        <li><strong>Contacto técnico</strong> en {{Cliente}} para resolución de fallas durante flight</li>
+        <li><strong>Pre-aprobación de pausas estacionales</strong> y reglas de optimización</li>
+      </ul>
+
+      <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-hair); display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; color: var(--fg-3); text-transform: uppercase;">
+        <div>Adglow · operado para {{Cliente}} · plan de medios v1 · {{YYYY-MM-DD}}</div>
+        <div>People <span style="color: var(--cyan);">powered</span> · Data <span style="color: var(--cyan);">smart</span> · Growth <span style="color: var(--cyan);">focused</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<div class="nav" id="nav">
+  <button id="prev" type="button" aria-label="Anterior">‹</button>
+  <div class="dots" id="dots"></div>
+  <div class="counter"><span class="current" id="counter-cur">01</span> / <span id="counter-tot">16</span></div>
+  <button id="next" type="button" aria-label="Siguiente">›</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let current = 0;
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const dotsWrap = document.getElementById('dots');
+  const counterCur = document.getElementById('counter-cur');
+  const counterTot = document.getElementById('counter-tot');
+  counterTot.textContent = String(total).padStart(2, '0');
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('span');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.dataset.idx = i;
+    d.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.querySelectorAll('.dot'));
+
+  let isFirstLoad = true;
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    slides[current].classList.remove('active', 'transitioning');
+    dots[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    if (!isFirstLoad) {
+      slides[current].classList.add('transitioning');
+      setTimeout(() => slides[current].classList.remove('transitioning'), 320);
+    }
+    isFirstLoad = false;
+    dots[current].classList.add('active');
+    counterCur.textContent = String(current + 1).padStart(2, '0');
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+  }
+  goTo(0);
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); goTo(current + 1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); goTo(current - 1); }
+    else if (e.key === 'Home') { goTo(0); }
+    else if (e.key === 'End') { goTo(total - 1); }
+  });
+
+  const pdfBtn = document.getElementById('pdf-btn');
+  const labelEl = pdfBtn.querySelector('.label');
+  const iconEl = pdfBtn.querySelector('.icon');
+  pdfBtn.addEventListener('click', async () => {
+    pdfBtn.disabled = true;
+    const origLabel = labelEl.textContent;
+    iconEl.outerHTML = '<span class="spinner"></span>';
+    labelEl.textContent = 'Generando…';
+    document.body.classList.add('exporting');
+    const prevActive = current;
+    try {
+      if (document.fonts && document.fonts.ready) { await document.fonts.ready; }
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({ unit: 'mm', format: [254, 142.875], orientation: 'landscape', compress: true });
+      for (let i = 0; i < slides.length; i++) {
+        labelEl.textContent = `Slide ${i + 1}/${total}…`;
+        const slide = slides[i];
+        const canvas = await html2canvas(slide, { scale: 1.5, backgroundColor: '#0b0b10', useCORS: true, logging: false, width: 1600, height: 900, windowWidth: 1600, windowHeight: 900 });
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        const imgData = canvas.toDataURL('image/jpeg', 0.92);
+        if (i > 0) pdf.addPage([254, 142.875], 'landscape');
+        pdf.addImage(imgData, 'JPEG', 0, 0, pageW, pageH);
+      }
+      pdf.save('Plan-de-Medios-{{Cliente}}-v1.pdf');
+    } catch (err) {
+      console.error('PDF export failed:', err);
+      alert('No se pudo generar el PDF: ' + err.message);
+    } finally {
+      document.body.classList.remove('exporting');
+      goTo(prevActive);
+      pdfBtn.innerHTML = '<span class="icon">↓</span><span class="label">' + origLabel + '</span>';
+      pdfBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,645 @@
+<!doctype html>
+<!--
+  ═══════════════════════════════════════════════════════════════════
+  ADGLOW SLIDE DECK TEMPLATE — 1600×900 · 14 slides · PDF export
+  ───────────────────────────────────────────────────────────────────
+  CÓMO USAR:
+  1. Reemplaza el <title>, brand-mark, eyebrow y h1 de cada slide.
+  2. Duplica el bloque <section class="slide"> tantas veces como
+     necesites y actualiza data-slide y slide-num.
+  3. Mantén la nav, el botón PDF y el script tal cual.
+  4. Ver references/methodology.md para la estructura argumental.
+  5. Ver references/components-catalogue.md para componentes
+     adicionales (cards, hypothesis, timeline, specs, etc.).
+  ═══════════════════════════════════════════════════════════════════
+-->
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{Título del deck}} · v1 · {{YYYY-MM-DD}}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=IBM+Plex+Mono:wght@400;500;700&display=swap');
+
+  :root {
+    --ink: #0b0b10;
+    --ink-elev: #14141a;
+    --fg-1: rgba(255,255,255,1);
+    --fg-2: rgba(255,255,255,0.60);
+    --fg-3: rgba(255,255,255,0.40);
+    --fg-4: rgba(255,255,255,0.25);
+    --fg-hair: rgba(255,255,255,0.05);
+
+    --magenta: #F00A5E;
+    --green:   #B0DA09;
+    --cyan:    #00D9FF;
+    --orange:  #F99400;
+    --purple:  #B80090;
+
+    --border-hair: rgba(255,255,255,0.06);
+    --border-cyan: rgba(0,217,255,0.15);
+
+    --marker-cyan:    rgba(0,217,255,0.18);
+    --marker-magenta: rgba(240,10,94,0.18);
+    --marker-green:   rgba(176,218,9,0.22);
+    --marker-orange:  rgba(249,148,0,0.18);
+
+    --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, Menlo, monospace;
+
+    --glow-cyan-md:    0 0 25px rgba(0,217,255,0.30), 0 0 50px rgba(0,217,255,0.15);
+    --glow-magenta-md: 0 0 25px rgba(240,10,94,0.30), 0 0 50px rgba(240,10,94,0.15);
+    --glow-green-md:   0 0 25px rgba(176,218,9,0.30), 0 0 50px rgba(176,218,9,0.15);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+
+  body {
+    background: var(--ink);
+    color: var(--fg-1);
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      linear-gradient(rgba(0,217,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,217,255,0.025) 1px, transparent 1px);
+    background-size: 48px 48px;
+    overflow: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg, transparent 0, transparent 3px,
+      rgba(255,255,255,0.012) 3px, rgba(255,255,255,0.012) 4px);
+    z-index: 1;
+  }
+
+  /* ═══════════ DECK & SLIDES ═══════════ */
+  .deck { position: relative; width: 100vw; height: 100vh; overflow: hidden; z-index: 2; }
+  .slide {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    padding: 64px 56px 92px;
+    display: none; flex-direction: column; overflow-y: auto;
+  }
+  .slide.active { display: flex; }
+  .slide-inner {
+    max-width: 1520px; margin: 0 auto; width: 100%;
+    flex: 1; display: flex; flex-direction: column; justify-content: center;
+  }
+  .slide-num {
+    position: absolute; top: 28px; right: 32px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em;
+    color: var(--fg-3); text-transform: uppercase;
+  }
+  .slide-num .current { color: var(--cyan); }
+  .brand-mark {
+    position: absolute; top: 28px; left: 32px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.2em;
+    color: var(--fg-3); text-transform: uppercase;
+  }
+  .brand-mark strong { color: var(--cyan); font-weight: 400; }
+
+  /* ═══════════ TYPOGRAPHY ═══════════ */
+  .eyebrow {
+    font-family: var(--font-mono); font-weight: 400; font-size: 11px;
+    letter-spacing: 0.25em; text-transform: uppercase; color: var(--fg-3);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .glow-cyan { color: var(--cyan); text-shadow: 0 0 12px rgba(0,217,255,0.5); }
+  h1 {
+    font-size: clamp(48px, 6vw, 96px); line-height: 0.95; letter-spacing: -0.02em;
+    text-transform: uppercase; margin: 0 0 24px; font-weight: 700;
+  }
+  h1 .accent { color: var(--cyan); text-shadow: 0 0 25px rgba(0,217,255,0.4); }
+  h2 {
+    font-size: clamp(36px, 4vw, 60px); line-height: 1.02; letter-spacing: -0.02em;
+    text-transform: uppercase; margin: 0 0 16px; font-weight: 700;
+  }
+  h3 { font-size: 22px; line-height: 1.2; text-transform: uppercase; margin: 24px 0 12px; font-weight: 700; color: var(--fg-1); }
+  h4 { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; margin: 0 0 8px; font-weight: 700; color: var(--fg-1); }
+  p { font-weight: 400; color: var(--fg-2); line-height: 1.6; margin: 0 0 14px; font-size: 16px; }
+  p.lead { font-size: 19px; max-width: 900px; }
+  p strong { color: var(--fg-1); font-weight: 700; }
+  code {
+    font-family: var(--font-mono); font-size: 0.85em; color: var(--cyan);
+    background: rgba(0,217,255,0.07); padding: 1px 6px; border-radius: 3px;
+    border: 1px solid rgba(0,217,255,0.15); font-weight: 400;
+  }
+
+  .section-label {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.3em;
+    color: var(--cyan); text-transform: uppercase; padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,217,255,0.20); margin-bottom: 24px;
+    display: inline-block; padding-right: 40px;
+  }
+
+  /* ═══════════ KPI CARDS ═══════════ */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin: 28px 0; }
+  .kpi {
+    background: rgba(255,255,255,0.02); border: 1px solid var(--border-cyan);
+    border-radius: 12px; padding: 24px; position: relative; overflow: hidden;
+  }
+  .kpi::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent); opacity: 0.7;
+  }
+  .kpi.magenta { border-color: rgba(240,10,94,0.20); }
+  .kpi.magenta::before { background: linear-gradient(90deg, transparent, var(--magenta), transparent); }
+  .kpi.green { border-color: rgba(176,218,9,0.20); }
+  .kpi.green::before { background: linear-gradient(90deg, transparent, var(--green), transparent); }
+  .kpi.orange { border-color: rgba(249,148,0,0.20); }
+  .kpi.orange::before { background: linear-gradient(90deg, transparent, var(--orange), transparent); }
+  .kpi .label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 12px; }
+  .kpi .value { font-size: 44px; line-height: 1; font-weight: 700; letter-spacing: -0.03em; color: var(--fg-1); margin-bottom: 8px; }
+  .kpi.magenta .value { color: var(--magenta); }
+  .kpi.green .value { color: var(--green); }
+  .kpi.cyan .value { color: var(--cyan); }
+  .kpi.orange .value { color: var(--orange); }
+  .kpi .sub { font-size: 12.5px; color: var(--fg-2); font-weight: 400; }
+
+  /* ═══════════ BADGES ═══════════ */
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px;
+    border-radius: 999px; font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase; border: 1px solid transparent; font-weight: 400;
+  }
+  .badge .dot { width: 6px; height: 6px; border-radius: 999px; background: currentColor; box-shadow: 0 0 8px currentColor; animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: 0.4 } }
+  .badge-warn { color: var(--orange); border-color: rgba(249,148,0,0.3); background: rgba(249,148,0,0.06); }
+  .badge-live { color: var(--cyan); border-color: rgba(0,217,255,0.3); background: rgba(0,217,255,0.06); }
+  .badge-ok   { color: var(--green); border-color: rgba(176,218,9,0.3); background: rgba(176,218,9,0.06); }
+  .badge-crit { color: var(--magenta); border-color: rgba(240,10,94,0.3); background: rgba(240,10,94,0.06); }
+
+  /* ═══════════ CARDS ═══════════ */
+  .card { border-left: 3px solid; background: rgba(255,255,255,0.02); padding: 22px 26px; border-radius: 0 8px 8px 0; }
+  .card.cyan    { border-color: var(--cyan); }
+  .card.magenta { border-color: var(--magenta); }
+  .card.green   { border-color: var(--green); }
+  .card.orange  { border-color: var(--orange); }
+  .card .head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .card .tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; font-weight: 400; }
+  .card.cyan .tag    { color: var(--cyan);    background: rgba(0,217,255,0.08); border: 1px solid rgba(0,217,255,0.25); }
+  .card.magenta .tag { color: var(--magenta); background: rgba(240,10,94,0.08); border: 1px solid rgba(240,10,94,0.25); }
+  .card.green .tag   { color: var(--green);   background: rgba(176,218,9,0.08); border: 1px solid rgba(176,218,9,0.25); }
+  .card.orange .tag  { color: var(--orange);  background: rgba(249,148,0,0.08); border: 1px solid rgba(249,148,0,0.25); }
+  .card .title { font-weight: 700; font-size: 17px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--fg-1); }
+  .card p { margin: 0 0 8px; font-size: 14.5px; }
+  .card p:last-child { margin-bottom: 0; }
+  .card .obj-kpi { margin-top: 14px; padding-top: 12px; border-top: 1px dashed var(--border-hair); font-family: var(--font-mono); font-size: 12px; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.12em; }
+  .card .obj-kpi strong { color: var(--fg-1); }
+
+  /* ═══════════ TABLES ═══════════ */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14.5px; }
+  thead th { text-align: left; font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cyan); padding: 11px 14px; border-bottom: 1px solid var(--border-cyan); font-weight: 400; }
+  tbody td { padding: 11px 14px; border-bottom: 1px solid var(--fg-hair); color: var(--fg-2); font-weight: 400; vertical-align: top; }
+  td.num, th.num { text-align: right; font-family: var(--font-mono); font-weight: 400; color: var(--fg-1); }
+  td.tag-c { font-family: var(--font-mono); font-size: 12px; color: var(--cyan); }
+  td.tag-m { font-family: var(--font-mono); font-size: 12px; color: var(--magenta); }
+  td.tag-g { font-family: var(--font-mono); font-size: 12px; color: var(--green); }
+  td .ok { color: var(--green); }
+  td .warn { color: var(--orange); }
+  td .crit { color: var(--magenta); }
+  tbody td strong { color: var(--fg-1); }
+
+  /* ═══════════ TIMELINE ═══════════ */
+  .timeline { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; margin: 24px 0; }
+  .timeline .phase { background: rgba(255,255,255,0.02); border: 1px solid var(--border-hair); border-top: 2px solid var(--cyan); border-radius: 0 0 8px 8px; padding: 18px; }
+  .timeline .phase .num { font-family: var(--font-mono); font-size: 10px; color: var(--cyan); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 8px; }
+  .timeline .phase .title { font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 6px; color: var(--fg-1); letter-spacing: 0.02em; }
+  .timeline .phase .days { font-family: var(--font-mono); font-size: 13px; color: var(--orange); margin-bottom: 8px; }
+  .timeline .phase p { font-size: 12.5px; margin: 0; line-height: 1.5; }
+
+  /* ═══════════ SPECS ═══════════ */
+  .specs-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 20px 0; }
+  .spec-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border-hair); border-radius: 8px; padding: 22px; }
+  .spec-card h4 { color: var(--cyan); margin-bottom: 12px; font-size: 12px; }
+  .spec-card .ratio { font-family: var(--font-mono); font-size: 22px; color: var(--fg-1); margin-bottom: 8px; }
+  .spec-card .meta { font-size: 13px; color: var(--fg-2); font-weight: 400; line-height: 1.6; }
+  .spec-card .meta strong { color: var(--fg-1); }
+
+  /* ═══════════ CHECKLIST ═══════════ */
+  .checklist { list-style: none; padding: 0; margin: 16px 0; }
+  .checklist li {
+    font-weight: 400; color: var(--fg-2); font-size: 15px;
+    padding: 11px 0 11px 36px; position: relative; line-height: 1.55;
+    border-bottom: 1px solid var(--fg-hair);
+  }
+  .checklist li::before { content: '☐'; position: absolute; left: 0; color: var(--orange); font-size: 20px; top: 8px; font-family: var(--font-mono); }
+  .checklist li strong { color: var(--fg-1); }
+
+  /* ═══════════ HYPOTHESIS ═══════════ */
+  .hypo {
+    background: rgba(176,218,9,0.04); border: 1px solid rgba(176,218,9,0.25);
+    border-radius: 8px; padding: 22px 26px; margin: 12px 0;
+  }
+  .hypo .h-tag { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.2em; color: var(--green); text-transform: uppercase; margin-bottom: 8px; }
+  .hypo p { margin: 0; color: var(--fg-1); font-size: 16px; line-height: 1.6; }
+  .hypo p strong { color: var(--green); }
+
+  /* ═══════════ LAYOUT GRIDS ═══════════ */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+  .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+
+  /* ═══════════ CLEAN LIST ═══════════ */
+  ul.clean { list-style: none; padding: 0; margin: 0; }
+  ul.clean li { font-weight: 400; color: var(--fg-2); font-size: 15px; padding: 8px 0 8px 24px; position: relative; line-height: 1.55; }
+  ul.clean li::before { content: '◆'; position: absolute; left: 0; color: var(--cyan); font-size: 10px; top: 13px; }
+  ul.clean li strong { color: var(--fg-1); }
+
+  /* ═══════════ MARKER HIGHLIGHTS ═══════════ */
+  .marker-cyan    { background: linear-gradient(transparent 55%, var(--marker-cyan) 55%); padding: 0 2px; }
+  .marker-magenta { background: linear-gradient(transparent 55%, var(--marker-magenta) 55%); padding: 0 2px; }
+  .marker-green   { background: linear-gradient(transparent 55%, var(--marker-green) 55%); padding: 0 2px; }
+  .marker-orange  { background: linear-gradient(transparent 55%, var(--marker-orange) 55%); padding: 0 2px; }
+
+  /* ═══════════ GLOW TEXT ═══════════ */
+  .glow-magenta { color: var(--magenta); text-shadow: 0 0 18px rgba(240,10,94,0.5); }
+  .glow-green   { color: var(--green);   text-shadow: 0 0 18px rgba(176,218,9,0.5); }
+  .glow-orange  { color: var(--orange);  text-shadow: 0 0 18px rgba(249,148,0,0.5); }
+
+  /* ═══════════ CALLOUTS ═══════════ */
+  .callout {
+    padding: 16px 22px; border-left: 3px solid var(--cyan); border-radius: 0 6px 6px 0;
+    background: rgba(0,217,255,0.04); margin: 14px 0; font-size: 14.5px; color: var(--fg-2);
+  }
+  .callout.green  { border-left-color: var(--green);  background: rgba(176,218,9,0.04); }
+  .callout.orange { border-left-color: var(--orange); background: rgba(249,148,0,0.04); }
+  .callout strong { color: var(--fg-1); }
+  .callout .lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cyan); }
+  .callout.green .lbl  { color: var(--green); }
+  .callout.orange .lbl { color: var(--orange); }
+
+  /* ═══════════ NAVIGATION ═══════════ */
+  .nav {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 14px; z-index: 50;
+    padding: 8px 14px; background: rgba(20,20,26,0.85);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border-hair); border-radius: 999px;
+  }
+  .nav button {
+    background: transparent; border: 1px solid var(--border-hair); color: var(--fg-1);
+    width: 36px; height: 36px; border-radius: 50%;
+    font-family: var(--font-mono); font-size: 14px; cursor: pointer;
+    transition: all 200ms ease; display: flex; align-items: center; justify-content: center;
+  }
+  .nav button:hover:not(:disabled) { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 12px rgba(0,217,255,0.3); }
+  .nav button:disabled { opacity: 0.3; cursor: not-allowed; }
+  .nav .dots { display: flex; gap: 6px; }
+  .nav .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--fg-4); cursor: pointer; transition: all 200ms ease; }
+  .nav .dot:hover { background: var(--cyan); }
+  .nav .dot.active { background: var(--cyan); box-shadow: 0 0 8px var(--cyan); transform: scale(1.4); }
+  .nav .counter { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; color: var(--fg-3); padding: 0 6px; }
+  .nav .counter .current { color: var(--cyan); }
+
+  /* ═══════════ PDF BUTTON ═══════════ */
+  .pdf-btn {
+    position: fixed; top: 24px; right: 32px; z-index: 100;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px; border-radius: 999px;
+    background: var(--magenta); color: #fff;
+    font-family: var(--font-sans); font-weight: 700; font-size: 11px;
+    letter-spacing: 0.15em; text-transform: uppercase; border: none; cursor: pointer;
+    box-shadow: var(--glow-magenta-md);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+  }
+  .pdf-btn:hover:not(:disabled) { transform: scale(1.04); box-shadow: 0 0 30px rgba(240,10,94,0.45), 0 0 60px rgba(240,10,94,0.2); }
+  .pdf-btn:disabled { opacity: 0.7; cursor: wait; }
+  .pdf-btn .icon { font-family: var(--font-mono); font-size: 13px; line-height: 1; }
+  .pdf-btn .spinner { width: 12px; height: 12px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ═══════════ EXPORT MODE ═══════════ */
+  body.exporting { overflow: visible; }
+  body.exporting .deck { position: static; width: 1600px; height: auto; overflow: visible; }
+  body.exporting .slide { position: relative; display: flex !important; width: 1600px; height: 900px; page-break-after: always; inset: auto; }
+  body.exporting .nav, body.exporting .pdf-btn { display: none !important; }
+
+  /* ═══════════ RESPONSIVE ═══════════ */
+  @media (max-width: 1100px) {
+    .slide { padding: 48px 32px 92px; }
+    .slide-inner { max-width: 100%; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .timeline { grid-template-columns: repeat(2, 1fr); }
+    .specs-grid { grid-template-columns: 1fr; }
+    .two-col, .three-col { grid-template-columns: 1fr; }
+    h1 { font-size: 44px; }
+    h2 { font-size: 32px; }
+  }
+
+  /* ═══════════ SLIDE TRANSITIONS ═══════════ */
+  .slide.active { opacity: 1; }
+  .slide.active.transitioning { animation: slideFade 280ms ease both; }
+  @keyframes slideFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</head>
+<body>
+
+<button id="pdf-btn" class="pdf-btn" type="button" aria-label="Descargar PDF">
+  <span class="icon">↓</span>
+  <span class="label">Descargar PDF</span>
+</button>
+
+<div class="deck" id="deck">
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 01 — PORTADA
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="1">
+    <div class="brand-mark"><strong>ADGLOW</strong> · operado para {{Cliente}}</div>
+    <div class="slide-num"><span class="current">01</span> / {{N}}</div>
+    <div class="slide-inner">
+      <div class="eyebrow">
+        <span class="badge badge-warn"><span class="dot"></span>Borrador v1</span>
+        <span>{{tipo de documento}} · <span class="glow-cyan">{{YYYY-MM-DD}}</span></span>
+      </div>
+      <h1>{{Título principal}}<br><span class="accent">{{subtítulo en accent}}</span></h1>
+      <p class="lead" style="margin-top: 8px;">
+        {{Lead corto que resume la promesa del documento. Una frase. Si puedes meter un <span class="marker-cyan">marker</span> en una frase clave, hazlo.}}
+      </p>
+      <div style="margin-top: 36px; display: flex; gap: 48px; flex-wrap: wrap;">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.25em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 8px;">Inversión</div>
+          <div style="font-size: 36px; font-weight: 700; color: var(--green); text-shadow: 0 0 25px rgba(176,218,9,0.4);">{{USD $0.000}}</div>
+          <div style="font-size: 13px; color: var(--fg-3);">{{~$0M moneda local}}</div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.25em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 8px;">Duración</div>
+          <div style="font-size: 36px; font-weight: 700; color: var(--cyan); text-shadow: 0 0 25px rgba(0,217,255,0.4);">{{~N días}}</div>
+          <div style="font-size: 13px; color: var(--fg-3);">{{X en flight}}</div>
+        </div>
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.25em; color: var(--fg-3); text-transform: uppercase; margin-bottom: 8px;">Campañas</div>
+          <div style="font-size: 36px; font-weight: 700; color: var(--magenta); text-shadow: 0 0 25px rgba(240,10,94,0.4);">{{N}}</div>
+          <div style="font-size: 13px; color: var(--fg-3);">{{etapa1 · etapa2 · etapa3}}</div>
+        </div>
+      </div>
+      <div style="margin-top: 60px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; color: var(--fg-3); text-transform: uppercase;">
+        <span>{{tag1}}</span> · <span>{{tag2}}</span> · <span style="color: var(--cyan);">{{tag destacado}}</span> · <span>{{tag4}}</span> · <span>{{tag5}}</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 02 — OBJETIVO & HIPÓTESIS
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="2">
+    <div class="brand-mark"><strong>ADGLOW</strong> · {{tema corto}}</div>
+    <div class="slide-num"><span class="current">02</span> / {{N}}</div>
+    <div class="slide-inner">
+      <div class="section-label">⬡ 01 — objetivo &amp; hipótesis</div>
+      <h2>La pregunta que vamos a responder</h2>
+      <p class="lead">
+        ¿En qué {{dimensión}} las <strong>{{variable de interés}}</strong> entregan <span class="marker-green">{{mejor KPI}}</span> que la <strong>{{variable de control}}</strong>?
+      </p>
+
+      <h3>Hipótesis a contrastar</h3>
+      <div style="display: grid; gap: 14px; margin-top: 14px;">
+        <div class="hypo">
+          <div class="h-tag">H1 · {{dimensión 1}}</div>
+          <p>{{Hipótesis específica con una sola variable activa.}}</p>
+        </div>
+        <div class="hypo">
+          <div class="h-tag">H2 · {{dimensión 2}}</div>
+          <p>{{Hipótesis específica.}}</p>
+        </div>
+        <div class="hypo">
+          <div class="h-tag">H3 · {{dimensión 3}}</div>
+          <p>{{Hipótesis específica.}}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE 03 — EJEMPLO: ESTRUCTURA CON TABLA + KPIs
+       (duplica este patrón para slides de campaña 04-06)
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="3">
+    <div class="brand-mark"><strong>ADGLOW</strong> · {{tema corto}}</div>
+    <div class="slide-num"><span class="current">03</span> / {{N}}</div>
+    <div class="slide-inner">
+      <div class="section-label" style="color: var(--cyan);">⬡ campaña 01 · {{nombre}}</div>
+      <h2>{{Subtítulo}} · <span class="glow-cyan">{{KPI}}</span></h2>
+      <p class="lead">{{Descripción de la campaña, qué mide, por qué este recorte de audiencias.}}</p>
+
+      <table style="margin-top: 24px;">
+        <thead>
+          <tr><th>Ad set</th><th>Audiencia</th><th>Origen</th><th class="num">Tamaño</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="tag-c">A1 · Control</td>
+            <td><strong>{{Nombre audiencia control}}</strong></td>
+            <td>{{Origen — Meta estándar, sin intereses, etc.}}</td>
+            <td class="num">{{~25M}}</td>
+          </tr>
+          <tr>
+            <td class="tag-c">A2 · 1P</td>
+            <td><strong>{{nombre_audiencia_1p}}</strong></td>
+            <td>{{Descripción de origen}}</td>
+            <td class="num">{{tamaño}}</td>
+          </tr>
+          <tr>
+            <td class="tag-c">A3 · 1P</td>
+            <td><strong>{{nombre_audiencia_1p_2}}</strong></td>
+            <td>{{Descripción de origen}}</td>
+            <td class="num">{{tamaño}}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="kpi-grid" style="grid-template-columns: repeat(3, 1fr); margin-top: 24px;">
+        <div class="kpi cyan">
+          <div class="label">KPI primario</div>
+          <div class="value" style="font-size: 32px;">{{CPM}}</div>
+          <div class="sub">target {{$X – $Y USD}}</div>
+        </div>
+        <div class="kpi">
+          <div class="label">KPI secundario</div>
+          <div class="value" style="font-size: 32px;">{{ThruPlay}}</div>
+          <div class="sub">target &gt; {{15%}}</div>
+        </div>
+        <div class="kpi green">
+          <div class="label">Volumen esperado</div>
+          <div class="value" style="font-size: 32px;">{{250-400k}}</div>
+          <div class="sub">{{impresiones · alcance 150-250k}}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       AGREGA AQUÍ MÁS SLIDES siguiendo el patrón:
+       - Slide de timeline (.timeline con 5 .phase)
+       - Slide de presupuesto + KPIs (.kpi-grid + table)
+       - Slide de estimación de resultados (table + .callout.orange con criterio)
+       - Slides de creativos por etapa (.specs-grid + ejemplos)
+       - Slide de reporting (.two-col)
+       - Slide final de pendientes (.checklist)
+       Ver references/components-catalogue.md para snippets.
+       ═══════════════════════════════════════════════════════════ -->
+
+  <!-- ═══════════════════════════════════════════════════════════
+       SLIDE FINAL — PENDIENTES
+       ═══════════════════════════════════════════════════════════ -->
+  <section class="slide" data-slide="4">
+    <div class="brand-mark"><strong>ADGLOW</strong> · {{tema corto}}</div>
+    <div class="slide-num"><span class="current">04</span> / {{N}}</div>
+    <div class="slide-inner">
+      <div class="section-label">◇ {{0X}} — entregables pendientes</div>
+      <h2>Antes del go-live · checklist {{Cliente}}</h2>
+      <p class="lead">Para arrancar la fase de Setup necesitamos que {{Cliente}} confirme / entregue:</p>
+
+      <ul class="checklist">
+        <li><strong>Aprobación del presupuesto</strong> · {{USD $0.000 (~$0M moneda local)}} y método de facturación</li>
+        <li><strong>Carga de la audiencia 1P</strong> firmada digitalmente con consent log (legal {{Cliente}})</li>
+        <li><strong>Acceso a Business Manager {{Cliente}}</strong> con permisos de creación de campaña para Adglow</li>
+        <li><strong>Pixel + Conversions API</strong> verificados en la landing/app destino</li>
+        <li><strong>{{N}} creativos aprobados por campaña</strong> ({{X}} piezas totales) cumpliendo specs</li>
+        <li><strong>URL de landing</strong> con UTMs configurados y políticas legales publicadas</li>
+        <li><strong>Persona de contacto</strong> en {{Cliente}} para decisiones durante el flight (pausas, cambios)</li>
+      </ul>
+
+      <div style="margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--border-hair); display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; color: var(--fg-3); text-transform: uppercase;">
+        <div>Adglow · operado para {{Cliente}} · v1 · {{YYYY-MM-DD}}</div>
+        <div>People <span style="color: var(--cyan);">powered</span> · Data <span style="color: var(--cyan);">smart</span> · Growth <span style="color: var(--cyan);">focused</span></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ═══════════ NAVIGATION ═══════════ -->
+<div class="nav" id="nav">
+  <button id="prev" type="button" aria-label="Anterior">‹</button>
+  <div class="dots" id="dots"></div>
+  <div class="counter"><span class="current" id="counter-cur">01</span> / <span id="counter-tot">04</span></div>
+  <button id="next" type="button" aria-label="Siguiente">›</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+  // ═══════════ SLIDE NAVIGATION ═══════════
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total = slides.length;
+  let current = 0;
+
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const dotsWrap = document.getElementById('dots');
+  const counterCur = document.getElementById('counter-cur');
+  const counterTot = document.getElementById('counter-tot');
+  counterTot.textContent = String(total).padStart(2, '0');
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('span');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.dataset.idx = i;
+    d.addEventListener('click', () => goTo(i));
+    dotsWrap.appendChild(d);
+  });
+  const dots = Array.from(dotsWrap.querySelectorAll('.dot'));
+
+  let isFirstLoad = true;
+  function goTo(idx) {
+    if (idx < 0 || idx >= total) return;
+    slides[current].classList.remove('active', 'transitioning');
+    dots[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    if (!isFirstLoad) {
+      slides[current].classList.add('transitioning');
+      setTimeout(() => slides[current].classList.remove('transitioning'), 320);
+    }
+    isFirstLoad = false;
+    dots[current].classList.add('active');
+    counterCur.textContent = String(current + 1).padStart(2, '0');
+    prevBtn.disabled = current === 0;
+    nextBtn.disabled = current === total - 1;
+  }
+  goTo(0);
+
+  prevBtn.addEventListener('click', () => goTo(current - 1));
+  nextBtn.addEventListener('click', () => goTo(current + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault(); goTo(current + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault(); goTo(current - 1);
+    } else if (e.key === 'Home') {
+      goTo(0);
+    } else if (e.key === 'End') {
+      goTo(total - 1);
+    }
+  });
+
+  // ═══════════ PDF EXPORT ═══════════
+  const pdfBtn = document.getElementById('pdf-btn');
+  const labelEl = pdfBtn.querySelector('.label');
+  const iconEl  = pdfBtn.querySelector('.icon');
+
+  pdfBtn.addEventListener('click', async () => {
+    pdfBtn.disabled = true;
+    const origLabel = labelEl.textContent;
+    iconEl.outerHTML = '<span class="spinner"></span>';
+    labelEl.textContent = 'Generando…';
+
+    document.body.classList.add('exporting');
+    const prevActive = current;
+
+    try {
+      if (document.fonts && document.fonts.ready) { await document.fonts.ready; }
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF({
+        unit: 'mm',
+        format: [254, 142.875], // 16:9 custom — match 1600x900 capture
+        orientation: 'landscape',
+        compress: true
+      });
+
+      for (let i = 0; i < slides.length; i++) {
+        labelEl.textContent = `Slide ${i + 1}/${total}…`;
+        const slide = slides[i];
+        const canvas = await html2canvas(slide, {
+          scale: 1.5,
+          backgroundColor: '#0b0b10',
+          useCORS: true,
+          logging: false,
+          width: 1600,
+          height: 900,
+          windowWidth: 1600,
+          windowHeight: 900
+        });
+        const pageW = pdf.internal.pageSize.getWidth();
+        const pageH = pdf.internal.pageSize.getHeight();
+        const imgData = canvas.toDataURL('image/jpeg', 0.92);
+        if (i > 0) pdf.addPage([254, 142.875], 'landscape');
+        pdf.addImage(imgData, 'JPEG', 0, 0, pageW, pageH);
+      }
+
+      pdf.save('{{Nombre-del-deck}}.pdf');
+    } catch (err) {
+      console.error('PDF export failed:', err);
+      alert('No se pudo generar el PDF: ' + err.message);
+    } finally {
+      document.body.classList.remove('exporting');
+      goTo(prevActive);
+      pdfBtn.innerHTML = '<span class="icon">↓</span><span class="label">' + origLabel + '</span>';
+      pdfBtn.disabled = false;
+    }
+  });
+</script>
+
+</body>
+</html>

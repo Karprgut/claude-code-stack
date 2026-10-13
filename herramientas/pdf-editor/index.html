@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Editor PDF · Karma Creative Lab</title>
+<meta name="description" content="Editor de texto para PDF. Unifica varios documentos y edita su contenido en el navegador. El archivo nunca sale de tu equipo.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%230A0A0A'/><rect x='6' y='6' width='20' height='20' fill='%2300FF41'/><rect x='6' y='13' width='20' height='3' fill='%230A0A0A'/><rect x='6' y='19' width='13' height='3' fill='%230A0A0A'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="./brand/kcl-tokens.css">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="bar">
+  <div class="brand">
+    <img src="./brand/karma-logo-blanco.png" alt="Karma Creative Lab" class="logo">
+    <div class="brand-txt">
+      <span class="eyebrow">Karma Creative Lab</span>
+      <h1>Editor PDF</h1>
+    </div>
+  </div>
+  <nav class="actions">
+    <button id="btn-open" class="btn">Abrir PDF</button>
+    <button id="btn-add" class="btn" disabled>+ Texto</button>
+    <button id="btn-reset" class="btn" disabled>Deshacer</button>
+    <button id="btn-save" class="btn btn-primary" disabled>Descargar</button>
+  </nav>
+</header>
+
+<div id="status" class="status" hidden></div>
+
+<main id="main">
+
+  <section id="drop" class="drop">
+    <div class="drop-inner">
+      <p class="eyebrow drop-eyebrow">Documento → Texto → Documento</p>
+      <p class="drop-title">Arrastra tus PDF</p>
+      <p class="drop-sub">Puedes soltar varios a la vez. Se unifican en un solo documento y se editan como uno.</p>
+      <button id="btn-pick" class="btn btn-primary">Elegir archivos</button>
+      <ul class="notes">
+        <li><b>Local.</b> Los archivos se procesan en tu navegador. No se suben a ningún servidor.</li>
+        <li><b>Edición real.</b> El texto original se borra del código del PDF, no se tapa con un parche.</li>
+        <li><b>Requiere texto seleccionable.</b> En escaneados solo se puede agregar texto nuevo.</li>
+      </ul>
+    </div>
+  </section>
+
+  <div id="workspace" class="workspace" hidden>
+    <aside id="files" class="files">
+      <div class="files-head">
+        <span class="eyebrow">Documentos <b id="files-count">0</b></span>
+        <button id="btn-more" class="btn btn-sm">Agregar</button>
+      </div>
+      <ol id="files-list" class="files-list"></ol>
+      <p class="files-note mono">El orden de la lista es el orden del documento final.</p>
+    </aside>
+    <div id="pages" class="pages"></div>
+  </div>
+
+</main>
+
+<div id="toolbar" class="toolbar" hidden>
+  <label class="tb-field"><span class="mono">Tamaño</span><input type="number" id="tb-size" min="3" max="200" step="0.5"></label>
+  <label class="tb-field"><span class="mono">Color</span><input type="color" id="tb-color"></label>
+  <div class="tb-group">
+    <button class="tb-btn" id="tb-bold"><b>B</b></button>
+    <button class="tb-btn" id="tb-italic"><i>I</i></button>
+  </div>
+  <div class="tb-group">
+    <button data-align="left" class="tb-btn tb-al" title="Alinear a la izquierda">Izq</button>
+    <button data-align="center" class="tb-btn tb-al" title="Centrar sobre la línea original">Cen</button>
+    <button data-align="right" class="tb-btn tb-al" title="Alinear a la derecha">Der</button>
+  </div>
+  <button id="tb-revert" class="tb-btn tb-revert">Restaurar</button>
+</div>
+
+<input type="file" id="file" accept="application/pdf,.pdf" multiple hidden>
+
+<footer class="foot">
+  <span class="mono">Procesamiento local · pdf.js + pdf-lib</span>
+  <span class="mono" id="meta"></span>
+</footer>
+
+<script src="./vendor/pdf-lib.min.js"></script>
+<script type="module" src="app.js"></script>
+</body>
+</html>

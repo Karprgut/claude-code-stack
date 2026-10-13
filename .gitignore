@@ -1,0 +1,47 @@
+# ── BLOQUEO POR DEFECTO ──────────────────────────────────────────────
+# Este repo es público. Nada entra salvo lo que se abra explícitamente
+# abajo. Si agregas una carpeta nueva y no aparece en `git status`, el
+# .gitignore está haciendo su trabajo: ábrela aquí a propósito.
+/*
+
+# ── LO QUE SÍ SE VERSIONA ────────────────────────────────────────────
+!/.gitignore
+!/README.md
+!/LICENSE
+!/claude/
+!/mcp/
+!/skills/
+!/automatizaciones/
+!/herramientas/
+!/docs/
+
+# ── NUNCA, BAJO NINGUNA CIRCUNSTANCIA ────────────────────────────────
+# (aplican dentro de las carpetas abiertas)
+.env
+.env.*
+env
+env.*
+!env.ejemplo
+!*.env.ejemplo
+credentials/
+adc-*.json
+*token*.json
+*.jsonl
+*credential*
+*.pem
+*.key
+*.p12
+__pycache__/
+node_modules/
+.DS_Store
+*.bak
+*.bak-*
+logs/
+out/
+salidas/
+data/*.db
+vistos.json
+baseline.json
+vacantes.json
+registro/
+referencias/
