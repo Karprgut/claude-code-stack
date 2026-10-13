@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Grayscale ramp</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0}
+  body{background:var(--karma-white);font-family:var(--font-body);padding:16px}
+  .row{display:grid;grid-template-columns:repeat(9,1fr);border:var(--border-std)}
+  .sw{height:118px;display:flex;flex-direction:column;justify-content:flex-end;padding:8px;font-family:var(--font-mono);font-size:9px;text-transform:uppercase;letter-spacing:.06em;line-height:1.2}
+  .sw + .sw{border-left:var(--border-thin)}
+  .sw .n{font-family:var(--font-display);font-weight:700;font-size:12px;line-height:1;margin-bottom:4px}
+  .light{color:#FAFAFA}
+  .dark{color:#0A0A0A}
+</style></head><body>
+  <div class="row">
+    <div class="sw light" style="background:#1A1A1A"><div class="n">900</div>#1A1A1A</div>
+    <div class="sw light" style="background:#2A2A2A"><div class="n">800</div>#2A2A2A</div>
+    <div class="sw light" style="background:#3A3A3A"><div class="n">700</div>#3A3A3A</div>
+    <div class="sw light" style="background:#4A4A4A"><div class="n">600</div>#4A4A4A</div>
+    <div class="sw light" style="background:#666"><div class="n">500</div>#666666</div>
+    <div class="sw dark" style="background:#888"><div class="n">400</div>#888888</div>
+    <div class="sw dark" style="background:#AAA"><div class="n">300</div>#AAAAAA</div>
+    <div class="sw dark" style="background:#D4D4D4"><div class="n">200</div>#D4D4D4</div>
+    <div class="sw dark" style="background:#E5E5E5"><div class="n">100</div>#E5E5E5</div>
+  </div>
+</body></html>

@@ -1,0 +1,15 @@
+{
+  "name": "google-ads-karma",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Crear campañas de Search en Google Ads vía API (Karma Creative Lab)",
+  "scripts": {
+    "token": "node get-refresh-token.mjs",
+    "create": "node create-search-campaign.mjs"
+  },
+  "dependencies": {
+    "google-ads-api": "^23.0.1",
+    "google-auth-library": "^9.14.1"
+  }
+}

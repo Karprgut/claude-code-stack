@@ -1,0 +1,20 @@
+{
+  "name": "tbp-brevo-tracking",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Brevo webhook → GA4 MP + Meta CAPI for TBP",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vercel dev",
+    "deploy": "vercel deploy --prod"
+  },
+  "devDependencies": {
+    "vercel": "^62.0.0"
+  },
+  "dependencies": {
+    "redis": "^5.12.1"
+  }
+}

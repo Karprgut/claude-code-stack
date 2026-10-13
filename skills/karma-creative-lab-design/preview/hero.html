@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Hero preview</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--karma-white)}
+  .hero{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr 1fr;height:300px;border:4px solid #0A0A0A}
+  .box{padding:12px;display:flex;align-items:center;justify-content:center;position:relative}
+  .title{background:#FAFAFA}
+  .title h1{font-family:var(--font-display);font-weight:700;font-size:28px;line-height:.9;text-transform:uppercase;letter-spacing:-0.04em;text-align:center}
+  .logo{background:#0A0A0A;border-top:4px solid #0A0A0A;border-bottom:4px solid #0A0A0A}
+  .logo img{max-width:72%;max-height:72%}
+  .cta{background:#FAFAFA}
+  .cta .btn{background:#00FF41;color:#0A0A0A;border:4px solid #0A0A0A;padding:10px 18px;font-family:var(--font-display);font-weight:700;font-size:15px;text-transform:uppercase;box-shadow:6px 6px 0 0 #0A0A0A;letter-spacing:-0.01em;display:flex;align-items:center;gap:8px}
+  .sis{background:#0A0A0A;border-left:4px solid #0A0A0A;color:#00FF41;text-align:center}
+  .sis .big{font-family:var(--font-display);font-weight:700;font-size:26px;text-transform:uppercase;line-height:1;letter-spacing:-0.03em}
+  .sis .small{font-family:var(--font-display);font-weight:700;font-size:13px;text-transform:uppercase;line-height:1;letter-spacing:-0.01em;color:#FAFAFA}
+  .process{display:grid;grid-template-columns:1fr 1fr 1fr;background:#FAFAFA}
+  .proc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px}
+  .proc + .proc{border-left:4px solid #0A0A0A}
+  .proc img{width:38px;height:38px}
+  .proc span{font-family:var(--font-display);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:-0.01em}
+  .glitch{background:#0A0A0A;overflow:hidden;border-left:4px solid #0A0A0A}
+  .glitch img{width:100%;height:100%;object-fit:cover}
+</style></head><body>
+  <div class="hero">
+    <div class="box title"><h1>Laboratorio<br>Estratégico</h1></div>
+    <div class="box sis"><div><div class="big">NUESTROS</div><div class="small">SISTEMAS</div><div class="big">VIVOS ★</div></div></div>
+
+    <div class="box logo"><img src="../assets/logos/karma-logo-blanco.png"></div>
+    <div class="box process" style="padding:0">
+      <div class="proc"><img src="../assets/icons/observar.svg"><span>Observar</span></div>
+      <div class="proc"><img src="../assets/icons/interpretar.svg"><span>Interpretar</span></div>
+      <div class="proc"><img src="../assets/icons/trazar.svg"><span>Trazar</span></div>
+    </div>
+
+    <div class="box cta"><div class="btn">GO →</div></div>
+    <div class="box glitch"><img src="../assets/bg/glitch.gif"></div>
+  </div>
+</body></html>

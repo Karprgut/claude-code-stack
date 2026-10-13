@@ -1,0 +1,124 @@
+<!--
+  pptx-export-ui-snippet.html — Karma Creative Lab
+  Copia este HTML + CSS dentro de tu index.html para tener el botón
+  flotante "Descargar PPTX" y el overlay de progreso.
+
+  Requisitos:
+   - El JS espera elementos con estos IDs:
+       #export-pptx-btn
+       #export-overlay
+       #o-current  #o-total  #o-name
+       #o-bar-fill #o-pct
+       .o-title (dentro de #export-overlay)
+   - Carga pptx-export.js DESPUÉS de deck-stage.js si usas <deck-stage>
+
+  Estructura de uso en tu HTML:
+
+    </deck-stage>
+
+    <!-- pega aquí el HTML del botón y overlay (sección 2 abajo) -->
+
+    <script src="deck-stage.js"></script>
+    <script src="pptx-export.js"></script>
+    </body>
+-->
+
+
+<!-- ============================================================ -->
+<!-- 1. CSS — pega esto dentro de <style> en tu index.html        -->
+<!-- ============================================================ -->
+<style>
+  .export-btn {
+    position: fixed; right: 24px; bottom: 24px; z-index: 2147483647;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 22px;
+    background: #0C2B66; color: #fff;
+    border: 0; border-radius: 999px;
+    font: 700 13px/1 Poppins, sans-serif; letter-spacing: 0.14em; text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(12,43,102,.30), 0 2px 6px rgba(12,43,102,.20);
+    transition: background 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  }
+  .export-btn:hover {
+    background: #AE8DF5; color: #0C2B66; transform: translateY(-2px);
+    box-shadow: 0 14px 32px rgba(12,43,102,.36), 0 4px 10px rgba(12,43,102,.20);
+  }
+  .export-btn:active { transform: translateY(0); }
+  .export-btn[disabled] { background: #6B7494; color: rgba(255,255,255,.7); cursor: progress; }
+  .export-btn .ic { width: 16px; height: 16px; display: block; }
+  .export-btn .lbl-sub { font-size: 9px; letter-spacing: 0.2em; opacity: .7; display: block; }
+  .export-btn .lbl-stack { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; line-height: 1; }
+  @media print { .export-btn { display: none !important; } }
+
+  .export-overlay {
+    position: fixed; inset: 0; z-index: 2147483646;
+    background: rgba(12,43,102,.92);
+    display: none; align-items: center; justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .export-overlay[data-visible] { display: flex; }
+  .export-overlay .panel {
+    background: #fff; border-radius: 24px;
+    padding: 48px 56px;
+    min-width: 460px; max-width: 90vw;
+    text-align: center;
+    box-shadow: 0 24px 64px rgba(0,0,0,.4);
+  }
+  .export-overlay .panel .o-eyebrow {
+    font: 700 12px/1 Poppins, sans-serif; letter-spacing: 0.2em;
+    text-transform: uppercase; color: #AE8DF5;
+  }
+  .export-overlay .panel .o-title {
+    font: 700 32px/1.2 Poppins, sans-serif; color: #0C2B66;
+    margin: 14px 0 10px; letter-spacing: -0.02em;
+  }
+  .export-overlay .panel .o-status {
+    font: 300 16px/1.4 Poppins, sans-serif; color: #2D3A5C; margin-bottom: 28px;
+  }
+  .export-overlay .panel .o-status b { color: #0C2B66; font-weight: 700; }
+  .export-overlay .panel .o-bar {
+    height: 8px; background: #E5E7ED; border-radius: 999px; overflow: hidden;
+    margin: 12px 0 8px;
+  }
+  .export-overlay .panel .o-bar-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #4A7FF7, #AE8DF5);
+    border-radius: 999px; transition: width 200ms ease;
+  }
+  .export-overlay .panel .o-pct {
+    font: 700 13px/1 Poppins, sans-serif; letter-spacing: 0.1em;
+    color: #6B7494; margin-top: 8px;
+  }
+  .export-overlay .panel .o-foot {
+    font: 300 12px/1.4 Poppins, sans-serif; color: #6B7494; margin-top: 24px;
+  }
+</style>
+
+
+<!-- ============================================================ -->
+<!-- 2. HTML — pega esto justo antes de </body>                   -->
+<!-- ============================================================ -->
+
+<button id="export-pptx-btn" class="export-btn" type="button" aria-label="Descargar PPTX editable">
+  <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+       stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/>
+  </svg>
+  <span class="lbl-stack">
+    <span>Descargar PPTX</span>
+    <span class="lbl-sub">editable nativo</span>
+  </span>
+</button>
+
+<div id="export-overlay" class="export-overlay" role="dialog" aria-live="polite">
+  <div class="panel">
+    <div class="o-eyebrow">Generando PPTX</div>
+    <div class="o-title">Iniciando…</div>
+    <div class="o-status">
+      Slide <b id="o-current">0</b> de <b id="o-total">0</b> · <span id="o-name">—</span>
+    </div>
+    <div class="o-bar"><div class="o-bar-fill" id="o-bar-fill"></div></div>
+    <div class="o-pct" id="o-pct">0%</div>
+    <div class="o-foot">Cada slide se renderiza con formas y texto nativos. No cierres esta ventana.</div>
+  </div>
+</div>

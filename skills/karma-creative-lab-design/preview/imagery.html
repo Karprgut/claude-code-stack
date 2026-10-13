@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Imagery</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--karma-white)}
+  .wrap{padding:0;background:var(--karma-white);border:var(--border-std);display:grid;grid-template-columns:repeat(4,1fr);aspect-ratio:unset}
+  .cell{aspect-ratio:1;overflow:hidden;position:relative;background:#0A0A0A}
+  .cell + .cell{border-left:4px solid #0A0A0A}
+  .cell img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) contrast(1.2)}
+  .cell .tag{position:absolute;bottom:6px;left:6px;background:#FAFAFA;border:2px solid #0A0A0A;padding:3px 8px;font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase}
+  .color img{filter:none}
+</style></head><body>
+  <div class="wrap">
+    <div class="cell"><img src="../assets/services/estrategia.webp"><div class="tag">B&W default</div></div>
+    <div class="cell"><img src="../assets/services/ai.webp"><div class="tag">Halftone</div></div>
+    <div class="cell"><img src="../assets/services/artistico.webp"><div class="tag">Pattern</div></div>
+    <div class="cell color"><img src="../assets/services/producto.webp"><div class="tag">Hover · color</div></div>
+  </div>
+</body></html>

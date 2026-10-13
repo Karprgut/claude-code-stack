@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Spacing</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--karma-white)}
+  .wrap{padding:16px 20px;border:var(--border-std);background:var(--karma-white)}
+  .grid{display:grid;grid-template-columns:repeat(9,1fr);gap:6px;align-items:end;margin-bottom:10px}
+  .bar{background:#0A0A0A;position:relative}
+  .bar span{position:absolute;bottom:-22px;left:50%;transform:translateX(-50%);font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;color:var(--karma-gray-500);text-transform:uppercase;white-space:nowrap}
+  .bar b{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-family:var(--font-display);font-weight:700;font-size:10px;color:#0A0A0A;text-transform:uppercase}
+  .note{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--karma-gray-500);margin-top:30px}
+</style></head><body>
+  <div class="wrap">
+    <div class="grid">
+      <div class="bar" style="height:4px"><b>xxs</b><span>4</span></div>
+      <div class="bar" style="height:8px"><b>xs</b><span>8</span></div>
+      <div class="bar" style="height:16px"><b>sm</b><span>16</span></div>
+      <div class="bar" style="height:24px"><b>md</b><span>24</span></div>
+      <div class="bar" style="height:32px"><b>lg</b><span>32</span></div>
+      <div class="bar" style="height:48px"><b>xl</b><span>48</span></div>
+      <div class="bar" style="height:64px"><b>2xl</b><span>64</span></div>
+      <div class="bar" style="height:80px"><b>3xl</b><span>96</span></div>
+      <div class="bar" style="height:90px"><b>4xl</b><span>128</span></div>
+    </div>
+    <div class="note">8-pt scale · Aggressive jumps for hero space</div>
+  </div>
+</body></html>

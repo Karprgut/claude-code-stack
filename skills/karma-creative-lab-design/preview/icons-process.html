@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Process icons</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--karma-white)}
+  .wrap{padding:0;background:var(--karma-white);border:var(--border-std);display:grid;grid-template-columns:1fr 1fr 1fr}
+  .cell{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 8px;gap:8px}
+  .cell + .cell{border-left:var(--border-std)}
+  .cell img{width:78px;height:78px;object-fit:contain}
+  .lbl{font-family:var(--font-display);font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:-0.02em}
+  .num{font-family:var(--font-mono);font-size:10px;letter-spacing:.2em;color:var(--karma-gray-500)}
+</style></head><body>
+  <div class="wrap">
+    <div class="cell"><img src="../assets/icons/observar.svg"><div class="lbl">Observar</div><div class="num">01</div></div>
+    <div class="cell"><img src="../assets/icons/interpretar.svg"><div class="lbl">Interpretar</div><div class="num">02</div></div>
+    <div class="cell"><img src="../assets/icons/trazar.svg"><div class="lbl">Trazar</div><div class="num">03</div></div>
+  </div>
+</body></html>

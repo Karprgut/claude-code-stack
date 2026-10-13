@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Karma — Logo</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0}
+  body{background:var(--karma-white);font-family:var(--font-body);}
+  .card{display:grid;grid-template-columns:1fr 1fr;height:150px;border:var(--border-std);background:var(--karma-white)}
+  .cell{display:flex;align-items:center;justify-content:center;padding:16px;position:relative}
+  .cell + .cell{border-left:var(--border-std)}
+  .cell.dark{background:var(--karma-black)}
+  .cell img{max-width:100%;max-height:100%;object-fit:contain}
+  .tag{position:absolute;top:8px;left:8px;font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--karma-black)}
+  .dark .tag{color:var(--karma-green)}
+</style>
+</head><body>
+  <div class="card">
+    <div class="cell"><span class="tag">ON LIGHT</span><img src="../assets/logos/karma-logo.png" alt="karma"></div>
+    <div class="cell dark"><span class="tag">ON DARK</span><img src="../assets/logos/karma-logo-blanco.png" alt="karma"></div>
+  </div>
+</body></html>

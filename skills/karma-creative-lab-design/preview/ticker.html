@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Ticker</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--karma-white)}
+  .wrap{padding:20px;background:var(--karma-white)}
+  .ticker{background:#0A0A0A;color:#FAFAFA;padding:24px 0;overflow:hidden;border-top:4px solid #0A0A0A;border-bottom:4px solid #0A0A0A;white-space:nowrap}
+  .track{display:inline-flex;animation:slide 22s linear infinite}
+  .item{font-family:var(--font-display);font-weight:700;font-size:26px;text-transform:uppercase;letter-spacing:-0.01em;padding:0 28px}
+  .item.g{color:#00FF41}
+  .item.r{color:#FF0033}
+  .star{padding:0 20px;font-size:18px;color:#FAFAFA}
+  @keyframes slide{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+</style></head><body>
+  <div class="wrap">
+    <div class="ticker">
+      <div class="track">
+        <span class="item">ESTRUCTURAS QUE PIENSAN</span><span class="star">★</span>
+        <span class="item g">SISTEMA QUE MUTA</span><span class="star">★</span>
+        <span class="item">PROCESAR ES CREAR</span><span class="star">★</span>
+        <span class="item r">EL RUIDO ES LENGUAJE</span><span class="star">★</span>
+        <span class="item">ESTRUCTURAS QUE PIENSAN</span><span class="star">★</span>
+        <span class="item g">SISTEMA QUE MUTA</span><span class="star">★</span>
+        <span class="item">PROCESAR ES CREAR</span><span class="star">★</span>
+        <span class="item r">EL RUIDO ES LENGUAJE</span><span class="star">★</span>
+      </div>
+    </div>
+  </div>
+</body></html>

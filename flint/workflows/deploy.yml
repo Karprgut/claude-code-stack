@@ -1,0 +1,89 @@
+name: Deploy Flint Dashboard
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "dashboard/**"
+      - "Dockerfile"
+      - ".github/workflows/deploy.yml"
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push Docker image
+        working-directory: dashboard
+        run: |
+          IMAGE="${{ secrets.ECR_URI }}:latest"
+          docker build -t "$IMAGE" .
+          docker push "$IMAGE"
+
+      - name: Deploy to EC2 via SSM
+        run: |
+          # Inline deploy: refresh env from SSM, pull latest image, restart container.
+          # Refreshing /data/.env on every deploy means new SSM params propagate
+          # without rebuilding the EC2 instance.
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids "${{ secrets.EC2_INSTANCE_ID }}" \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=[
+              "set -e",
+              "REGION=${{ env.AWS_REGION }}",
+              "ECR_URI=${{ secrets.ECR_URI }}",
+              "LOG_GROUP=/flint/dashboard",
+              "sudo mkdir -p /data",
+              "sudo aws ssm get-parameters-by-path --path /flint/ --with-decryption --region $REGION --query \"Parameters[].[Name,Value]\" --output text | while IFS=$(printf \"\\t\") read -r NAME VALUE; do NAME=${NAME#/flint/}; case \"$NAME\" in ECR_URI|LOG_GROUP) continue ;; esac; printf \"%s=%s\\n\" \"$NAME\" \"$VALUE\"; done | sudo tee /data/.env.new > /dev/null",
+              "printf \"DATA_DIR=/data/repo\\nNODE_ENV=production\\n\" | sudo tee -a /data/.env.new > /dev/null",
+              "sudo mv /data/.env.new /data/.env",
+              "sudo chmod 600 /data/.env",
+              "aws ecr get-login-password --region $REGION | sudo docker login --username AWS --password-stdin ${ECR_URI%%/*}",
+              "sudo docker pull $ECR_URI:latest",
+              "sudo docker stop flint 2>/dev/null || true",
+              "sudo docker rm flint 2>/dev/null || true",
+              "sudo docker run -d --name flint --restart unless-stopped --env-file /data/.env -p 3000:3000 --log-driver=awslogs --log-opt awslogs-region=$REGION --log-opt awslogs-group=$LOG_GROUP --log-opt awslogs-stream=flint-app $ECR_URI:latest",
+              "sudo docker image prune -f"
+            ]' \
+            --timeout-seconds 240 \
+            --region ${{ env.AWS_REGION }} \
+            --query 'Command.CommandId' --output text)
+          echo "SSM Command ID: $COMMAND_ID"
+          aws ssm wait command-executed \
+            --command-id "$COMMAND_ID" \
+            --instance-id "${{ secrets.EC2_INSTANCE_ID }}" \
+            --region ${{ env.AWS_REGION }} || true
+          STATUS=$(aws ssm get-command-invocation \
+            --command-id "$COMMAND_ID" \
+            --instance-id "${{ secrets.EC2_INSTANCE_ID }}" \
+            --region ${{ env.AWS_REGION }} \
+            --query 'Status' --output text)
+          echo "Deploy status: $STATUS"
+          if [ "$STATUS" != "Success" ]; then
+            aws ssm get-command-invocation \
+              --command-id "$COMMAND_ID" \
+              --instance-id "${{ secrets.EC2_INSTANCE_ID }}" \
+              --region ${{ env.AWS_REGION }} \
+              --query 'StandardErrorContent' --output text
+            exit 1
+          fi

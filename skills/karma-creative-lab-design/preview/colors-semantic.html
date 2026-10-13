@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Semantic colors</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0}
+  body{background:var(--karma-white);font-family:var(--font-body);padding:16px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .block{border:var(--border-std);padding:14px 16px;display:flex;flex-direction:column;justify-content:space-between;min-height:118px;position:relative}
+  .label{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--karma-gray-500)}
+  .sample{font-family:var(--font-display);font-weight:700;font-size:24px;text-transform:uppercase;letter-spacing:-0.02em;line-height:1}
+  .row{display:flex;align-items:center;gap:10px}
+  .dot{width:20px;height:20px;border:2px solid var(--karma-black)}
+  .use{font-size:12px;color:var(--karma-gray-500);line-height:1.4}
+</style></head><body>
+  <div class="grid">
+    <div class="block">
+      <div class="label">CTA / Primary Accent</div>
+      <div class="row"><span class="dot" style="background:#00FF41"></span><span class="sample">GREEN</span></div>
+      <div class="use">Buttons, the sticky menu, positive accents, CTAs.</div>
+    </div>
+    <div class="block">
+      <div class="label">Alert / Glitch</div>
+      <div class="row"><span class="dot" style="background:#FF0033"></span><span class="sample">RED</span></div>
+      <div class="use">Badges, critical accents, glitch layers, dividers.</div>
+    </div>
+    <div class="block" style="background:#0A0A0A;color:#FAFAFA">
+      <div class="label" style="color:#AAA">Invert surface</div>
+      <div class="row"><span class="dot" style="background:#0A0A0A;border-color:#FAFAFA"></span><span class="sample">BLACK</span></div>
+      <div class="use" style="color:#AAA">Hero backdrops, inverted cards, menu bands.</div>
+    </div>
+    <div class="block" style="background:#F5F0EB">
+      <div class="label">Rest surface</div>
+      <div class="row"><span class="dot" style="background:#F5F0EB"></span><span class="sample">CREAM</span></div>
+      <div class="use">Alt reading surface, editorial sections.</div>
+    </div>
+  </div>
+</body></html>

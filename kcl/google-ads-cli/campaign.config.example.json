@@ -1,0 +1,39 @@
+{
+  "campaignName": "Search - Karma - Marca",
+  "dailyBudget": 200,
+  "currencyNote": "El presupuesto está en la moneda de la cuenta (ej. MXN). 200 = $200/día.",
+  "biddingStrategy": "MAXIMIZE_CLICKS",
+  "_biddingOptions": "MAXIMIZE_CLICKS (seguro para empezar, no requiere conversiones) | MANUAL_CPC | MAXIMIZE_CONVERSIONS (requiere conversiones configuradas)",
+  "finalUrl": "https://www.karmacreativelab.com/",
+  "geoTargetConstants": ["2484"],
+  "_geoNote": "2484 = México. Otros: 2840 = EE.UU. Busca más en developers.google.com/google-ads/api/reference/data/geotargets",
+  "languageConstants": ["1003"],
+  "_languageNote": "1003 = Español, 1000 = Inglés.",
+  "adGroupName": "Grupo 1 - Marca",
+  "cpcBidMicros": 5000000,
+  "_cpcNote": "Solo se usa con MANUAL_CPC. 5000000 micros = $5.00 (1 unidad = 1,000,000 micros).",
+  "keywords": [
+    { "text": "karma creative lab", "matchType": "PHRASE" },
+    { "text": "agencia creativa cdmx", "matchType": "BROAD" },
+    { "text": "agencia de branding", "matchType": "PHRASE" }
+  ],
+  "negativeKeywords": [
+    { "text": "gratis", "matchType": "BROAD" },
+    { "text": "empleo", "matchType": "BROAD" }
+  ],
+  "responsiveSearchAd": {
+    "headlines": [
+      "Karma Creative Lab",
+      "Agencia Creativa y Digital",
+      "Branding que Convierte",
+      "Estrategia + Diseño + Paid",
+      "Tu Marca, Más Fuerte"
+    ],
+    "descriptions": [
+      "Creatividad con datos. Branding, web y paid media para marcas que crecen.",
+      "Equipo creativo full-service. Agenda una llamada hoy."
+    ],
+    "path1": "agencia",
+    "path2": "creativa"
+  }
+}

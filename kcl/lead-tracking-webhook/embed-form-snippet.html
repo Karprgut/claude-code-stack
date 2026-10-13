@@ -1,0 +1,125 @@
+<!--
+  TBP · Brevo form tracking · Parte A (client-side)
+  ──────────────────────────────────────────────────
+  Pegar este bloque en Webflow JUSTO DESPUÉS del cierre del </form>
+  del HTML embed de Brevo. NO usar dentro del iframe — solo cuando
+  hayas reemplazado el iframe por el HTML embed nativo de Brevo.
+-->
+
+<script>
+(function () {
+  // 1 · Localizar el form de Brevo
+  //    Brevo usa varias clases según versión; cubrimos los casos comunes.
+  var form = document.querySelector(
+    '#sib-form, form.sib-form, form[data-type="subscription"]'
+  );
+  if (!form) {
+    console.warn('[tbp-tracking] Brevo form not found on the page.');
+    return;
+  }
+
+  // 2 · Helper: SHA-256 hash (para mandar email hasheado a dataLayer)
+  async function sha256(str) {
+    if (!window.crypto || !window.crypto.subtle) return '';
+    var buf = new TextEncoder().encode(str.toLowerCase().trim());
+    var hash = await window.crypto.subtle.digest('SHA-256', buf);
+    return Array.from(new Uint8Array(hash))
+      .map(function (b) { return b.toString(16).padStart(2, '0'); })
+      .join('');
+  }
+
+  // 3 · Helper: generar event_id determinístico para dedup con CAPI
+  function generateEventId() {
+    return 'lead_' +
+      Date.now().toString(36) + '_' +
+      Math.random().toString(36).slice(2, 10);
+  }
+
+  // 4 · Detectar éxito de Brevo observando el panel de mensaje
+  //    Brevo añade la clase --active al panel de éxito al recibir 200 OK.
+  function watchForSuccess(callback) {
+    var done = false;
+    var observer = new MutationObserver(function () {
+      if (done) return;
+      var success = document.querySelector(
+        '.sib-form-message-panel--active, .sib-form__success, .entry__field-success'
+      );
+      if (success && /thank|gracias|success|recibimos|enviado/i.test(success.textContent || '')) {
+        done = true;
+        observer.disconnect();
+        callback();
+      }
+    });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['class', 'style']
+    });
+    // Safety: stop observing after 30s
+    setTimeout(function () {
+      if (!done) observer.disconnect();
+    }, 30000);
+  }
+
+  // 5 · Listener al submit del form
+  form.addEventListener('submit', async function () {
+    var fd = new FormData(form);
+    var email = (fd.get('EMAIL') || fd.get('email') || '').toString();
+    var name  = (fd.get('NAME')  || fd.get('FIRSTNAME') || fd.get('name') || '').toString();
+    var phone = (fd.get('SMS')   || fd.get('PHONE')     || fd.get('phone') || '').toString();
+
+    var emailHash = email ? await sha256(email) : '';
+    var eventId = generateEventId();
+
+    // 6 · Esperar éxito real antes de pushear el evento
+    watchForSuccess(function () {
+      // 6.a · dataLayer push para GTM
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'lead_form_submit',
+        form_name: 'tbp_contact_brevo',
+        form_email_hash: emailHash,
+        event_id: eventId,
+        // datos no sensibles para reportes
+        page_path: window.location.pathname,
+        page_url: window.location.href
+      });
+
+      // 6.b · Meta Pixel directo (con eventID para dedup con CAPI)
+      //       Si ya disparas el Pixel desde GTM, comenta este bloque para evitar doble disparo.
+      if (typeof window.fbq === 'function') {
+        window.fbq('track', 'Lead',
+          {
+            content_name: 'TBP Contact Form',
+            currency: 'MXN',
+            value: 1.0
+          },
+          { eventID: eventId }
+        );
+      }
+
+      // 6.c · Google Ads conversion (opcional — completa con tu conversion ID/label)
+      //       Si lo manejas desde GTM, comenta este bloque.
+      if (typeof window.gtag === 'function') {
+        // window.gtag('event', 'conversion', {
+        //   send_to: 'AW-XXXXXXXXX/YYYYYYYYY',
+        //   value: 1.0,
+        //   currency: 'MXN',
+        //   transaction_id: eventId
+        // });
+      }
+    });
+  }, true /* useCapture: para correr antes de Brevo si hace stopPropagation */);
+
+  // 7 · Exponer una utilidad de debug en consola
+  window.__tbpBrevoTracking = {
+    form: form,
+    test: function () {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: 'lead_form_submit', test: true, event_id: generateEventId() });
+      console.log('[tbp-tracking] test event pushed.');
+    }
+  };
+})();
+</script>

@@ -12,10 +12,15 @@ tomar por separado:
 |---|---|---|
 | [`claude/`](claude/) | La capa de configuración: `CLAUDE.md` global mínimo, `settings.json`, formato de memoria, el **Hub** (router de proyectos), el **vault de secretos** y el `.gitignore` por bloqueo | [claude/README.md](claude/README.md) |
 | [`mcp/`](mcp/) | **MCP multi-cuenta**: un launcher por perfil para Google Ads, GA4, Google Workspace y Shopify, más la receta de los MCP remotos (TikTok, Scrape Creators, Adyntel, ZenRows, Higgsfield) | [mcp/README.md](mcp/README.md) |
-| [`skills/`](skills/) | 13 skills propias: inteligencia competitiva, post-mortems, entregables, decks, banners, video, auditoría de planes de medios, scraping, recorte de stickers | [skills/README.md](skills/README.md) |
+| [`skills/`](skills/) | 14 skills propias: inteligencia competitiva, post-mortems, entregables, decks, banners, video, auditoría de planes de medios, scraping, recorte de stickers y el design system de la agencia con su playbook DOM→PPTX | [skills/README.md](skills/README.md) |
 | [`automatizaciones/`](automatizaciones/) | Rutinas desatendidas con **launchd + `claude -p`** que republican un artifact cada día: reporte de leads, radar de demanda en LinkedIn, monitor de pauta | [automatizaciones/README.md](automatizaciones/README.md) |
+| [`kcl/`](kcl/) | Lo que vive en los repos de la agencia: tracking server-side de Shopify (Meta CAPI + TikTok), **Estrategia Inmediata** (producto que se compra en la tienda: motor de reglas + Claude + extensión de checkout), scheduler de redes, generador de case studies, CLI de Google Ads, formulario de discovery y el webhook de leads con atribución al primer contacto | [kcl/README.md](kcl/README.md) |
+| [`flint/`](flint/) | La capa de Claude de **Flint**, mi centro de mando: el `CLAUDE.md` que convierte a Claude Code en el agente, sus subagentes, el CLI de Mongo, **Claude Code como worker** con cola de tareas aprobadas, la ingesta nativa de Meta/Google/TikTok, el agente de insights de paid media y el chat multi-proveedor con herramientas | [flint/README.md](flint/README.md) |
 | [`herramientas/`](herramientas/) | Cosas sueltas que no son de Claude pero viven en el mismo flujo: el **Centinela** (avisa si alguien más usa tu Mac), un editor de PDF en el navegador, un verificador de correos y un tablero de vacantes que lee Gmail | [herramientas/README.md](herramientas/README.md) |
 | [`docs/`](docs/) | Las lecciones que costaron caro (APIs, PDF, PPTX, launchd, MCP) y la lista de productos que viven en sus propios repos | [docs/lecciones.md](docs/lecciones.md) |
+
+El kit de onboarding con el que un integrante nuevo deja su máquina igual a la mía en una hora
+(VS Code + Claude Code, skills, MCPs, forma de trabajar) está en [claude/onboarding/](claude/onboarding/).
 
 ## Los cinco principios que atraviesan todo
 
@@ -66,8 +71,11 @@ Google), `node` (Shopify, monitor de pauta, bitácora), `jq` (rutinas), Chrome (
 - **Skills de terceros** que uso pero no escribí (`frontend-design`, `ui-ux-pro-max`, `hyperframes`,
   `agent-reach`, la suite `agency-*`): se instalan desde sus repos.
 - **Valores de credenciales**, obviamente. Los archivos `env.ejemplo` traen las llaves vacías.
-- **Productos completos** (Flint, Prisma, Copiloto Comercial, Playground de decks): cada uno tiene
-  su repo. Están descritos en [docs/productos.md](docs/productos.md).
+- **Los repos completos de los productos** (el dashboard y la app iOS de Flint, Prisma, el tema y
+  el backend del sitio de la agencia): son privados. Lo replicable de cada uno está en
+  [flint/](flint/) y [kcl/](kcl/); el resto está descrito en [docs/productos.md](docs/productos.md).
+- **Documentos legales y activos de marca de clientes** (avisos de privacidad, políticas de cookies,
+  logos, formularios con su diseño): el código que los usa sí está, con marcadores donde iban.
 
 ## Convenciones
 

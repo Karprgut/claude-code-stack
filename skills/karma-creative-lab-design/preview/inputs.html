@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Form inputs</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--karma-white)}
+  .wrap{padding:20px 24px;background:var(--karma-white);border:var(--border-std)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .field label{display:block;font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:.04em;margin-bottom:8px}
+  .field input, .field textarea{width:100%;padding:14px;border:4px solid #0A0A0A;background:#FAFAFA;font-family:var(--font-body);font-size:14px;box-shadow:6px 6px 0 0 #0A0A0A;outline:none}
+  .field input:focus{box-shadow:6px 6px 0 0 #00FF41}
+  .check{display:flex;align-items:center;gap:10px;font-family:var(--font-body);font-size:13px}
+  .check span{width:22px;height:22px;border:3px solid #0A0A0A;background:#FAFAFA;position:relative}
+  .check.checked span{background:#00FF41}
+  .check.checked span:after{content:"";position:absolute;left:4px;top:0px;width:7px;height:14px;border-right:3px solid #0A0A0A;border-bottom:3px solid #0A0A0A;transform:rotate(45deg)}
+</style></head><body>
+  <div class="wrap">
+    <div class="row">
+      <div class="field">
+        <label>EMAIL</label>
+        <input type="email" value="hola@karma.lab" readonly>
+      </div>
+      <div class="field">
+        <label>MENSAJE</label>
+        <input value="Observamos sistemas." readonly>
+      </div>
+    </div>
+    <div style="display:flex;gap:24px;margin-top:20px">
+      <div class="check checked"><span></span>Acepto el ruido</div>
+      <div class="check"><span></span>Suscribirme</div>
+    </div>
+  </div>
+</body></html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Shadows</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--karma-white)}
+  .wrap{padding:20px 24px 32px;background:var(--karma-white);border:var(--border-std)}
+  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .box{background:var(--karma-white);border:var(--border-std);height:70px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:14px;text-transform:uppercase;letter-spacing:-0.02em}
+  .sm{box-shadow:4px 4px 0 0 #0A0A0A}
+  .std{box-shadow:8px 8px 0 0 #0A0A0A}
+  .red{box-shadow:8px 8px 0 0 #FF0033}
+  .green{box-shadow:8px 8px 0 0 #00FF41}
+  .label{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--karma-gray-500);margin-top:10px;text-align:center}
+  .cell{display:flex;flex-direction:column}
+</style></head><body>
+  <div class="wrap">
+    <div class="row">
+      <div class="cell"><div class="box sm">4px</div><div class="label">Brutal sm</div></div>
+      <div class="cell"><div class="box std">8px</div><div class="label">Brutal</div></div>
+      <div class="cell"><div class="box red">Red</div><div class="label">Brutal red</div></div>
+      <div class="cell"><div class="box green">Green</div><div class="label">Brutal green</div></div>
+    </div>
+  </div>
+</body></html>

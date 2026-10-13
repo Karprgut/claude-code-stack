@@ -1,0 +1,48 @@
+name: Daily Summary
+
+on:
+  schedule:
+    # 06:05 UTC = 00:05 America/Mexico_City (UTC-6).
+    # Fires right after midnight local so "yesterday" is the day that just ended.
+    - cron: "5 6 * * *"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Date to backfill (YYYY-MM-DD). Empty = today in FLINT_TIMEZONE."
+        required: false
+        default: ""
+
+jobs:
+  daily-summary:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+          cache-dependency-path: dashboard/pnpm-lock.yaml
+
+      - name: Install dashboard dependencies
+        working-directory: dashboard
+        run: pnpm install --frozen-lockfile
+
+      - name: Generate daily summary
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          FLINT_TIMEZONE: ${{ secrets.FLINT_TIMEZONE }}
+          INPUT_DATE: ${{ github.event.inputs.date }}
+        run: |
+          if [ -n "$INPUT_DATE" ]; then
+            node dashboard/scripts/generate-daily-summary.mjs --date "$INPUT_DATE"
+          else
+            # Cron fires at 00:05 in FLINT_TIMEZONE; "yesterday" in that TZ is
+            # the day that just ended, which is what we want to summarize.
+            TARGET_DATE=$(TZ="${FLINT_TIMEZONE:-America/Mexico_City}" date -d "yesterday" +%Y-%m-%d)
+            node dashboard/scripts/generate-daily-summary.mjs --date "$TARGET_DATE"
+          fi

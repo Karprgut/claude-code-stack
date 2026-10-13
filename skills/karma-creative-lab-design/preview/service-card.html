@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Service card</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--karma-white)}
+  .wrap{padding:20px;background:var(--karma-white)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+  .card{background:#FAFAFA;border:4px solid #0A0A0A;box-shadow:8px 8px 0 0 #0A0A0A;padding:24px;position:relative}
+  .card.hover{background:#0A0A0A;color:#FAFAFA;box-shadow:8px 8px 0 0 #FF0033;transform:translate(2px,2px)}
+  .badge{position:absolute;top:-14px;right:20px;background:#FF0033;color:#FAFAFA;border:4px solid #0A0A0A;padding:6px 12px;font-family:var(--font-display);font-weight:700;font-size:14px;transform:rotate(8deg);box-shadow:4px 4px 0 0 #0A0A0A}
+  .img{height:70px;margin:-24px -24px 16px;overflow:hidden;border-bottom:4px solid #0A0A0A;background:#E5E5E5 center/cover no-repeat}
+  .hover .img{filter:none}
+  .t{font-family:var(--font-display);font-weight:700;font-size:20px;text-transform:uppercase;letter-spacing:-0.02em;margin-bottom:4px}
+  .d{font-family:var(--font-body);font-size:12px;line-height:1.4;color:var(--karma-gray-500)}
+  .hover .d{color:#AAA}
+  .deco{position:absolute;bottom:8px;right:8px;width:20px;height:20px;border-right:3px solid #FF0033;border-bottom:3px solid #FF0033}
+  .hover .deco{border-color:#00FF41}
+</style></head><body>
+  <div class="wrap">
+    <div class="row">
+      <div class="card">
+        <div class="badge">01</div>
+        <div class="img" style="background-image:url(../assets/services/estrategia.webp);filter:grayscale(1) contrast(1.15)"></div>
+        <div class="t">Estrategia</div>
+        <div class="d">Alineación de producto — estructuras abiertas.</div>
+        <div class="deco"></div>
+      </div>
+      <div class="card hover">
+        <div class="badge">02</div>
+        <div class="img" style="background-image:url(../assets/services/contenido.webp)"></div>
+        <div class="t">Contenido</div>
+        <div class="d">Frecuencias, loops, ruido deliberado.</div>
+        <div class="deco"></div>
+      </div>
+    </div>
+  </div>
+</body></html>

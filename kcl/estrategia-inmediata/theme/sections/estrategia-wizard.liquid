@@ -1,0 +1,338 @@
+{% comment %}
+  ESTRATEGIA — wizard auto-servicio. Recoge datos → pega al backend Vercel
+  (/api/strategy/preview) → muestra preview → "Obtener" agrega el producto al
+  carrito con el submissionId y manda al checkout nativo de Shopify.
+  El api_base se configura en el schema (default: proyecto Vercel).
+{% endcomment %}
+
+{%- assign api_base = section.settings.api_base | default: 'https://<tu-backend>.vercel.app' -%}
+
+<section class="kw" id="estrategia-wizard" data-api="{{ api_base }}">
+  <div class="kw-head">
+    <div class="kw-eyebrow">{%- assign d = 'wizards.estrategia.eyebrow' | t -%}{{ section.settings.eyebrow | default: d }}</div>
+    <h1>{%- assign d = 'wizards.estrategia.title' | t -%}{{ section.settings.title | default: d }}</h1>
+    <p class="kw-intro">{%- assign d = 'wizards.estrategia.intro' | t -%}{{ section.settings.intro | default: d }}</p>
+    <div class="kw-progress" id="kw-progress"></div>
+  </div>
+
+  <div class="kw-error" id="kw-error" hidden></div>
+
+  <form class="form-karma kw-form" id="kw-form" novalidate>
+    <!-- STEP 1 -->
+    <fieldset class="kw-step" data-step="1">
+      <h2>{{ 'wizards.estrategia.s1' | t }}</h2>
+      <div class="form-group"><label>{{ 'wizards.estrategia.l_company' | t }}</label><input name="companyName" required></div>
+      <div class="form-group"><label>{{ 'wizards.estrategia.l_industry' | t }}</label><input name="industry" placeholder="{{ 'wizards.estrategia.ph_industry' | t | escape }}" required></div>
+    </fieldset>
+
+    <!-- STEP 2 -->
+    <fieldset class="kw-step" data-step="2" hidden>
+      <h2>{{ 'wizards.estrategia.s2' | t }}</h2>
+      <div class="form-group"><label>{{ 'wizards.estrategia.l_name' | t }}</label><input name="contactName" required></div>
+      <div class="form-group"><label>{{ 'wizards.estrategia.l_email' | t }}</label><input type="email" name="contactEmail" required><small>{{ 'wizards.estrategia.small_email' | t }}</small></div>
+      <div class="form-group"><label>{{ 'wizards.estrategia.l_phone' | t }}</label><input name="contactPhone"></div>
+    </fieldset>
+
+    <!-- STEP 3 -->
+    <fieldset class="kw-step" data-step="3" hidden>
+      <h2>{{ 'wizards.estrategia.s3' | t }}</h2>
+      <div class="kw-toggles" data-multi="objectives">
+        <button type="button" data-val="trafico_fisico">{{ 'wizards.estrategia.obj_trafico' | t }}</button>
+        <button type="button" data-val="leads_servicios">{{ 'wizards.estrategia.obj_leads' | t }}</button>
+        <button type="button" data-val="ventas_online">{{ 'wizards.estrategia.obj_ventas' | t }}</button>
+        <button type="button" data-val="b2b_mayoreo">{{ 'wizards.estrategia.obj_b2b' | t }}</button>
+        <button type="button" data-val="awareness">{{ 'wizards.estrategia.obj_aware' | t }}</button>
+        <button type="button" data-val="comunidad">{{ 'wizards.estrategia.obj_comunidad' | t }}</button>
+      </div>
+      <h3 class="kw-sub">{{ 'wizards.estrategia.h_timeline' | t }}</h3>
+      <div class="kw-toggles" data-single="timeline">
+        <button type="button" data-val="lanzamiento">{{ 'wizards.estrategia.tl_lanzamiento' | t }}</button>
+        <button type="button" data-val="always_on">Always-on</button>
+        <button type="button" data-val="estacional">{{ 'wizards.estrategia.tl_estacional' | t }}</button>
+      </div>
+    </fieldset>
+
+    <!-- STEP 4 -->
+    <fieldset class="kw-step" data-step="4" hidden>
+      <h2>{{ 'wizards.estrategia.s4' | t }}</h2>
+      <div class="form-group"><label>{{ 'wizards.estrategia.l_budget' | t }}</label><input type="number" name="monthlyBudgetMxn" min="500" step="500" placeholder="12000" required><small>{{ 'wizards.estrategia.small_budget' | t }}</small></div>
+      <h3 class="kw-sub">{{ 'wizards.estrategia.h_experience' | t }}</h3>
+      <div class="kw-toggles" data-single="experience">
+        <button type="button" data-val="none">{{ 'wizards.estrategia.exp_none' | t }}</button>
+        <button type="button" data-val="some">{{ 'wizards.estrategia.exp_some' | t }}</button>
+        <button type="button" data-val="advanced">{{ 'wizards.estrategia.exp_adv' | t }}</button>
+      </div>
+    </fieldset>
+
+    <!-- STEP 5 -->
+    <fieldset class="kw-step" data-step="5" hidden>
+      <h2>{{ 'wizards.estrategia.s5' | t }}</h2>
+      <div class="kw-toggles" data-multi="services">
+        <button type="button" data-val="paid_media">Paid media (Meta+Google)</button>
+        <button type="button" data-val="contenido">{{ 'wizards.estrategia.svc_content' | t }}</button>
+        <button type="button" data-val="web_landing">Web / landing pages</button>
+        <button type="button" data-val="branding">{{ 'wizards.estrategia.svc_branding' | t }}</button>
+        <button type="button" data-val="seo">SEO</button>
+        <button type="button" data-val="video">Video</button>
+        <button type="button" data-val="gbp_local">Google Business / local</button>
+      </div>
+      <h3 class="kw-sub">{{ 'wizards.estrategia.h_have' | t }}</h3>
+      <div class="kw-checks">
+        <label><input type="checkbox" name="hasWebsite"> {{ 'wizards.estrategia.have_site' | t }}</label>
+        <label><input type="checkbox" name="hasGbp"> Google Business Profile</label>
+        <label><input type="checkbox" name="hasSocial"> {{ 'wizards.estrategia.have_social' | t }}</label>
+        <label><input type="checkbox" name="hasTracking"> Tracking (Pixel/GA)</label>
+      </div>
+    </fieldset>
+
+    <!-- STEP 6 -->
+    <fieldset class="kw-step" data-step="6" hidden>
+      <h2>{{ 'wizards.estrategia.s6' | t }}</h2>
+      <div class="kw-toggles" data-single="geoType">
+        <button type="button" data-val="pais">{{ 'wizards.estrategia.geo_pais' | t }}</button>
+        <button type="button" data-val="estado">{{ 'wizards.estrategia.geo_estado' | t }}</button>
+        <button type="button" data-val="ciudad">{{ 'wizards.estrategia.geo_ciudad' | t }}</button>
+        <button type="button" data-val="zona">{{ 'wizards.estrategia.geo_zona' | t }}</button>
+        <button type="button" data-val="global">Global</button>
+      </div>
+      <div class="form-group" id="kw-geoval"><label>{{ 'wizards.estrategia.l_where' | t }}</label><input name="geoValue" placeholder="{{ 'wizards.estrategia.ph_where' | t | escape }}"></div>
+    </fieldset>
+
+    <!-- PREVIEW -->
+    <fieldset class="kw-step kw-preview" data-step="7" hidden>
+      <h2>{{ 'wizards.estrategia.s7' | t }}</h2>
+      <div id="kw-preview-body"></div>
+    </fieldset>
+
+    <div class="kw-nav">
+      <button type="button" class="kw-prev" id="kw-prev">&larr; {{ 'wizards.estrategia.prev' | t }}</button>
+      <button type="button" class="submit-btn kw-next" id="kw-next">{{ 'wizards.estrategia.next' | t }} &rarr;</button>
+    </div>
+  </form>
+</section>
+
+{%- liquid
+  assign js_locale = 'es-MX'
+  if request.locale.iso_code == 'en'
+    assign js_locale = 'en-US'
+  endif
+-%}
+<script>
+  window.KCL_KW = {
+    locale: {{ js_locale | json }},
+    next: {{ 'wizards.estrategia.js.next' | t | json }},
+    see_plan: {{ 'wizards.estrategia.js.see_plan' | t | json }},
+    generating: {{ 'wizards.estrategia.js.generating' | t | json }},
+    e_company: {{ 'wizards.estrategia.js.e_company' | t | json }},
+    e_industry: {{ 'wizards.estrategia.js.e_industry' | t | json }},
+    e_name: {{ 'wizards.estrategia.js.e_name' | t | json }},
+    e_email: {{ 'wizards.estrategia.js.e_email' | t | json }},
+    e_email_corp: {{ 'wizards.estrategia.js.e_email_corp' | t | json }},
+    e_objective: {{ 'wizards.estrategia.js.e_objective' | t | json }},
+    e_timeline: {{ 'wizards.estrategia.js.e_timeline' | t | json }},
+    e_budget_min: {{ 'wizards.estrategia.js.e_budget_min' | t | json }},
+    e_experience: {{ 'wizards.estrategia.js.e_experience' | t | json }},
+    e_service: {{ 'wizards.estrategia.js.e_service' | t | json }},
+    e_geo: {{ 'wizards.estrategia.js.e_geo' | t | json }},
+    e_where: {{ 'wizards.estrategia.js.e_where' | t | json }},
+    e_generic: {{ 'wizards.estrategia.js.e_generic' | t | json }},
+    media_month: {{ 'wizards.estrategia.js.media_month' | t | json }},
+    h_frentes: {{ 'wizards.estrategia.js.h_frentes' | t | json }},
+    unit_default: {{ 'wizards.estrategia.js.unit_default' | t | json }},
+    cost_default: {{ 'wizards.estrategia.js.cost_default' | t | json }},
+    pieces: {{ 'wizards.estrategia.js.pieces' | t | json }},
+    full_strategy: {{ 'wizards.estrategia.js.full_strategy' | t | json }},
+    buy: {{ 'wizards.estrategia.js.buy' | t | json }},
+    no_product: {{ 'wizards.estrategia.js.no_product' | t | json }},
+    e_no_checkout: {{ 'wizards.estrategia.js.e_no_checkout' | t | json }},
+    e_checkout: {{ 'wizards.estrategia.js.e_checkout' | t | json }}
+  };
+</script>
+
+{% raw %}
+<style>
+  .kw{max-width:760px;margin:0 auto;padding:48px 20px 96px}
+  .kw-eyebrow{font-family:'Courier Prime',monospace;font-size:12px;letter-spacing:.15em;color:var(--karma-red);margin-bottom:8px}
+  .kw h1{font-size:clamp(28px,5vw,48px)}
+  .kw-intro{margin:14px 0 24px;max-width:60ch}
+  .kw-progress{display:flex;gap:6px}
+  .kw-progress span{flex:1;height:6px;background:#0a0a0a22;border:2px solid var(--karma-black)}
+  .kw-progress span.on{background:var(--karma-green)}
+  .kw-error{border:3px solid var(--karma-red);background:#FF003311;color:var(--karma-black);padding:12px 14px;margin:18px 0;font-weight:600;box-shadow:4px 4px 0 var(--karma-red)}
+  .kw-step{border:0;padding:28px 0 0}
+  .kw-step h2{font-size:22px;margin-bottom:18px}
+  .kw-sub{font-size:14px;margin:22px 0 10px;letter-spacing:.05em}
+  .form-karma .form-group{margin-bottom:16px;display:flex;flex-direction:column}
+  .form-karma label{font-family:'Space Grotesk',sans-serif;text-transform:uppercase;font-size:13px;font-weight:700;margin-bottom:6px}
+  .form-karma input,.form-karma textarea{border:3px solid var(--karma-black);background:var(--karma-white);padding:12px;font-family:'Inter',sans-serif;font-size:16px;box-shadow:4px 4px 0 var(--karma-black)}
+  .form-karma input:focus,.form-karma textarea:focus{outline:none;border-color:var(--karma-green);box-shadow:4px 4px 0 var(--karma-green)}
+  .form-karma small{font-size:12px;opacity:.7;margin-top:4px}
+  .kw-toggles{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+  .kw-toggles button{border:3px solid var(--karma-black);background:var(--karma-white);padding:12px;text-align:left;font-family:'Inter',sans-serif;font-size:15px;cursor:pointer;box-shadow:4px 4px 0 var(--karma-black);transition:transform .05s}
+  .kw-toggles button:hover{transform:translate(-1px,-1px)}
+  .kw-toggles button.on{background:var(--karma-green);box-shadow:4px 4px 0 var(--karma-black)}
+  .kw-checks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+  .kw-checks label{display:flex;align-items:center;gap:8px;font-size:15px;border:3px solid var(--karma-black);padding:10px;box-shadow:4px 4px 0 var(--karma-black)}
+  .kw-checks input{width:18px;height:18px}
+  .kw-nav{display:flex;justify-content:space-between;margin-top:34px}
+  .kw-prev{background:none;border:0;font-weight:700;text-transform:uppercase;cursor:pointer;font-family:'Space Grotesk',sans-serif}
+  .submit-btn{background:var(--karma-black);color:var(--karma-white);border:3px solid var(--karma-black);padding:14px 26px;font-family:'Space Grotesk',sans-serif;font-weight:700;text-transform:uppercase;cursor:pointer;box-shadow:5px 5px 0 var(--karma-green)}
+  .submit-btn:hover{box-shadow:2px 2px 0 var(--karma-green);transform:translate(3px,3px)}
+  .submit-btn[disabled]{opacity:.5;cursor:wait}
+  /* preview */
+  .kw-split{display:flex;border:3px solid var(--karma-black);box-shadow:5px 5px 0 var(--karma-black);margin:8px 0 20px;font-family:'Space Grotesk',sans-serif;font-weight:700}
+  .kw-split div{padding:14px;text-align:center}
+  .kw-split .pauta{background:var(--karma-green)}
+  .kw-split .oper{background:var(--karma-white);border-left:3px solid var(--karma-black)}
+  .kw-split small{display:block;font-family:'Courier Prime',monospace;font-weight:400;font-size:11px}
+  .kw-frente{border:3px solid var(--karma-black);padding:12px 14px;margin-bottom:10px;box-shadow:4px 4px 0 var(--karma-black);display:flex;justify-content:space-between;gap:10px}
+  .kw-frente b{font-family:'Space Grotesk',sans-serif}
+  .kw-frente .amt{font-family:'Space Grotesk',sans-serif;font-weight:700;white-space:nowrap}
+  .kw-price{border:3px solid var(--karma-red);box-shadow:6px 6px 0 var(--karma-red);padding:22px;text-align:center;margin-top:22px}
+  .kw-price .num{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:44px}
+  .kw-warn{font-size:13px;border-left:3px solid var(--karma-red);padding:6px 10px;margin:6px 0;background:#FF003308}
+  .kw-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:8px 0 18px}
+  .kw-stats div{border:3px solid var(--karma-black);padding:10px;text-align:center;box-shadow:4px 4px 0 var(--karma-black)}
+  .kw-stats b{display:block;font-family:'Space Grotesk',sans-serif;font-size:22px}
+  .kw-stats small{font-size:11px;text-transform:uppercase}
+</style>
+
+<script>
+(function(){
+  var root=document.getElementById('estrategia-wizard');
+  if(!root) return;
+  var API=root.dataset.api;
+  var form=document.getElementById('kw-form');
+  var steps=[].slice.call(form.querySelectorAll('.kw-step'));
+  var TOTAL=steps.length; var cur=0;
+  var I=window.KCL_KW||{}; var LOC=I.locale||'es-MX';
+  var state={objectives:[],services:[],timeline:'',experience:'',geoType:''};
+  var submissionId=null, variantId=null;
+  var prog=document.getElementById('kw-progress');
+  for(var i=0;i<TOTAL;i++){var s=document.createElement('span');prog.appendChild(s);}
+  var progSpans=prog.children;
+  var errBox=document.getElementById('kw-error');
+  var nextBtn=document.getElementById('kw-next'); var prevBtn=document.getElementById('kw-prev');
+
+  function show(n){
+    steps.forEach(function(st,idx){st.hidden=idx!==n;});
+    for(var i=0;i<TOTAL;i++)progSpans[i].className=i<=n?'on':'';
+    prevBtn.style.visibility=n===0?'hidden':'visible';
+    nextBtn.textContent = n===5 ? (I.see_plan||'VER MI PLAN →') : (n===6 ? '' : (I.next||'SIGUIENTE →'));
+    nextBtn.style.display = n===6 ? 'none' : '';
+    window.scrollTo({top:root.offsetTop-20,behavior:'smooth'});
+  }
+  function err(m){errBox.textContent='⚠ '+m;errBox.hidden=false;window.scrollTo({top:root.offsetTop-20,behavior:'smooth'});}
+  function clrErr(){errBox.hidden=true;}
+
+  // toggles
+  form.querySelectorAll('.kw-toggles').forEach(function(grp){
+    var multi=grp.dataset.multi, single=grp.dataset.single;
+    grp.addEventListener('click',function(e){
+      var b=e.target.closest('button'); if(!b)return;
+      var v=b.dataset.val;
+      if(multi){
+        var arr=state[multi]; var i=arr.indexOf(v);
+        if(i>=0){arr.splice(i,1);b.classList.remove('on');}else{arr.push(v);b.classList.add('on');}
+      }else if(single){
+        state[single]=v;
+        grp.querySelectorAll('button').forEach(function(x){x.classList.remove('on');});
+        b.classList.add('on');
+        if(single==='geoType'){document.getElementById('kw-geoval').style.display = v==='global'?'none':'flex';}
+      }
+    });
+  });
+
+  function val(name){var el=form.elements[name];return el?el.value.trim():'';}
+  function chk(name){var el=form.elements[name];return el?el.checked:false;}
+
+  function validate(n){
+    if(n===0){if(val('companyName').length<2)return I.e_company||'Falta el nombre de la empresa';if(!val('industry'))return I.e_industry||'Falta la industria';}
+    if(n===1){if(val('contactName').length<2)return I.e_name||'Falta tu nombre';var e=val('contactEmail');if(!/^[^@]+@[^@]+\.[^@]+$/.test(e))return I.e_email||'Correo inválido';if(/(gmail|hotmail|outlook|yahoo|icloud|proton)\./i.test(e))return I.e_email_corp||'Usa tu correo corporativo';}
+    if(n===2){if(!state.objectives.length)return I.e_objective||'Elige al menos un objetivo';if(!state.timeline)return I.e_timeline||'Elige un timeline';}
+    if(n===3){var b=Number(val('monthlyBudgetMxn'));if(!(b>=500))return I.e_budget_min||'Inversión mínima $500 MXN';if(!state.experience)return I.e_experience||'Elige tu experiencia';}
+    if(n===4){if(!state.services.length)return I.e_service||'Elige al menos un servicio';}
+    if(n===5){if(!state.geoType)return I.e_geo||'Elige una geografía';if(state.geoType!=='global'&&!val('geoValue'))return I.e_where||'Indica dónde';}
+    return null;
+  }
+
+  function payload(){
+    return {companyName:val('companyName'),industry:val('industry'),contactName:val('contactName'),
+      contactEmail:val('contactEmail'),contactPhone:val('contactPhone'),objectives:state.objectives,
+      services:state.services,monthlyBudgetMxn:Number(val('monthlyBudgetMxn')),timeline:state.timeline,
+      experience:state.experience,geoType:state.geoType,geoValue:val('geoValue'),
+      presence:{hasWebsite:chk('hasWebsite'),hasGbp:chk('hasGbp'),hasSocial:chk('hasSocial'),hasTracking:chk('hasTracking')}};
+  }
+
+  var fmt=function(n){return '$'+Number(n||0).toLocaleString(LOC);};
+
+  function renderPreview(p){
+    submissionId=null; variantId=p.variantId||null;
+    var h='';
+    h+='<div class="kw-split"><div class="pauta" style="flex:1">'+fmt(p.totalBudgetMxn)+'<small>'+(I.media_month||'INVERSIÓN EN MEDIOS / MES')+'</small></div></div>';
+    if(p.frentes&&p.frentes.length){h+='<h3 class="kw-sub">'+(I.h_frentes||'FRENTES')+'</h3>';
+      p.frentes.forEach(function(f){var fe=f.estValue!=null?' · ~'+Number(f.estValue).toLocaleString(LOC)+' '+(f.estUnitLabel||''):'';h+='<div class="kw-frente"><div><b>'+f.objectiveLabel+'</b><br><small>'+f.kpiLabel+fe+'</small></div><span class="amt">'+fmt(f.budgetMxn)+'<br><small>'+f.pct+'%</small></span></div>';});}
+    var po=p.primaryOutcome||{value:(p.estLeadsTotal||0),unitLabel:(I.unit_default||'resultados/mes est.'),costMxn:p.estCplAvgMxn,costLabel:(I.cost_default||'Costo prom.')};
+    h+='<div class="kw-stats"><div><b>'+Number(po.value||0).toLocaleString(LOC)+'</b><small>'+po.unitLabel+'</small></div>';
+    h+='<div><b>'+(po.costMxn?fmt(po.costMxn):'—')+'</b><small>'+po.costLabel+'</small></div>';
+    h+='<div><b>'+(p.recommendedContentPieces||0)+'</b><small>'+(I.pieces||'piezas/mes sug.')+'</small></div></div>';
+    if(p.warnings&&p.warnings.length){p.warnings.forEach(function(w){h+='<div class="kw-warn">'+w+'</div>';});}
+    h+='<div class="kw-price"><small style="font-family:Courier Prime,monospace">'+(I.full_strategy||'ESTRATEGIA COMPLETA + PLAN ACCIONABLE')+'</small>';
+    h+='<div class="num">'+fmt(p.priceMxn)+' <span style="font-size:16px">MXN</span></div>';
+    h+='<button type="button" class="submit-btn" id="kw-buy" style="margin-top:14px">'+(I.buy||'OBTENER MI ESTRATEGIA →')+'</button>';
+    if(!variantId){h+='<p class="kw-warn" style="margin-top:12px">'+(I.no_product||'Producto de pago aún no configurado. Avísale a Karma.')+'</p>';}
+    h+='</div>';
+    document.getElementById('kw-preview-body').innerHTML=h;
+    var buy=document.getElementById('kw-buy');
+    if(buy)buy.addEventListener('click',checkout);
+  }
+
+  async function fetchPreview(){
+    clrErr(); nextBtn.disabled=true; nextBtn.textContent=I.generating||'GENERANDO…';
+    try{
+      var r=await fetch(API+'/api/strategy/preview',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload())});
+      var d=await r.json();
+      if(!r.ok)throw new Error(d.error||I.e_generic||'Error');
+      submissionId=d.submissionId; cur=6; show(6); renderPreview(d.preview); submissionId=d.submissionId;
+    }catch(e){err(e.message||I.e_generic||'Error');}
+    finally{nextBtn.disabled=false;}
+  }
+
+  async function checkout(){
+    if(!submissionId||!variantId){err(I.e_no_checkout||'No se puede continuar al pago todavía.');return;}
+    var buy=document.getElementById('kw-buy'); buy.disabled=true; buy.textContent='REDIRIGIENDO…';
+    try{
+      await fetch('/cart/add.js',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({items:[{id:Number(variantId),quantity:1,properties:{submissionId:submissionId}}]})});
+      // Tambien como cart attribute: la extension de la pagina de "Gracias" lo lee
+      // con useAttributeValues(['submissionId']) para hacer el polling post-pago.
+      await fetch('/cart/update.js',{method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({attributes:{submissionId:submissionId}})});
+      window.location.href='/checkout';
+    }catch(e){err(I.e_checkout||'No se pudo iniciar el checkout.');buy.disabled=false;buy.textContent=I.buy||'OBTENER MI ESTRATEGIA →';}
+  }
+
+  nextBtn.addEventListener('click',function(){
+    var v=validate(cur); if(v){err(v);return;} clrErr();
+    if(cur===5){fetchPreview();return;}
+    cur=Math.min(cur+1,TOTAL-1); show(cur);
+  });
+  prevBtn.addEventListener('click',function(){clrErr();cur=Math.max(cur-1,0);show(cur);});
+  show(0);
+})();
+</script>
+{% endraw %}
+
+{% schema %}
+{
+  "name": "Estrategia Wizard",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow" },
+    { "type": "text", "id": "title", "label": "Titulo" },
+    { "type": "textarea", "id": "intro", "label": "Intro" },
+    { "type": "url", "id": "api_base", "label": "API base (backend Vercel)", "info": "Ej. https://<tu-backend>.vercel.app — sin slash final." }
+  ],
+  "presets": [ { "name": "Estrategia Wizard" } ]
+}
+{% endschema %}

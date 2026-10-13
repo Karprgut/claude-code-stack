@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Core palette</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0}
+  body{background:var(--karma-white);font-family:var(--font-body);padding:16px}
+  .row{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:var(--border-std)}
+  .sw{height:118px;display:flex;flex-direction:column;justify-content:flex-end;padding:10px;font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:.1em;position:relative}
+  .sw + .sw{border-left:var(--border-std)}
+  .sw .n{font-family:var(--font-display);font-weight:700;font-size:14px;letter-spacing:-0.01em;text-transform:uppercase;line-height:1;margin-bottom:4px}
+  .sw .hex{opacity:.8}
+  .black{background:#0A0A0A;color:#FAFAFA}
+  .white{background:#FAFAFA;color:#0A0A0A;border-right:none}
+  .cream{background:#F5F0EB;color:#0A0A0A}
+  .red{background:#FF0033;color:#FAFAFA}
+  .green{background:#00FF41;color:#0A0A0A}
+</style></head><body>
+  <div class="row">
+    <div class="sw black"><div class="n">Black</div><div class="hex">#0A0A0A</div></div>
+    <div class="sw white"><div class="n">White</div><div class="hex">#FAFAFA</div></div>
+    <div class="sw cream"><div class="n">Cream</div><div class="hex">#F5F0EB</div></div>
+    <div class="sw red"><div class="n">Red</div><div class="hex">#FF0033</div></div>
+    <div class="sw green"><div class="n">Green</div><div class="hex">#00FF41</div></div>
+  </div>
+</body></html>

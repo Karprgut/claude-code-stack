@@ -10,10 +10,11 @@ Instalación: copia o enlaza la carpeta en `~/.claude/skills/`.
 ln -s "$PWD/skills/post-mortem" ~/.claude/skills/post-mortem
 ```
 
-## Las 13
+## Las 14
 
 | Skill | Qué hace | Trae |
 |---|---|---|
+| [karma-creative-lab-design](karma-creative-lab-design/) | El design system de la agencia como skill: brutalista con acentos glitch, tokens CSS, assets reales, kit de componentes React, 23 especímenes atómicos y el **playbook DOM→PPTX** (cómo sacar un PowerPoint editable de un deck HTML) | `README.md`, `colors_and_type.css`, `assets/`, `ui_kits/`, `preview/`, `playbooks/` |
 | [ad-intelligence](ad-intelligence/) | Inteligencia competitiva de paid media al estilo AdClarity con fuentes públicas: qué pautan los competidores, Share of Voice, huecos. Modelo de **creativo-días** para estimar inversión sin panel y reglas de presentación por clase de confianza | `references/fuentes.md`, `references/lectura.md` |
 | [post-mortem](post-mortem/) | El cierre mensual de un cliente: deck 1920×1080 en el sistema visual del cliente, exportado a **PPTX nativo** (python-pptx o pptxgenjs, nunca imágenes). Arco narrativo, checklist de calidad, pipeline de build | `references/{clients,narrative-arc,quality-checklist,build-pipeline}.md` |
 | [post-mortem-consulta](post-mortem-consulta/) | El pull de datos que alimenta al anterior: Meta + Google + TikTok por API/MCP, Shopify por ShopifyQL, GA4 por MCP. Deja CSVs y un brief; no arma el deck | `references/{fuentes,meta-mcp,tiktok-mcp}.md` |

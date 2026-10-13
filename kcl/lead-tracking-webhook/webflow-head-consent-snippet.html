@@ -1,0 +1,32 @@
+<!-- ============================================================
+     TBP · Google Consent Mode v2 — DEFAULT DENIED
+     ────────────────────────────────────────────────────────────
+     PÉGALO EN:  Webflow → Project Settings → Custom Code → HEAD CODE
+     POSICIÓN:   tiene que quedar ARRIBA del snippet de GTM (GTM-XXXXXXX).
+                 Si GTM ya está en el Head, mueve este bloque por ENCIMA.
+     PORQUÉ:     define el estado de consentimiento ANTES de que cargue
+                 cualquier tag, así nada rastrea hasta que el usuario acepte
+                 (requisito GDPR). El banner (cookie-consent.js, en el Footer)
+                 hace el `consent update` cuando el usuario decide.
+     ============================================================ -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+
+  // Estado por defecto: TODO denegado (opt-in estricto / GDPR).
+  gtag('consent', 'default', {
+    ad_storage:         'denied',
+    ad_user_data:       'denied',
+    ad_personalization: 'denied',
+    analytics_storage:  'denied',
+    functionality_storage: 'granted',  // necesarias
+    security_storage:      'granted',  // necesarias
+    wait_for_update: 500               // ms que GTM espera al update del banner
+  });
+
+  // Mejora la medición sin cookies cuando hay consentimiento (Consent Mode v2).
+  gtag('set', 'ads_data_redaction', true);
+  gtag('set', 'url_passthrough', true);
+</script>
+<!-- ====== ↑ ESTE BLOQUE VA ANTES DEL SNIPPET DE GTM ↓ ====== -->
+<!-- (Aquí abajo debe seguir tu contenedor existente GTM-XXXXXXX) -->

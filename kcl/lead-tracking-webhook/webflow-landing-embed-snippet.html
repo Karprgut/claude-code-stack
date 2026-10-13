@@ -1,0 +1,52 @@
+<!--
+  TBP · Landing de pauta · bloque para Webflow (opción 2: cascarón + contenido desde Vercel)
+  ─────────────────────────────────────────────────────────────────────────────────────────
+  Dónde va:
+    1. Pages → + → página nueva. Nombre "Proyecto", slug "proyecto" (la del Golfo: "project").
+       No agregar la página al menú. Sin Navbar; el Footer es opcional.
+    2. En el canvas, agregar un elemento Embed (Add → Components → Embed) a ancho completo
+       y pegar TODO este bloque tal cual. Solo cambia data-landing: "mx" o "gulf".
+    3. Page settings → Custom code → Inside <head>: pegar la línea de <meta name="robots">
+       de abajo (la landing es de pauta, no debe indexarse).
+    4. Publish.
+  Lo que pasa después ya no depende de Webflow: el contenido, el formulario y la medición
+  se sirven desde tbp-brevo-tracking.vercel.app y se actualizan con cada deploy.
+
+  Para el <head> de la página (Page settings → Custom code → Inside <head>):
+  <meta name="robots" content="noindex, follow">
+-->
+
+<div id="tbp-landing" data-landing="mx" data-state="loading" style="min-height:100vh;background:#f7f6f5;margin:0;padding:0">
+  <!-- Fallback: solo se ve si el script de Vercel no responde en 5 s o si no hay JavaScript -->
+  <div class="tbp-landing-fallback" hidden style="max-width:640px;margin:0 auto;padding:120px 24px;font-family:'KMR Melange Semi Light','Helvetica Neue',Arial,sans-serif;color:#000;line-height:1.5">
+    <p style="font-size:22px;margin:0 0 16px">Sistemas de marca para negocios que ya entraron en una nueva etapa.</p>
+    <p style="margin:0 0 24px;color:#565656">Cuéntanos de tu proyecto y te respondemos en menos de 24 horas.</p>
+    <a href="/contact" style="color:#000;text-decoration:underline">Ir al formulario de contacto</a>
+  </div>
+  <noscript>
+    <div style="max-width:640px;margin:0 auto;padding:120px 24px;font-family:Arial,sans-serif;color:#000">
+      <p>Cuéntanos de tu proyecto: <a href="/contact">formulario de contacto</a>.</p>
+    </div>
+  </noscript>
+</div>
+
+<script>
+  (function () {
+    var root = document.getElementById("tbp-landing");
+    var s = document.createElement("script");
+    s.src = "https://tbp-brevo-tracking.vercel.app/landing.js";
+    s.defer = true;
+    s.onerror = showFallback;
+    document.head.appendChild(s);
+    // Si en 5 s el script no marcó la landing como renderizada, mostrar el fallback
+    setTimeout(function () {
+      if (root && root.getAttribute("data-state") === "loading") showFallback();
+    }, 5000);
+    function showFallback() {
+      if (!root) return;
+      root.setAttribute("data-state", "fallback");
+      var fb = root.querySelector(".tbp-landing-fallback");
+      if (fb) fb.hidden = false;
+    }
+  })();
+</script>

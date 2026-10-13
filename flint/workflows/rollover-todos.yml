@@ -1,0 +1,33 @@
+name: Rollover Todos
+
+on:
+  schedule:
+    # 05:55 UTC = 23:55 America/Mexico_City (UTC-6).
+    - cron: "55 5 * * *"
+  workflow_dispatch:
+
+jobs:
+  rollover:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "pnpm"
+          cache-dependency-path: dashboard/pnpm-lock.yaml
+
+      - name: Install dashboard dependencies
+        working-directory: dashboard
+        run: pnpm install --frozen-lockfile
+
+      - name: Run rollover
+        env:
+          MONGODB_URI: ${{ secrets.MONGODB_URI }}
+          FLINT_TIMEZONE: ${{ secrets.FLINT_TIMEZONE }}
+        run: node dashboard/scripts/rollover-todos.mjs

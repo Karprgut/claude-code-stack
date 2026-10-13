@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Badges & tags</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--karma-white)}
+  .wrap{padding:24px;background:var(--karma-white);border:var(--border-std);display:flex;flex-wrap:wrap;gap:18px;align-items:center}
+  .num{background:#FF0033;color:#FAFAFA;border:4px solid #0A0A0A;padding:8px 14px;font-family:var(--font-display);font-weight:700;font-size:16px;transform:rotate(8deg);box-shadow:4px 4px 0 0 #0A0A0A}
+  .tag{border:2px solid #0A0A0A;padding:6px 12px;font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;background:#FAFAFA}
+  .tag.green{background:#00FF41}
+  .tag.black{background:#0A0A0A;color:#FAFAFA;border-color:#0A0A0A}
+  .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border:2px solid #0A0A0A;font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
+  .dot{width:8px;height:8px;background:#00FF41;border:1.5px solid #0A0A0A}
+</style></head><body>
+  <div class="wrap">
+    <span class="num">01</span>
+    <span class="num" style="transform:rotate(-6deg)">02</span>
+    <span class="num" style="background:#00FF41;color:#0A0A0A">03</span>
+    <span class="tag">ESTRATEGIA</span>
+    <span class="tag green">NUEVO</span>
+    <span class="tag black">SISTEMA VIVO</span>
+    <span class="chip"><span class="dot"></span>ACTIVO</span>
+  </div>
+</body></html>

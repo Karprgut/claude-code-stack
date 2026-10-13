@@ -13,6 +13,8 @@
 !/skills/
 !/automatizaciones/
 !/herramientas/
+!/kcl/
+!/flint/
 !/docs/
 
 # ── NUNCA, BAJO NINGUNA CIRCUNSTANCIA ────────────────────────────────
@@ -21,8 +23,12 @@
 .env.*
 env
 env.*
+!env.ts
 !env.ejemplo
 !*.env.ejemplo
+!.env.example
+!.env.*.example
+watcher.env
 credentials/
 adc-*.json
 *token*.json

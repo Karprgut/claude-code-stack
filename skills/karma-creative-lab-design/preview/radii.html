@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Corner radii</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;padding:0;background:var(--karma-white)}
+  .wrap{padding:20px 24px;background:var(--karma-white);border:var(--border-std)}
+  .row{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .box{height:80px;border:4px solid #0A0A0A;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:14px;text-transform:uppercase}
+  .r0{border-radius:0}
+  .r2{border-radius:2px}
+  .r4{border-radius:4px}
+  .label{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--karma-gray-500);margin-top:10px;text-align:center}
+  .cell{display:flex;flex-direction:column}
+  .note{font-family:var(--font-mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--karma-red);text-align:center;margin-top:8px}
+</style></head><body>
+  <div class="wrap">
+    <div class="row">
+      <div class="cell"><div class="box r0">0px</div><div class="label">Default</div></div>
+      <div class="cell"><div class="box r2">2px</div><div class="label">Input inner</div></div>
+      <div class="cell"><div class="box r4">4px</div><div class="label">Maximum</div></div>
+    </div>
+    <div class="note">★ Pills & circles forbidden</div>
+  </div>
+</body></html>

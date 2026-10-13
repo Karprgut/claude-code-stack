@@ -1,0 +1,17 @@
+api_version = "2025-07"
+
+[[extensions]]
+name = "Estrategia — Gracias"
+handle = "estrategia-thankyou"
+uid = "dcc2a4a2-74ac-1324-a2a5-8c9f1363dc66f558ca05"
+type = "ui_extension"
+
+  # Bloque en la pagina de "Gracias" (post-pago). Hace polling al backend y
+  # muestra el boton "VER MI ESTRATEGIA" cuando el entregable esta listo.
+  [[extensions.targeting]]
+  target = "purchase.thank-you.block.render"
+  module = "./src/Checkout.jsx"
+
+  # Necesario para que el polling pueda hacer fetch al backend de Vercel.
+  [extensions.capabilities]
+  network_access = true

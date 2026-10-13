@@ -1,0 +1,263 @@
+{
+  "exportFormatVersion": 2,
+  "exportTime": "2026-05-31 00:00:00",
+  "containerVersion": {
+    "path": "accounts/0/containers/0/versions/0",
+    "accountId": "0",
+    "containerId": "0",
+    "containerVersionId": "0",
+    "name": "Karma · Tracking (Meta + TikTok + Google Ads + GA4 lead)",
+    "container": {
+      "accountId": "0",
+      "containerId": "0",
+      "name": "Karma Creative Lab",
+      "publicId": "GTM-XXXXXXX",
+      "usageContext": ["WEB"],
+      "fingerprint": "0",
+      "tagManagerUrl": "https://tagmanager.google.com/"
+    },
+    "tag": [
+      {
+        "accountId": "0", "containerId": "0", "tagId": "30",
+        "name": "Meta Pixel - Base (All Pages)",
+        "type": "html",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "html", "value": "<script>\n!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');\nfbq('init','{{Meta Pixel ID}}');\nfbq('track','PageView');\n</script>" },
+          { "type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false" }
+        ],
+        "firingTriggerId": ["2147479553"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "31",
+        "name": "Meta Pixel - ViewContent",
+        "type": "html",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "html", "value": "<script>fbq('track','ViewContent',{value:{{DLV - ecommerce.value}},currency:{{DLV - ecommerce.currency}}});</script>" },
+          { "type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false" }
+        ],
+        "firingTriggerId": ["100"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "32",
+        "name": "Meta Pixel - AddToCart",
+        "type": "html",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "html", "value": "<script>fbq('track','AddToCart',{currency:{{DLV - ecommerce.currency}}});</script>" },
+          { "type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false" }
+        ],
+        "firingTriggerId": ["101"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "33",
+        "name": "Meta Pixel - InitiateCheckout",
+        "type": "html",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "html", "value": "<script>fbq('track','InitiateCheckout',{currency:{{DLV - ecommerce.currency}}});</script>" },
+          { "type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false" }
+        ],
+        "firingTriggerId": ["102"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "34",
+        "name": "Meta Pixel - Lead",
+        "type": "html",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "html", "value": "<script>fbq('track','Lead',{currency:{{DLV - ecommerce.currency}}});</script>" },
+          { "type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false" }
+        ],
+        "firingTriggerId": ["103"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "40",
+        "name": "TikTok Pixel - Base (All Pages)",
+        "type": "html",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "html", "value": "<script>\n!function(w,d,t){w.TiktokAnalyticsObject=t;var ttq=w[t]=w[t]||[];ttq.methods=['page','track','identify','instances','debug','on','off','once','ready','alias','group','enableCookie','disableCookie'];ttq.setAndDefer=function(t,e){t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}};for(var i=0;i<ttq.methods.length;i++)ttq.setAndDefer(ttq,ttq.methods[i]);ttq.instance=function(t){for(var e=ttq._i[t]||[],n=0;n<ttq.methods.length;n++)ttq.setAndDefer(e,ttq.methods[n]);return e};ttq.load=function(e,n){var i='https://analytics.tiktok.com/i18n/pixel/events.js';ttq._i=ttq._i||{};ttq._i[e]=[];ttq._i[e]._u=i;ttq._t=ttq._t||{};ttq._t[e]=+new Date;ttq._o=ttq._o||{};ttq._o[e]=n||{};var o=d.createElement('script');o.type='text/javascript';o.async=!0;o.src=i+'?sdkid='+e+'&lib='+t;var a=d.getElementsByTagName('script')[0];a.parentNode.insertBefore(o,a)};\nttq.load('{{TikTok Pixel ID}}');ttq.page();\n}(window,document,'ttq');\n</script>" },
+          { "type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false" }
+        ],
+        "firingTriggerId": ["2147479553"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "41",
+        "name": "TikTok Pixel - ViewContent",
+        "type": "html",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "html", "value": "<script>ttq.track('ViewContent',{currency:{{DLV - ecommerce.currency}},value:{{DLV - ecommerce.value}}});</script>" },
+          { "type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false" }
+        ],
+        "firingTriggerId": ["100"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "42",
+        "name": "TikTok Pixel - AddToCart",
+        "type": "html",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "html", "value": "<script>ttq.track('AddToCart',{currency:{{DLV - ecommerce.currency}}});</script>" },
+          { "type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false" }
+        ],
+        "firingTriggerId": ["101"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "43",
+        "name": "TikTok Pixel - InitiateCheckout",
+        "type": "html",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "html", "value": "<script>ttq.track('InitiateCheckout',{currency:{{DLV - ecommerce.currency}}});</script>" },
+          { "type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false" }
+        ],
+        "firingTriggerId": ["102"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "44",
+        "name": "TikTok Pixel - SubmitForm (Lead)",
+        "type": "html",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "html", "value": "<script>ttq.track('SubmitForm',{currency:{{DLV - ecommerce.currency}}});</script>" },
+          { "type": "BOOLEAN", "key": "supportDocumentWrite", "value": "false" }
+        ],
+        "firingTriggerId": ["103"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "50",
+        "name": "Google Ads - Conversion Linker",
+        "type": "gclidw",
+        "parameter": [
+          { "type": "BOOLEAN", "key": "enableCrossDomain", "value": "false" },
+          { "type": "BOOLEAN", "key": "acceptIncoming", "value": "true" }
+        ],
+        "firingTriggerId": ["2147479553"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "51",
+        "name": "Google Ads - Lead Conversion",
+        "type": "awct",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "conversionId", "value": "18199843291" },
+          { "type": "TEMPLATE", "key": "conversionLabel", "value": "{{Google Ads Lead Label}}" },
+          { "type": "TEMPLATE", "key": "currencyCode", "value": "{{DLV - ecommerce.currency}}" },
+          { "type": "BOOLEAN", "key": "enableConversionLinker", "value": "true" }
+        ],
+        "firingTriggerId": ["103"]
+      },
+      {
+        "accountId": "0", "containerId": "0", "tagId": "60",
+        "name": "GA4 - generate_lead (evento extra)",
+        "type": "gaawe",
+        "parameter": [
+          { "type": "TEMPLATE", "key": "eventName", "value": "generate_lead" },
+          { "type": "TEMPLATE", "key": "measurementIdOverride", "value": "{{GA4 ID}}" },
+          { "type": "BOOLEAN", "key": "sendEcommerceData", "value": "false" }
+        ],
+        "firingTriggerId": ["103"]
+      }
+    ],
+    "trigger": [
+      {
+        "accountId": "0", "containerId": "0", "triggerId": "100",
+        "name": "CE - view_item",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          { "type": "EQUALS", "parameter": [
+            { "type": "TEMPLATE", "key": "arg0", "value": "{{_event}}" },
+            { "type": "TEMPLATE", "key": "arg1", "value": "view_item" }
+          ] }
+        ]
+      },
+      {
+        "accountId": "0", "containerId": "0", "triggerId": "101",
+        "name": "CE - add_to_cart",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          { "type": "EQUALS", "parameter": [
+            { "type": "TEMPLATE", "key": "arg0", "value": "{{_event}}" },
+            { "type": "TEMPLATE", "key": "arg1", "value": "add_to_cart" }
+          ] }
+        ]
+      },
+      {
+        "accountId": "0", "containerId": "0", "triggerId": "102",
+        "name": "CE - begin_checkout",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          { "type": "EQUALS", "parameter": [
+            { "type": "TEMPLATE", "key": "arg0", "value": "{{_event}}" },
+            { "type": "TEMPLATE", "key": "arg1", "value": "begin_checkout" }
+          ] }
+        ]
+      },
+      {
+        "accountId": "0", "containerId": "0", "triggerId": "103",
+        "name": "CE - generate_lead",
+        "type": "CUSTOM_EVENT",
+        "customEventFilter": [
+          { "type": "EQUALS", "parameter": [
+            { "type": "TEMPLATE", "key": "arg0", "value": "{{_event}}" },
+            { "type": "TEMPLATE", "key": "arg1", "value": "generate_lead" }
+          ] }
+        ]
+      }
+    ],
+    "variable": [
+      {
+        "accountId": "0", "containerId": "0", "variableId": "10",
+        "name": "DLV - ecommerce.value",
+        "type": "v",
+        "parameter": [
+          { "type": "INTEGER", "key": "dataLayerVersion", "value": "2" },
+          { "type": "BOOLEAN", "key": "setDefaultValue", "value": "true" },
+          { "type": "TEMPLATE", "key": "defaultValue", "value": "0" },
+          { "type": "TEMPLATE", "key": "name", "value": "ecommerce.value" }
+        ]
+      },
+      {
+        "accountId": "0", "containerId": "0", "variableId": "11",
+        "name": "DLV - ecommerce.currency",
+        "type": "v",
+        "parameter": [
+          { "type": "INTEGER", "key": "dataLayerVersion", "value": "2" },
+          { "type": "BOOLEAN", "key": "setDefaultValue", "value": "true" },
+          { "type": "TEMPLATE", "key": "defaultValue", "value": "MXN" },
+          { "type": "TEMPLATE", "key": "name", "value": "ecommerce.currency" }
+        ]
+      },
+      {
+        "accountId": "0", "containerId": "0", "variableId": "12",
+        "name": "DLV - ecommerce.items",
+        "type": "v",
+        "parameter": [
+          { "type": "INTEGER", "key": "dataLayerVersion", "value": "2" },
+          { "type": "BOOLEAN", "key": "setDefaultValue", "value": "false" },
+          { "type": "TEMPLATE", "key": "name", "value": "ecommerce.items" }
+        ]
+      },
+      {
+        "accountId": "0", "containerId": "0", "variableId": "20",
+        "name": "Meta Pixel ID",
+        "type": "c",
+        "parameter": [ { "type": "TEMPLATE", "key": "value", "value": "REEMPLAZAR_META_PIXEL_ID" } ]
+      },
+      {
+        "accountId": "0", "containerId": "0", "variableId": "21",
+        "name": "TikTok Pixel ID",
+        "type": "c",
+        "parameter": [ { "type": "TEMPLATE", "key": "value", "value": "REEMPLAZAR_TIKTOK_PIXEL_ID" } ]
+      },
+      {
+        "accountId": "0", "containerId": "0", "variableId": "22",
+        "name": "GA4 ID",
+        "type": "c",
+        "parameter": [ { "type": "TEMPLATE", "key": "value", "value": "G-XXXXXXXXXX" } ]
+      },
+      {
+        "accountId": "0", "containerId": "0", "variableId": "23",
+        "name": "Google Ads Lead Label",
+        "type": "c",
+        "parameter": [ { "type": "TEMPLATE", "key": "value", "value": "REEMPLAZAR_GOOGLE_ADS_LEAD_LABEL" } ]
+      }
+    ],
+    "builtInVariable": [
+      { "accountId": "0", "containerId": "0", "type": "EVENT", "name": "Event" }
+    ],
+    "fingerprint": "0"
+  }
+}

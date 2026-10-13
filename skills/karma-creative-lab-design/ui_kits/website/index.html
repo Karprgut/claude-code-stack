@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Karma Creative Lab — UI Kit</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="kit.css">
+<style>
+  body{margin:0}
+  .kit-header{background:#0A0A0A;color:#FAFAFA;padding:20px 48px;display:flex;align-items:center;justify-content:space-between;border-bottom:4px solid #FAFAFA;flex-wrap:wrap;gap:16px}
+  .kit-header .l{display:flex;align-items:center;gap:16px}
+  .kit-header img{height:36px}
+  .kit-header .tag{font-family:var(--font-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#00FF41}
+  .kit-header nav{display:flex;gap:4px;flex-wrap:wrap}
+  .kit-header nav a{font-family:var(--font-display);font-weight:700;text-transform:uppercase;font-size:12px;letter-spacing:-0.01em;color:#FAFAFA;text-decoration:none;padding:8px 12px;border:2px solid transparent;cursor:pointer}
+  .kit-header nav a.active{border-color:#00FF41;color:#00FF41}
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="Chrome.jsx"></script>
+<script type="text/babel" src="Sections.jsx"></script>
+<script type="text/babel" src="ContactFooter.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+function App() {
+  const [view, setView] = useState(() => localStorage.getItem('kcl_view') || 'home');
+  const [service, setService] = useState(null);
+  useEffect(() => { localStorage.setItem('kcl_view', view); }, [view]);
+
+  const go = (v) => { setView(v); window.scrollTo({top:0}); };
+
+  return (
+    <div data-screen-label={view === 'home' ? '01 Home' : '02 Service Detail'}>
+      <header className="kit-header">
+        <div className="l">
+          <img src="../../assets/logos/karma-logo-blanco.png" alt="karma"/>
+          <span className="tag">UI KIT · WEBSITE · V1</span>
+        </div>
+        <nav>
+          <a className={view==='home'?'active':''} onClick={()=>go('home')}>Home</a>
+          <a className={view==='detail'?'active':''} onClick={()=>{ setService(SERVICES[0]); go('detail'); }}>Service detail</a>
+        </nav>
+      </header>
+
+      <StickyMenu current="servicios" onNav={() => {}} />
+
+      {view === 'home' && (
+        <>
+          <Ticker />
+          <Hero onGo={() => { setService(SERVICES[0]); go('detail'); }} />
+          <Manifesto />
+          <Ticker items={['★ PROCESAR ES CREAR','OBSERVAR · INTERPRETAR · TRAZAR','ESTRUCTURAS QUE PIENSAN','TU MARCA ES UN CIRCUITO, NO UNA PROMESA']} />
+          <Services onSelect={(s) => { setService(s); go('detail'); }} />
+          <ContactBlock />
+          <Footer />
+        </>
+      )}
+
+      {view === 'detail' && service && (
+        <>
+          <ServiceDetail service={service} onBack={() => go('home')} />
+          <Ticker />
+          <Footer />
+        </>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
